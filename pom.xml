@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.shypl.common</groupId>
+	<artifactId>common-flash</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>swc</packaging>
+
+	<name>Flash common</name>
+	<description>Flash common assistants kit</description>
+	<url>https://github.com/shypl/asak.git</url>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>shnyaka</id>
+			<name>Alexey Chuprina</name>
+			<email>shnyaka@gmail.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:https://github.com/shypl/asak.git</connection>
+		<developerConnection>scm:git:https://github.com/shypl/asak.git</developerConnection>
+		<url>https://github.com/shypl/asak</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>shypl-releases</id>
+			<url>http://178.132.202.170:8080/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>shypl-snapshots</id>
+			<url>http://178.132.202.170:8080/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<skipTests>true</skipTests>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>shypl-thirdparty</id>
+			<url>http://178.132.202.170:8080/nexus/content/repositories/thirdparty/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>sonatype-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>shypl-thirdparty</id>
+			<url>http://178.132.202.170:8080/nexus/content/repositories/thirdparty/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>sonatype-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<build>
+		<sourceDirectory>src/main</sourceDirectory>
+		<testSourceDirectory>src/test</testSourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>net.flexmojos.oss</groupId>
+				<artifactId>flexmojos-maven-plugin</artifactId>
+				<version>7.1.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<debug>true</debug>
+				</configuration>
+
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.flex</groupId>
+						<artifactId>compiler</artifactId>
+						<version>4.15.0</version>
+						<type>pom</type>
+					</dependency>
+				</dependencies>
+
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>sources</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<mavenExecutorId>forked-path</mavenExecutorId>
+					<useReleaseProfile>false</useReleaseProfile>
+					<tagNameFormat>@{project.version}</tagNameFormat>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.flex</groupId>
+			<artifactId>framework</artifactId>
+			<version>4.15.0</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.adobe.flash.framework</groupId>
+			<artifactId>playerglobal</artifactId>
+			<version>12.0</version>
+			<type>swc</type>
+		</dependency>
+		<dependency>
+			<groupId>org.flexunit</groupId>
+			<artifactId>flexunit</artifactId>
+			<version>4.1.0</version>
+			<classifier>as3</classifier>
+			<type>swc</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>
