@@ -10,7 +10,7 @@
 
 	<name>Flash common</name>
 	<description>Flash common assistants kit</description>
-	<url>https://github.com/shypl/asak.git</url>
+	<url>https://github.com/shypl/common-flash.git</url>
 
 	<licenses>
 		<license>
@@ -29,9 +29,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:https://github.com/shypl/asak.git</connection>
-		<developerConnection>scm:git:https://github.com/shypl/asak.git</developerConnection>
-		<url>https://github.com/shypl/asak</url>
+		<connection>scm:git:https://github.com/shypl/common-flash.git</connection>
+		<developerConnection>scm:git:https://github.com/shypl/common-flash.git</developerConnection>
+		<url>https://github.com/shypl/common-flash</url>
 		<tag>HEAD</tag>
 	</scm>
 
