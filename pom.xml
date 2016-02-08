@@ -155,10 +155,9 @@
 			<type>swc</type>
 		</dependency>
 		<dependency>
-			<groupId>org.flexunit</groupId>
+			<groupId>org.shypl.flexunit</groupId>
 			<artifactId>flexunit</artifactId>
-			<version>4.1.0</version>
-			<classifier>as3</classifier>
+			<version>1.0.0</version>
 			<type>swc</type>
 			<scope>test</scope>
 		</dependency>
