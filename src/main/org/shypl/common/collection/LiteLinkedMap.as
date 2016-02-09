@@ -136,6 +136,14 @@ package org.shypl.common.collection {
 			return _iteration;
 		}
 
+		public function stopIteration():void {
+			if (_iteration) {
+				_iteration = false;
+				_current = null;
+				_next = null;
+			}
+		}
+
 		public function removeCurrent():void {
 			if (!_iteration || _current === null) {
 				throw new IllegalArgumentException();

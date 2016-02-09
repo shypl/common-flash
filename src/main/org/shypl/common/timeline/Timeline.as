@@ -1,6 +1,7 @@
 package org.shypl.common.timeline {
 	import org.shypl.common.collection.LiteLinkedSet;
 	import org.shypl.common.lang.IllegalStateException;
+	import org.shypl.common.lang.RuntimeException;
 
 	public class Timeline {
 		private var _tasks:LiteLinkedSet = new LiteLinkedSet();
@@ -115,7 +116,18 @@ package org.shypl.common.timeline {
 						++removeCount;
 					}
 					else {
-						task.handleEnterFrame(time);
+						try {
+							task.handleEnterFrame(time);
+						}
+						catch (e:Error) {
+							task.cancel();
+							_tasks.removeCurrent();
+							_tasks.stopIteration();
+							Engine.decreaseTaskCounter(++removeCount);
+
+							throw new RuntimeException("Error on process TimelineTask", e);
+						}
+
 						if (task.canceled) {
 							_tasks.removeCurrent();
 							++removeCount;
