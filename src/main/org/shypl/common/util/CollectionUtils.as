@@ -161,6 +161,30 @@ package org.shypl.common.util {
 			return sum;
 		}
 
+		public static function sumUint(collection:Object):uint {
+			if (!isArrayOrVector(collection)) {
+				throw new IllegalArgumentException();
+			}
+
+			var sum:uint = 0;
+			for (var i:int = 0, l:int = collection.length; i < l; ++i) {
+				sum += collection[i];
+			}
+			return sum;
+		}
+
+		public static function sumNumber(collection:Object):Number {
+			if (!isArrayOrVector(collection)) {
+				throw new IllegalArgumentException();
+			}
+
+			var sum:Number = 0;
+			for (var i:int = 0, l:int = collection.length; i < l; ++i) {
+				sum += collection[i];
+			}
+			return sum;
+		}
+
 		public static function getVectorClass(elementClass:Class):Class {
 			return Class(getDefinitionByName(VECTOR_CLASS_NAME + ".<" + getQualifiedClassName(elementClass) + ">"));
 		}
