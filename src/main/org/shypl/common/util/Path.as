@@ -33,7 +33,7 @@ package org.shypl.common.util {
 			return _value === null;
 		}
 
-		protected function get value():String {
+		public function get value():String {
 			return _value;
 		}
 
