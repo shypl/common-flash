@@ -40,9 +40,14 @@ package org.shypl.common.util {
 		public function resolve(path:String):Path {
 			var i:int;
 			var p:Path = this;
-			while ((i = path.indexOf("../")) >= 0) {
+			while ((i = path.indexOf("..")) == 0) {
 				p = p.parent;
-				path = path.substr(3);
+				if (path.indexOf("../") == 0) {
+					path = path.substr(3);
+				}
+				else {
+					path = path.substr(2);
+				}
 			}
 			return factoryPath(p.empty ? path : (p.value + "/" + path));
 		}
