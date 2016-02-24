@@ -37,7 +37,7 @@ package org.shypl.common.assets {
 			_xml = xml;
 			var imagePath:String = _xml.attribute("imagePath");
 			if (imagePath.indexOf("/") !== 0 && imagePath.indexOf("://") === -1) {
-				imagePath = _dir.resolve(imagePath).toString();
+				imagePath = _dir.resolve(imagePath).value;
 			}
 			FileLoader.loadImage(imagePath, this);
 		}

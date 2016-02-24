@@ -44,7 +44,7 @@ package org.shypl.common.util {
 				p = p.parent;
 				path = path.substr(3);
 			}
-			return factoryPath(p.empty ? path : (p.toString() + "/" + path));
+			return factoryPath(p.empty ? path : (p.value + "/" + path));
 		}
 
 		public function resolveSibling(path:String):Path {

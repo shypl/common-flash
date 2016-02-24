@@ -79,7 +79,7 @@ package org.shypl.common.assets {
 
 		private function createAsset(name:String, path:String, type:AssetType, deferred:Boolean, domain:ApplicationDomain):AbstractAsset {
 			var pathObj:Path = _basePath.resolve(path === null ? name : path);
-			path = pathObj.toString();
+			path = pathObj.value;
 
 			if (type === null) {
 				type = defineTypeByExt(path);
