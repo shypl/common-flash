@@ -23,6 +23,10 @@ package org.shypl.common.assets {
 			return _sprite;
 		}
 
+		public function get movieClip():MovieClip {
+			return MovieClip(_sprite);
+		}
+
 		public function get domain():ApplicationDomain {
 			return _domain;
 		}

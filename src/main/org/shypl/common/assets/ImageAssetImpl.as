@@ -25,11 +25,11 @@ package org.shypl.common.assets {
 			return FileLoader.loadImage(path, this);
 		}
 
-		public function getArea(rect:Rectangle):BitmapData {
+		public function getRectangle(rect:Rectangle):BitmapData {
 			return BitmapUtils.getRectangle(_bitmapData, rect);
 		}
 
-		public function copyArea(rect:Rectangle, target:BitmapData, targetPoint:Point, mergeAlpha:Boolean = false):void {
+		public function copyRectangle(rect:Rectangle, target:BitmapData, targetPoint:Point, mergeAlpha:Boolean = false):void {
 			target.copyPixels(_bitmapData, rect, targetPoint, null, null, mergeAlpha);
 		}
 
@@ -39,7 +39,7 @@ package org.shypl.common.assets {
 				bitmapData = _bitmapData;
 			}
 			else {
-				bitmapData = getArea(rect);
+				bitmapData = getRectangle(rect);
 			}
 			return new Bitmap(bitmapData, PixelSnapping.AUTO, true);
 		}

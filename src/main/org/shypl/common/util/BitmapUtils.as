@@ -4,6 +4,7 @@ package org.shypl.common.util {
 	import flash.display.DisplayObject;
 	import flash.display.IBitmapDrawable;
 	import flash.display.PixelSnapping;
+	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 
 	public final class BitmapUtils {
@@ -109,6 +110,16 @@ package org.shypl.common.util {
 			}
 
 			return new Rectangle(l, t, r - l, b - t);
+		}
+
+		public static function resize(source:BitmapData, width:int, height:int):BitmapData {
+			var target:BitmapData = new BitmapData(width, height, true, 0);
+			var matrix:Matrix = new Matrix();
+
+			matrix.scale(source.width / width, source.height / height);
+			target.draw(source, matrix, null, null, null, true);
+
+			return target;
 		}
 	}
 }

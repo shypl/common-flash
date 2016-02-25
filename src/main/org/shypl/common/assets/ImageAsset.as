@@ -7,9 +7,9 @@ package org.shypl.common.assets {
 	public interface ImageAsset extends Asset {
 		function get bitmapData():BitmapData;
 
-		function getArea(rect:Rectangle):BitmapData;
+		function getRectangle(rect:Rectangle):BitmapData;
 
-		function copyArea(rect:Rectangle, target:BitmapData, targetPoint:Point, mergeAlpha:Boolean = false):void;
+		function copyRectangle(rect:Rectangle, target:BitmapData, targetPoint:Point, mergeAlpha:Boolean = false):void;
 
 		function createBitmap(rect:Rectangle = null):Bitmap;
 	}

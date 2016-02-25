@@ -8,6 +8,8 @@ package org.shypl.common.assets {
 	public interface SwfAsset extends Asset {
 		function get sprite():Sprite;
 
+		function get movieClip():MovieClip;
+
 		function get domain():ApplicationDomain;
 
 		function setObjectResolver(factory:SwfAssetObjectResolver):void;
