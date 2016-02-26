@@ -5,7 +5,7 @@ package org.shypl.common.util {
 		private var _sharedObject:SharedObject;
 		private var _data:Object;
 
-		public function Cookies(storageName:String, sharedName:String = null) {
+		public function Cookies(storageName:String = "cookies", sharedName:String = null) {
 			_sharedObject = SharedObject.getLocal(storageName, sharedName);
 			_data = _sharedObject.data;
 		}
