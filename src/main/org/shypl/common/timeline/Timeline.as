@@ -119,13 +119,13 @@ package org.shypl.common.timeline {
 						try {
 							task.handleEnterFrame(time);
 						}
-						catch (e:Error) {
+						catch (error:Error) {
 							task.cancel();
 							_tasks.removeCurrent();
 							_tasks.stopIteration();
 							Engine.decreaseTaskCounter(++removeCount);
 
-							throw new RuntimeException("Error on process TimelineTask", e);
+							throw error;
 						}
 
 						if (task.canceled) {
