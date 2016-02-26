@@ -43,11 +43,11 @@ package org.shypl.common.util {
 				return "";
 			}
 
-			while (chars.indexOf(string.charAt(s)) !== -1) {
+			while (s <= e && chars.indexOf(string.charAt(s)) !== -1) {
 				++s;
 			}
 
-			while (chars.indexOf(string.charAt(e)) !== -1) {
+			while (e > s && chars.indexOf(string.charAt(e)) !== -1) {
 				--e;
 			}
 
