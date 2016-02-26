@@ -31,7 +31,7 @@ package org.shypl.common.util {
 			return name in _data;
 		}
 
-		public function getBoolean(name:String, defaultValue:Boolean = null):Boolean {
+		public function getBoolean(name:String, defaultValue:Boolean = false):Boolean {
 			return Boolean(get(name, defaultValue));
 		}
 
