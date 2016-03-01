@@ -116,7 +116,7 @@ package org.shypl.common.util {
 			var target:BitmapData = new BitmapData(width, height, true, 0);
 			var matrix:Matrix = new Matrix();
 
-			matrix.scale(source.width / width, source.height / height);
+			matrix.scale(width / source.width, height / source.height);
 			target.draw(source, matrix, null, null, null, true);
 
 			return target;
