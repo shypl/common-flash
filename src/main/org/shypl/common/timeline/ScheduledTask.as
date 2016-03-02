@@ -18,7 +18,7 @@ package org.shypl.common.timeline {
 			_remains -= time;
 			if (_remains <= 0) {
 				super.handleEnterFrame(_delay - _remains);
-				_remains = _delay + _remains;
+				_remains = _delay;
 			}
 		}
 	}
