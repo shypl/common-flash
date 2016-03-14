@@ -185,6 +185,30 @@ package org.shypl.common.util {
 			return sum;
 		}
 
+		public static function move(collection:Object, length:int, insertValue:Object = null):void {
+			if (!isArrayOrVector(collection)) {
+				throw new IllegalArgumentException();
+			}
+
+			var l:int = collection.length;
+
+			if (l !== 0 && length !== 0) {
+				var i:int;
+
+				if (length > 0) {
+					for (i = l - 1; i >= 0; i--) {
+						collection[i] = i < length ? insertValue : collection[i - length];
+					}
+				}
+				else {
+					var q:int = l + length;
+					for (i = 0; i < l; i++) {
+						collection[i] = i >= q ? insertValue : collection[i - length];
+					}
+				}
+			}
+		}
+
 		public static function getVectorClass(elementClass:Class):Class {
 			return Class(getDefinitionByName(VECTOR_CLASS_NAME + ".<" + getQualifiedClassName(elementClass) + ">"));
 		}
