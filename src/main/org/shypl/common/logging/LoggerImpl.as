@@ -1,4 +1,6 @@
 package org.shypl.common.logging {
+	import mx.utils.StringUtil;
+
 	import org.shypl.common.util.StringUtils;
 
 	internal final class LoggerImpl implements Logger {
@@ -73,28 +75,14 @@ package org.shypl.common.logging {
 		}
 
 		private function prepareMessage(message:String, args:Array):String {
-			const argsLen:int = args.length;
-			var p:int = 0;
-			var a:int = 0;
-			while (a < argsLen) {
-				p = message.indexOf("{", p);
-				if (p === -1) {
-					break;
-				}
-				if (message.charAt(p + 1) === "}") {
-					var arg:Object = args[a++];
-					var argString:String = StringUtils.toString(arg);
-					message = StringUtils.insert(message, argString, p, 2);
-					p += argString.length;
-				}
-				else {
-					++p;
-				}
-			}
-			if (a === argsLen - 1 && args[a] is Error) {
-				var error:Error = args[a];
-				var stackTrace:String = error.getStackTrace();
+			var l:int = args.length - 1;
+			var e:Boolean = l >= 0 && args[l] is Error && StringUtils.count(message, "{}") == l;
 
+			message = StringUtils.formatByArray(message, args);
+
+			if (e) {
+				var error:Error = args[l];
+				var stackTrace:String = error.getStackTrace();
 				if (stackTrace === null || stackTrace.length === 0 || stackTrace === "null") {
 					stackTrace = error.toString();
 				}

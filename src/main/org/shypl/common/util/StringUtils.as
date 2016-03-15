@@ -86,6 +86,45 @@ package org.shypl.common.util {
 			return string.indexOf(part) !== -1;
 		}
 
+		public static function count(string:String, part:String):int {
+			var p:int = part.length;
+			var i:int = 0;
+			var c:int = 0;
+			if (p > 0 && string.length >= p) {
+				while ((i = string.indexOf(part, i)) !== -1) {
+					i += p;
+					++c;
+				}
+			}
+			return c;
+		}
+
+		public static function format(string:String, ...args):String {
+			return formatByArray(string, args);
+		}
+
+		public static function formatByArray(string:String, args:Array):String {
+			const argsLen:int = args.length;
+			var p:int = 0;
+			var a:int = 0;
+			while (a < argsLen) {
+				p = string.indexOf("{", p);
+				if (p === -1) {
+					break;
+				}
+				if (string.charAt(p + 1) === "}") {
+					var arg:Object = args[a++];
+					var argString:String = toString(arg);
+					string = insert(string, argString, p, 2);
+					p += argString.length;
+				}
+				else {
+					++p;
+				}
+			}
+			return string;
+		}
+
 		public static function toString(object:Object):String {
 			if (object === null) {
 				return "<null>";
