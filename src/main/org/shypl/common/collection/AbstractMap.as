@@ -75,8 +75,10 @@ package org.shypl.common.collection {
 		}
 
 		public function putAll(map:Object):void {
-			//TODO
-			throw new RuntimeException("TODO");
+			//noinspection JSValidateTypes
+			for (var key:Object in map) {
+				put(key, map[key]);
+			}
 		}
 
 		public function clear():void {
