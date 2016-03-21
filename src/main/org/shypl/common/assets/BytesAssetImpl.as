@@ -8,8 +8,8 @@ package org.shypl.common.assets {
 	internal class BytesAssetImpl extends AbstractAsset implements BytesReceiver {
 		private var _bytes:ByteArray;
 
-		public function BytesAssetImpl(path:String, deferred:Boolean) {
-			super(path, deferred);
+		public function BytesAssetImpl(name:String, path:String, deferred:Boolean) {
+			super(name, path, deferred);
 		}
 
 		public function get bytes():ByteArray {

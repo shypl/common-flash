@@ -14,8 +14,8 @@ package org.shypl.common.assets {
 		private var _sprite:Sprite;
 		private var _domain:ApplicationDomain;
 
-		public function SwfAssetImpl(path:String, domain:ApplicationDomain, deferred:Boolean) {
-			super(path, deferred);
+		public function SwfAssetImpl(name:String, path:String, domain:ApplicationDomain, deferred:Boolean) {
+			super(name, path, deferred);
 			_domain = domain;
 		}
 

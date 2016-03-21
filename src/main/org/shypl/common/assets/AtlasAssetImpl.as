@@ -17,8 +17,8 @@ package org.shypl.common.assets {
 		private var _atlas:BitmapData;
 		private var _dir:Path;
 
-		function AtlasAssetImpl(path:String, deferred:Boolean, dir:Path) {
-			super(path, deferred);
+		function AtlasAssetImpl(name:String, path:String, deferred:Boolean, dir:Path) {
+			super(name, path, deferred);
 			_dir = dir;
 		}
 

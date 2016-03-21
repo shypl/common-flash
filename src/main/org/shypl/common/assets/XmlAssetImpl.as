@@ -5,11 +5,11 @@ package org.shypl.common.assets {
 	import org.shypl.common.loader.XmlReceiver;
 	import org.shypl.common.util.Progress;
 
-	public class XmlAssetImpl extends AbstractAsset implements XmlAsset, XmlReceiver {
+	internal class XmlAssetImpl extends AbstractAsset implements XmlAsset, XmlReceiver {
 		private var _xml:XML;
 
-		public function XmlAssetImpl(path:String, deferred:Boolean) {
-			super(path, deferred);
+		public function XmlAssetImpl(name:String, path:String, deferred:Boolean) {
+			super(name, path, deferred);
 		}
 
 		public function get xml():XML {

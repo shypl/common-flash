@@ -13,8 +13,8 @@ package org.shypl.common.assets {
 	internal class ImageAssetImpl extends AbstractAsset implements ImageAsset, ImageReceiver {
 		private var _bitmapData:BitmapData;
 
-		public function ImageAssetImpl(path:String, deferred:Boolean) {
-			super(path, deferred);
+		public function ImageAssetImpl(name:String, path:String, deferred:Boolean) {
+			super(name, path, deferred);
 		}
 
 		public function get bitmapData():BitmapData {

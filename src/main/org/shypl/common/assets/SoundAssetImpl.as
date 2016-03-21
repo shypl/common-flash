@@ -11,8 +11,8 @@ package org.shypl.common.assets {
 	internal class SoundAssetImpl extends AbstractAsset implements SoundAsset, SoundReceiver {
 		private var _sound:Sound;
 
-		public function SoundAssetImpl(path:String, deferred:Boolean) {
-			super(path, deferred);
+		public function SoundAssetImpl(name:String, path:String, deferred:Boolean) {
+			super(name, path, deferred);
 		}
 
 		public function get sound():Sound {

@@ -3,8 +3,10 @@ package org.shypl.common.assets {
 
 	[Event(name="complete", type="flash.events.Event")]
 	public interface Asset extends IEventDispatcher {
-		function get loaded():Boolean;
+		function get name():String;
 
 		function get path():String;
+
+		function get loaded():Boolean;
 	}
 }

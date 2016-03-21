@@ -87,21 +87,21 @@ package org.shypl.common.assets {
 
 			switch (type) {
 				case AssetType.IMAGE:
-					return new ImageAssetImpl(path, deferred);
+					return new ImageAssetImpl(name, path, deferred);
 				case AssetType.SOUND:
-					return new SoundAssetImpl(path, deferred);
+					return new SoundAssetImpl(name, path, deferred);
 				case AssetType.SWF:
-					return new SwfAssetImpl(path, domain === null ? new ApplicationDomain(ApplicationDomain.currentDomain) : domain, deferred);
+					return new SwfAssetImpl(name, path, domain === null ? new ApplicationDomain(ApplicationDomain.currentDomain) : domain, deferred);
 				case AssetType.TEXT:
-					return new TextAssetImpl(path, deferred);
+					return new TextAssetImpl(name, path, deferred);
 				case AssetType.XML:
-					return new XmlAssetImpl(path, deferred);
+					return new XmlAssetImpl(name, path, deferred);
 				case AssetType.FONT:
-					return new FontAssetImpl(path, deferred);
+					return new FontAssetImpl(name, path, deferred);
 				case AssetType.ATLAS:
-					return new AtlasAssetImpl(path, deferred, pathObj.parent);
+					return new AtlasAssetImpl(name, path, deferred, pathObj.parent);
 				case AssetType.BYTES:
-					return new BytesAssetImpl(path, deferred);
+					return new BytesAssetImpl(name, path, deferred);
 				default:
 					throw new IllegalArgumentException();
 			}

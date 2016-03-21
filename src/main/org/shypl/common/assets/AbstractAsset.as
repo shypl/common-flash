@@ -7,21 +7,26 @@ package org.shypl.common.assets {
 
 	[Abstract]
 	internal class AbstractAsset extends EventDispatcher implements Asset {
-		private var _loaded:Boolean;
+		private var _name:String;
 		private var _path:String;
+		private var _loaded:Boolean;
 		private var _deferred:Boolean;
 
-		public function AbstractAsset(path:String, deferred:Boolean) {
+		public function AbstractAsset(name:String, path:String, deferred:Boolean) {
 			_path = path;
 			_deferred = deferred;
 		}
 
-		public final function get loaded():Boolean {
-			return _loaded;
+		public final function get name():String {
+			return _name;
 		}
 
 		public final function get path():String {
 			return _path;
+		}
+
+		public final function get loaded():Boolean {
+			return _loaded;
 		}
 
 		public final function get deferred():Boolean {
