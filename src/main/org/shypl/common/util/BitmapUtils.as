@@ -1,6 +1,7 @@
 package org.shypl.common.util {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.BitmapDataChannel;
 	import flash.display.DisplayObject;
 	import flash.display.IBitmapDrawable;
 	import flash.display.PixelSnapping;
@@ -8,12 +9,6 @@ package org.shypl.common.util {
 	import flash.geom.Rectangle;
 
 	public final class BitmapUtils {
-
-		public static function getRectangle(source:BitmapData, rect:Rectangle):BitmapData {
-			var copy:BitmapData = new BitmapData(rect.width, rect.height);
-			copy.copyPixels(source, rect, StaticPoint0.INSTANCE);
-			return copy;
-		}
 
 		public static function createBitmap(image:BitmapData, smoothing:Boolean = true, pixelSnapping:String = PixelSnapping.AUTO, x:Number = 0, y:Number = 0,
 			scale:Number = 1
@@ -24,6 +19,45 @@ package org.shypl.common.util {
 			bitmap.scaleX = scale;
 			bitmap.scaleY = scale;
 			return bitmap;
+		}
+
+		public static function getRectangle(source:BitmapData, rect:Rectangle):BitmapData {
+			var copy:BitmapData = new BitmapData(rect.width, rect.height);
+			copy.copyPixels(source, rect, StaticPoint0.INSTANCE);
+			return copy;
+		}
+
+		public static function resize(source:BitmapData, width:int, height:int):BitmapData {
+			var target:BitmapData = new BitmapData(width, height, true, 0);
+			var matrix:Matrix = new Matrix();
+
+			matrix.scale(width / source.width, height / source.height);
+			target.draw(source, matrix, null, null, null, true);
+
+			return target;
+		}
+
+		public static function applyInnerAlphaMask(source:BitmapData, horizontal:Boolean = true, rect:Rectangle = null):BitmapData {
+			if (rect == null) {
+				rect = new Rectangle(0, 0,
+					horizontal ? source.width : (source.width / 2),
+					horizontal ? (source.height / 2) : source.height
+				);
+			}
+
+			var result:BitmapData = new BitmapData(rect.width, rect.height, true, 0);
+
+			var resultRect:Rectangle = new Rectangle(0, 0, rect.width, rect.height);
+			var maskRect:Rectangle = new Rectangle(
+				horizontal ? 0 : rect.width,
+				horizontal ? rect.height : 0,
+				rect.width, rect.height);
+
+
+			result.copyPixels(source, resultRect, StaticPoint0.INSTANCE);
+			result.copyChannel(source, maskRect, StaticPoint0.INSTANCE, BitmapDataChannel.RED, BitmapDataChannel.ALPHA);
+
+			return result;
 		}
 
 		public static function defineVisibleBounds(target:IBitmapDrawable):Rectangle {
@@ -110,16 +144,6 @@ package org.shypl.common.util {
 			}
 
 			return new Rectangle(l, t, r - l, b - t);
-		}
-
-		public static function resize(source:BitmapData, width:int, height:int):BitmapData {
-			var target:BitmapData = new BitmapData(width, height, true, 0);
-			var matrix:Matrix = new Matrix();
-
-			matrix.scale(width / source.width, height / source.height);
-			target.draw(source, matrix, null, null, null, true);
-
-			return target;
 		}
 	}
 }
