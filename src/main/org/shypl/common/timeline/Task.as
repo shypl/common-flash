@@ -1,5 +1,7 @@
 package org.shypl.common.timeline {
-	internal class Task implements TimelineTask {
+	import org.shypl.common.util.Cancelable;
+
+	internal class Task implements Cancelable {
 
 		private var _task:Function;
 		private var _obtainTime:Boolean;

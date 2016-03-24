@@ -1,6 +1,6 @@
 package org.shypl.common.assets {
 	import org.shypl.common.timeline.GlobalTimeline;
-	import org.shypl.common.timeline.TimelineTask;
+	import org.shypl.common.util.Cancelable;
 	import org.shypl.common.util.Progress;
 
 	internal class Loader implements Progress {
@@ -11,7 +11,7 @@ package org.shypl.common.assets {
 		private var _competed:Boolean;
 		private var _percent:Number = 0;
 		private var _totalCount:uint;
-		private var _frameTask:TimelineTask;
+		private var _frameTask:Cancelable;
 
 		public function Loader(map:Object, receiver:AssetsReceiver) {
 			_receiver = receiver;

@@ -2,14 +2,14 @@ package org.shypl.common.ui {
 	import flash.display.Graphics;
 	import flash.display.Shape;
 
-	import org.shypl.common.util.DestroyableSprite;
 	import org.shypl.common.timeline.GlobalTimeline;
-	import org.shypl.common.timeline.TimelineTask;
+	import org.shypl.common.util.Cancelable;
+	import org.shypl.common.util.DestroyableSprite;
 
 	public class LoadingIcon extends DestroyableSprite {
 		private var _icon:Shape;
 		private var _step:Number;
-		private var _updateTask:TimelineTask;
+		private var _updateTask:Cancelable;
 
 		public function LoadingIcon(color:uint = 0, alpha:Number = 1,
 			backgroundColor:int = -1, backgroundAlpha:Number = 1, backgroundWidth:uint = 0, backgroundHeight:uint = 0

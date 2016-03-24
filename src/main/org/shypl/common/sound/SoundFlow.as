@@ -6,7 +6,7 @@ package org.shypl.common.sound {
 
 	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.timeline.GlobalTimeline;
-	import org.shypl.common.timeline.TimelineTask;
+	import org.shypl.common.util.Cancelable;
 
 	internal class SoundFlow extends AbstractSoundStream {
 		private var _sound:Sound;
@@ -14,7 +14,7 @@ package org.shypl.common.sound {
 		private var _end:Number;
 		private var _restart:Number;
 		private var _channel:SoundChannel;
-		private var _endTask:TimelineTask;
+		private var _endTask:Cancelable;
 		private var _stopOnFade:Boolean;
 		private var _endHandler:Function;
 		private var _pausePosition:Number;
@@ -55,7 +55,7 @@ package org.shypl.common.sound {
 				_channel.addEventListener(Event.SOUND_COMPLETE, handleSoundComplete);
 			}
 
-			if(system.paused) {
+			if (system.paused) {
 				pause();
 			}
 		}

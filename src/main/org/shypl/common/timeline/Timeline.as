@@ -2,6 +2,7 @@ package org.shypl.common.timeline {
 	import org.shypl.common.collection.LiteLinkedSet;
 	import org.shypl.common.lang.IllegalStateException;
 	import org.shypl.common.lang.RuntimeException;
+	import org.shypl.common.util.Cancelable;
 
 	public class Timeline {
 		private var _tasks:LiteLinkedSet = new LiteLinkedSet();
@@ -21,19 +22,19 @@ package org.shypl.common.timeline {
 			return Engine.dispatching;
 		}
 
-		public final function schedule(delay:int, task:Function, obtainTime:Boolean = false):TimelineTask {
+		public final function schedule(delay:int, task:Function, obtainTime:Boolean = false):Cancelable {
 			return addTask(new ScheduledTask(task, obtainTime, false, delay));
 		}
 
-		public final function scheduleRepeatable(delay:int, task:Function, obtainTime:Boolean = false):TimelineTask {
+		public final function scheduleRepeatable(delay:int, task:Function, obtainTime:Boolean = false):Cancelable {
 			return addTask(new ScheduledTask(task, obtainTime, true, delay));
 		}
 
-		public final function forNextFrame(task:Function, obtainTime:Boolean = false):TimelineTask {
+		public final function forNextFrame(task:Function, obtainTime:Boolean = false):Cancelable {
 			return addTask(new Task(task, obtainTime, false));
 		}
 
-		public final function forEachFrame(task:Function, obtainTime:Boolean = false):TimelineTask {
+		public final function forEachFrame(task:Function, obtainTime:Boolean = false):Cancelable {
 			return addTask(new Task(task, obtainTime, true));
 		}
 
@@ -139,7 +140,7 @@ package org.shypl.common.timeline {
 			}
 		}
 
-		internal function addTask(task:Task):TimelineTask {
+		internal function addTask(task:Task):Cancelable {
 			if (dispatching) {
 				Engine.addChange(new TimelineChangeAddTask(this, task));
 			}

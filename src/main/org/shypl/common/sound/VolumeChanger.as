@@ -1,6 +1,6 @@
 package org.shypl.common.sound {
 	import org.shypl.common.timeline.GlobalTimeline;
-	import org.shypl.common.timeline.TimelineTask;
+	import org.shypl.common.util.Cancelable;
 
 	internal class VolumeChanger {
 		private var _stream:AbstractSoundStream;
@@ -8,7 +8,7 @@ package org.shypl.common.sound {
 		private var _target:Number;
 		private var _increase:Boolean;
 		private var _step:Number;
-		private var _updateTask:TimelineTask;
+		private var _updateTask:Cancelable;
 
 		public function VolumeChanger(stream:AbstractSoundStream, target:Number, duration:uint) {
 			_stream = stream;

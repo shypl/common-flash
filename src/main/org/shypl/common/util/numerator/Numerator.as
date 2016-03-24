@@ -2,7 +2,7 @@ package org.shypl.common.util.numerator {
 	import org.shypl.common.lang.AbstractMethodException;
 	import org.shypl.common.timeline.GlobalTimeline;
 	import org.shypl.common.timeline.Timeline;
-	import org.shypl.common.timeline.TimelineTask;
+	import org.shypl.common.util.Cancelable;
 
 	[Abstract]
 	public class Numerator {
@@ -16,7 +16,7 @@ package org.shypl.common.util.numerator {
 		private var _stepAmount:int;
 		private var _stepValue:Object;
 
-		private var _updateTask:TimelineTask;
+		private var _updateTask:Cancelable;
 
 		public function Numerator(handler:Function, value:Object, stepsDefiner:Function, timeline:Timeline) {
 			_timeline = timeline === null ? GlobalTimeline.INSTANCE : timeline;

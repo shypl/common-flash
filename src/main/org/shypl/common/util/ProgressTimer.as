@@ -2,12 +2,11 @@ package org.shypl.common.util {
 	import flash.utils.getTimer;
 
 	import org.shypl.common.timeline.GlobalTimeline;
-	import org.shypl.common.timeline.TimelineTask;
 
 	public class ProgressTimer implements Progress {
 		private var _interval:int;
 		private var _autoComplete:Boolean;
-		private var _autoCompleteTask:TimelineTask;
+		private var _autoCompleteTask:Cancelable;
 		private var _startTime:int;
 
 		public function ProgressTimer(intervalSeconds:int, autoComplete:Boolean) {
