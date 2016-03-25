@@ -1,7 +1,5 @@
-package org.shypl.common.timeline {
+package org.shypl.common.util {
 	import flash.utils.getTimer;
-
-	import org.shypl.common.lang.IllegalStateException;
 
 	public class TimeMeter {
 		private var _running:Boolean;
@@ -22,22 +20,31 @@ package org.shypl.common.timeline {
 			return milliseconds / 1000;
 		}
 
-		public function start():void {
+		public function start():Boolean {
 			if (_running) {
-				throw new IllegalStateException("Already started");
+				return false;
 			}
 			_running = true;
 			_startTime = getTimer();
+			return true;
 		}
 
-		public function stop():void {
+		public function restart():Boolean {
+			if (_running) {
+				_running = true;
+				_startTime = getTimer();
+				return true;
+			}
+			return false;
+		}
+
+		public function stop():Boolean {
 			if (_running) {
 				_running = false;
 				_passedTime = getTimer() - _startTime;
+				return true;
 			}
-			else {
-				throw new IllegalStateException("Already started");
-			}
+			return false;
 		}
 	}
 }
