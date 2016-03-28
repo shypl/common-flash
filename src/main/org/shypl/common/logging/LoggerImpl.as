@@ -1,6 +1,4 @@
 package org.shypl.common.logging {
-	import mx.utils.StringUtil;
-
 	import org.shypl.common.util.StringUtils;
 
 	internal final class LoggerImpl implements Logger {
