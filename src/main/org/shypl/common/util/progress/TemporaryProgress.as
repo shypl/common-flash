@@ -1,21 +1,22 @@
-package org.shypl.common.util {
+package org.shypl.common.util.progress {
+	import org.shypl.common.util.*;
 	import flash.utils.getTimer;
 
 	import org.shypl.common.timeline.GlobalTimeline;
 
-	public class ProgressTimer implements Progress {
-		private var _interval:int;
+	public class TemporaryProgress implements Progress {
+		private var _time:int;
 		private var _autoComplete:Boolean;
 		private var _autoCompleteTask:Cancelable;
 		private var _startTime:int;
 
-		public function ProgressTimer(intervalSeconds:int, autoComplete:Boolean) {
-			_interval = intervalSeconds * 1000;
+		public function TemporaryProgress(seconds:int, autoComplete:Boolean) {
+			_time = seconds * 1000;
 			_autoComplete = autoComplete;
 			_startTime = getTimer();
 
 			if (_autoComplete) {
-				_autoCompleteTask = GlobalTimeline.schedule(intervalSeconds, complete);
+				_autoCompleteTask = GlobalTimeline.schedule(seconds, complete);
 			}
 		}
 
@@ -29,11 +30,11 @@ package org.shypl.common.util {
 			}
 
 			var passedTime:int = getTimer() - _startTime;
-			if (passedTime >= _interval) {
+			if (passedTime >= _time) {
 				return _autoComplete ? 1 : 0.99;
 			}
 
-			return passedTime / _interval * (_autoComplete ? 1 : 0.99);
+			return passedTime / _time * (_autoComplete ? 1 : 0.99);
 		}
 
 		public function complete():void {

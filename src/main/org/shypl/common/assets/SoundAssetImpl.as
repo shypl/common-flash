@@ -6,7 +6,7 @@ package org.shypl.common.assets {
 	import org.shypl.common.sound.SoundPlayPreparer;
 	import org.shypl.common.sound.SoundStream;
 	import org.shypl.common.sound.SoundSystem;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	internal class SoundAssetImpl extends AbstractAsset implements SoundAsset, SoundReceiver {
 		private var _sound:Sound;

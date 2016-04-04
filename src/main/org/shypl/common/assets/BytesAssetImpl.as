@@ -3,7 +3,7 @@ package org.shypl.common.assets {
 
 	import org.shypl.common.loader.BytesReceiver;
 	import org.shypl.common.loader.FileLoader;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	internal class BytesAssetImpl extends AbstractAsset implements BytesReceiver {
 		private var _bytes:ByteArray;

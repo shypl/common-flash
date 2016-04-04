@@ -5,7 +5,7 @@ package org.shypl.common.loader {
 	import org.shypl.common.collection.LinkedList;
 	import org.shypl.common.logging.LogManager;
 	import org.shypl.common.logging.Logger;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	public final class FileLoader {
 		internal static const LOGGER:Logger = LogManager.getLoggerByClass(FileLoader);

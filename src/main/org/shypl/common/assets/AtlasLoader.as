@@ -5,7 +5,7 @@ package org.shypl.common.assets {
 	import org.shypl.common.loader.ImageReceiver;
 	import org.shypl.common.loader.XmlReceiver;
 	import org.shypl.common.util.Path;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	public class AtlasLoader implements Progress, XmlReceiver, ImageReceiver {
 		private var _asset:AtlasAssetImpl;

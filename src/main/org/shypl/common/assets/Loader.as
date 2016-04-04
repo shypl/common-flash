@@ -1,7 +1,7 @@
 package org.shypl.common.assets {
 	import org.shypl.common.timeline.GlobalTimeline;
 	import org.shypl.common.util.Cancelable;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	internal class Loader implements Progress {
 		private var _receiver:AssetsReceiver;

@@ -3,7 +3,7 @@ package org.shypl.common.assets {
 
 	import org.shypl.common.loader.FileLoader;
 	import org.shypl.common.loader.XmlReceiver;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	internal class XmlAssetImpl extends AbstractAsset implements XmlAsset, XmlReceiver {
 		private var _xml:XML;

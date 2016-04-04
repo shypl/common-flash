@@ -3,7 +3,7 @@ package org.shypl.common.assets {
 	import flash.events.EventDispatcher;
 
 	import org.shypl.common.lang.AbstractMethodException;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	[Abstract]
 	internal class AbstractAsset extends EventDispatcher implements Asset {

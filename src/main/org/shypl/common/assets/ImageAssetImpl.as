@@ -8,7 +8,7 @@ package org.shypl.common.assets {
 	import org.shypl.common.loader.FileLoader;
 	import org.shypl.common.loader.ImageReceiver;
 	import org.shypl.common.util.BitmapUtils;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	internal class ImageAssetImpl extends AbstractAsset implements ImageAsset, ImageReceiver {
 		private var _bitmapData:BitmapData;

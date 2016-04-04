@@ -5,7 +5,7 @@ package org.shypl.common.assets {
 	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.sound.SoundSystem;
 	import org.shypl.common.util.Path;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 	import org.shypl.common.util.StringUtils;
 
 	public class AssetsLoader implements AssetsCollector {

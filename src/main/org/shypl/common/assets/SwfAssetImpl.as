@@ -7,7 +7,7 @@ package org.shypl.common.assets {
 
 	import org.shypl.common.loader.FileLoader;
 	import org.shypl.common.loader.SwfReceiver;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	internal class SwfAssetImpl extends AbstractAsset implements SwfAsset, SwfReceiver {
 		private var _objectFactory:SwfAssetObjectResolver = SwfAssetObjectResolver.DEFAULT;

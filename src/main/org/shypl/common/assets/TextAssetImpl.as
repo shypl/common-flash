@@ -1,7 +1,7 @@
 package org.shypl.common.assets {
 	import org.shypl.common.loader.FileLoader;
 	import org.shypl.common.loader.TextReceiver;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	internal class TextAssetImpl extends AbstractAsset implements TextAsset, TextReceiver {
 		private var _text:String;

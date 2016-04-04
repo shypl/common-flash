@@ -6,7 +6,7 @@ package org.shypl.common.loader {
 	import org.shypl.common.lang.ErrorEventException;
 	import org.shypl.common.lang.IllegalStateException;
 	import org.shypl.common.timeline.GlobalTimeline;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	[Abstract]
 	internal class AbstractLoader implements Progress {

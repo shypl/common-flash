@@ -8,7 +8,7 @@ package org.shypl.common.assets {
 
 	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.util.Path;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 	import org.shypl.common.util.StaticPoint0;
 
 	internal class AtlasAssetImpl extends AbstractAsset implements AtlasAsset {

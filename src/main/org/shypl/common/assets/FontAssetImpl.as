@@ -7,7 +7,7 @@ package org.shypl.common.assets {
 
 	import org.shypl.common.loader.FileLoader;
 	import org.shypl.common.loader.FontReceiver;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	internal class FontAssetImpl extends AbstractAsset implements FontAsset, FontReceiver {
 		private var _font:Font;
