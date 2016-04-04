@@ -1,4 +1,4 @@
-package org.shypl.common.bootstrap {
+package org.shypl.common.app {
 	public class InstantPreloaderPhase extends PreloaderPhase {
 		public function InstantPreloaderPhase(name:String, totalFinalProgressPercent:int) {
 			super(name, totalFinalProgressPercent);

@@ -1,4 +1,4 @@
-package org.shypl.common.bootstrap {
+package org.shypl.common.app {
 	import flash.display.Sprite;
 
 	import org.shypl.common.lang.AbstractMethodException;

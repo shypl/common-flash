@@ -1,4 +1,4 @@
-package org.shypl.common.bootstrap {
+package org.shypl.common.app {
 	import flash.display.Loader;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
@@ -13,13 +13,13 @@ package org.shypl.common.bootstrap {
 	import org.shypl.common.lang.ErrorEventException;
 	import org.shypl.common.lang.UncaughtErrorDelegate;
 
-	public class LoadMainFilePhase extends PreloaderPhase {
+	public class MainPreloaderPhase extends PreloaderPhase {
 		private var _loader1:URLLoader;
 		private var _loader2:Loader;
 		private var _main:AbstractMain;
 		private var _mainFileProperty:String;
 
-		public function LoadMainFilePhase(name:String = "Preloading", totalFinalProgress:int = 10, mainFileProperty:String = "main") {
+		public function MainPreloaderPhase(name:String = "Loading main file", totalFinalProgress:int = 10, mainFileProperty:String = "main") {
 			super(name, totalFinalProgress);
 			_mainFileProperty = mainFileProperty;
 		}

@@ -1,8 +1,8 @@
-package org.shypl.common.bootstrap {
+package org.shypl.common.app {
 	import flash.display.Stage;
 
 	import org.shypl.common.lang.AbstractMethodException;
-	import org.shypl.common.util.Progress;
+	import org.shypl.common.util.progress.Progress;
 
 	[Abstract]
 	public class PreloaderPhase implements Progress {

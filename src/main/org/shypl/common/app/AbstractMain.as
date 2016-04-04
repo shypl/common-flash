@@ -1,4 +1,4 @@
-package org.shypl.common.bootstrap {
+package org.shypl.common.app {
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.display.StageAlign;
@@ -16,7 +16,7 @@ package org.shypl.common.bootstrap {
 					addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 				}
 				else {
-					initRun();
+					main();
 				}
 			}
 		}
@@ -30,7 +30,7 @@ package org.shypl.common.bootstrap {
 		}
 
 		public function run(flashVars:Object, stage:Stage):PreloaderPhase {
-			return new LoadMainFilePhase();
+			return new MainPreloaderPhase();
 		}
 
 		[Abstract]
@@ -38,7 +38,7 @@ package org.shypl.common.bootstrap {
 			throw new AbstractMethodException();
 		}
 
-		private function initRun():void {
+		private function main():void {
 			UncaughtErrorDelegate.register(loaderInfo.uncaughtErrorEvents);
 
 			var stage:Stage = this.stage;
@@ -53,7 +53,7 @@ package org.shypl.common.bootstrap {
 
 		private function onAddedToStage(event:Event):void {
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			initRun();
+			main();
 		}
 	}
 }

@@ -1,15 +1,15 @@
-package org.shypl.common.bootstrap {
+package org.shypl.common.app {
 	import flash.utils.getTimer;
 
 	import org.shypl.common.lang.AbstractMethodException;
 
 	[Abstract]
-	public class TemporaryDelayPreloaderPhase extends PreloaderPhase {
+	public class TemporaryPreloaderPhase extends PreloaderPhase {
 		private var _delay:int;
 		private var _startTime:int;
 		private var _completed:Boolean;
 
-		public function TemporaryDelayPreloaderPhase(name:String, totalFinalProgressPercent:int, delaySeconds:int) {
+		public function TemporaryPreloaderPhase(name:String, totalFinalProgressPercent:int, delaySeconds:int) {
 			super(name, totalFinalProgressPercent);
 			_delay = delaySeconds * 1000;
 		}
