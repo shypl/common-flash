@@ -117,6 +117,15 @@ package org.shypl.common.util {
 			}
 		}
 
+		public static function fill(collection:Object, value:Object):void {
+			if (!isArrayOrVector(collection)) {
+				throw new IllegalArgumentException();
+			}
+			for (var i:int = 0, l:int = collection.length; i < l; ++i) {
+				collection[i] = value;
+			}
+		}
+
 		public static function remove(collection:Object, element:Object):Boolean {
 			if (!isArrayOrVector(collection)) {
 				throw new IllegalArgumentException();
@@ -215,6 +224,12 @@ package org.shypl.common.util {
 
 		public static function createVector(elementClass:Class, length:uint = 0, fixed:Boolean = false):Object {
 			return new (getVectorClass(elementClass))(length, fixed);
+		}
+
+		public static function createVectorAndFill(elementClass:Class, length:uint, value:Object, fixed:Boolean = false):Object {
+			var vector:Object = new (getVectorClass(elementClass))(length, fixed);
+			fill(value, value);
+			return vector;
 		}
 
 		public static function arrayToVector(array:Array, elementClass:Class):Object {
