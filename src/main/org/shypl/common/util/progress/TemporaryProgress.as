@@ -1,8 +1,8 @@
 package org.shypl.common.util.progress {
-	import org.shypl.common.util.*;
 	import flash.utils.getTimer;
 
 	import org.shypl.common.timeline.GlobalTimeline;
+	import org.shypl.common.util.*;
 
 	public class TemporaryProgress implements Progress {
 		private var _time:int;
