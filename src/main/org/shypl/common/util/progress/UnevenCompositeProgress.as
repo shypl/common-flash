@@ -3,8 +3,7 @@ package org.shypl.common.util.progress {
 
 	public class UnevenCompositeProgress extends CompositeProgress {
 		public static function factoryEmpty(divisions:Vector.<int>):CompositeProgress {
-			var progresses:Vector.<Progress> =
-				CollectionUtils.createVectorAndFill(Vector.<Progress>, divisions.length, new NotCompletedProgress()) as Vector.<Progress>;
+			var progresses:Vector.<Progress> = CollectionUtils.createVectorAndFill(Progress, divisions.length, new NotCompletedProgress()) as Vector.<Progress>;
 
 			return new UnevenCompositeProgress(progresses, divisions);
 		}

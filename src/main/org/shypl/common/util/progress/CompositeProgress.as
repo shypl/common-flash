@@ -4,7 +4,7 @@ package org.shypl.common.util.progress {
 	public class CompositeProgress implements Progress {
 		public static function factoryEmpty(size:int):CompositeProgress {
 			return new CompositeProgress(
-				CollectionUtils.createVectorAndFill(Vector.<Progress>, size, new NotCompletedProgress()) as Vector.<Progress>
+				CollectionUtils.createVectorAndFill(Progress, size, new NotCompletedProgress()) as Vector.<Progress>
 			);
 		}
 
