@@ -30,7 +30,7 @@ package org.shypl.common.app {
 		}
 
 		public function run(parameters:Object, stage:Stage):PreloaderPhase {
-			return new MainPreloaderPhase();
+			return new MainPreloaderPhase(parameters, stage);
 		}
 
 		[Abstract]

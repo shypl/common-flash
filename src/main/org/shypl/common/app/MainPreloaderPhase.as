@@ -1,5 +1,6 @@
 package org.shypl.common.app {
 	import flash.display.Loader;
+	import flash.display.Stage;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -14,13 +15,20 @@ package org.shypl.common.app {
 	import org.shypl.common.lang.UncaughtErrorDelegate;
 
 	public class MainPreloaderPhase extends PreloaderPhase {
+		private var _parameters:Object;
+		private var _stage:Stage;
+
 		private var _loader1:URLLoader;
 		private var _loader2:Loader;
 		private var _main:AbstractMain;
 		private var _mainFileProperty:String;
 
-		public function MainPreloaderPhase(mainFileProperty:String = "main", name:String = "Loading main file", totalFinalProgress:int = 10) {
+		public function MainPreloaderPhase(parameters:Object, stage:Stage, mainFileProperty:String = "main", name:String = "Loading main file",
+			totalFinalProgress:int = 10
+		) {
 			super(name, totalFinalProgress);
+			_parameters = parameters;
+			_stage = stage;
 			_mainFileProperty = mainFileProperty;
 		}
 
@@ -39,7 +47,7 @@ package org.shypl.common.app {
 		}
 
 		override public function start():void {
-			var mainFile:String = parameters[_mainFileProperty];
+			var mainFile:String = _parameters[_mainFileProperty];
 			if (mainFile == null) {
 				mainFile = "Main.swf";
 			}
@@ -53,8 +61,11 @@ package org.shypl.common.app {
 		}
 
 		override public function finish():PreloaderPhase {
-			var nextPhase:PreloaderPhase = _main.run(parameters, stage);
+			var nextPhase:PreloaderPhase = _main.run(_parameters, _stage);
+			_parameters = null;
+			_stage = null;
 			_main = null;
+			_mainFileProperty = null;
 			return nextPhase;
 		}
 
