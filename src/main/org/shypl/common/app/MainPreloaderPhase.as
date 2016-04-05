@@ -19,7 +19,7 @@ package org.shypl.common.app {
 		private var _main:AbstractMain;
 		private var _mainFileProperty:String;
 
-		public function MainPreloaderPhase(name:String = "Loading main file", totalFinalProgress:int = 10, mainFileProperty:String = "main") {
+		public function MainPreloaderPhase(mainFileProperty:String = "main", name:String = "Loading main file", totalFinalProgress:int = 10) {
 			super(name, totalFinalProgress);
 			_mainFileProperty = mainFileProperty;
 		}
