@@ -228,7 +228,7 @@ package org.shypl.common.util {
 
 		public static function createVectorAndFill(elementClass:Class, length:uint, value:Object, fixed:Boolean = false):Object {
 			var vector:Object = new (getVectorClass(elementClass))(length, fixed);
-			fill(value, value);
+			fill(vector, value);
 			return vector;
 		}
 
