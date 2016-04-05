@@ -1,7 +1,13 @@
 package org.shypl.common.util {
 	import org.shypl.common.lang.IllegalStateException;
 
+	import spark.primitives.Path;
+
 	public class FilePath {
+		public static function factory(path:String):FilePath {
+			return new FilePath(FilePathUtils.splitToParts(path));
+		}
+
 		private var _parts:Vector.<String>;
 
 		public function FilePath(parts:Vector.<String> = null) {
