@@ -27,6 +27,10 @@ package org.shypl.common.util {
 			return getPartName(_parts.length - 1);
 		}
 
+		public function get parts():Vector.<String> {
+			return _parts.concat();
+		}
+
 		public function isEmpty():Boolean {
 			return _parts.length == 0;
 		}
