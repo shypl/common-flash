@@ -53,5 +53,19 @@ package org.shypl.common.util {
 
 			return index;
 		}
+
+		public static function resolveSibling(path:String, sibling:String):String {
+			var index:int = path.lastIndexOf(UNIX_SEPARATOR);
+
+			if (index === -1) {
+				index = path.lastIndexOf(WINDOWS_SEPARATOR);
+			}
+
+			if (index === -1) {
+				return sibling;
+			}
+
+			return path.substring(0, index + 1) + sibling;
+		}
 	}
 }
