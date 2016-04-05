@@ -39,7 +39,7 @@ package org.shypl.common.app {
 		}
 
 		override public function start():void {
-			var mainFile:String = flashVars[_mainFileProperty];
+			var mainFile:String = parameters[_mainFileProperty];
 			if (mainFile == null) {
 				mainFile = "Main.swf";
 			}
@@ -53,7 +53,7 @@ package org.shypl.common.app {
 		}
 
 		override public function finish():PreloaderPhase {
-			var nextPhase:PreloaderPhase = _main.run(flashVars, stage);
+			var nextPhase:PreloaderPhase = _main.run(parameters, stage);
 			_main = null;
 			return nextPhase;
 		}

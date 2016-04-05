@@ -29,7 +29,7 @@ package org.shypl.common.app {
 			return StageScaleMode.NO_SCALE;
 		}
 
-		public function run(flashVars:Object, stage:Stage):PreloaderPhase {
+		public function run(parameters:Object, stage:Stage):PreloaderPhase {
 			return new MainPreloaderPhase();
 		}
 
@@ -46,9 +46,9 @@ package org.shypl.common.app {
 			stage.scaleMode = stageScaleMode;
 			stage.align = stageAlign;
 
-			var flashVars:Object = loaderInfo.parameters;
+			var parameters:Object = loaderInfo.parameters;
 
-			new Preloader(flashVars, stage, getPreloaderScreen(), run(flashVars, stage));
+			new Preloader(parameters, stage, getPreloaderScreen(), run(parameters, stage));
 		}
 
 		private function onAddedToStage(event:Event):void {

@@ -8,7 +8,7 @@ package org.shypl.common.app {
 	public class PreloaderPhase implements Progress {
 		private var _name:String;
 		private var _totalFinalProgress:Number;
-		private var _flashVars:Object;
+		private var _parameters:Object;
 		private var _stage:Stage;
 
 		public function PreloaderPhase(name:String, totalFinalProgressPercent:int) {
@@ -34,8 +34,8 @@ package org.shypl.common.app {
 			throw new AbstractMethodException();
 		}
 
-		protected final function get flashVars():Object {
-			return _flashVars;
+		protected final function get parameters():Object {
+			return _parameters;
 		}
 
 		protected final function get stage():Stage {
@@ -52,8 +52,8 @@ package org.shypl.common.app {
 			throw new AbstractMethodException();
 		}
 
-		internal function init(flashVars:Object, stage:Stage):void {
-			_flashVars = flashVars;
+		internal function init(parameters:Object, stage:Stage):void {
+			_parameters = parameters;
 			_stage = stage;
 		}
 	}
