@@ -4,7 +4,7 @@ package org.shypl.common.assets {
 	import org.shypl.common.loader.FileLoader;
 	import org.shypl.common.loader.ImageReceiver;
 	import org.shypl.common.loader.XmlReceiver;
-	import org.shypl.common.util.FilePath;
+	import org.shypl.common.util.FilePathUtils;
 	import org.shypl.common.util.progress.Progress;
 
 	public class AtlasLoader implements Progress, XmlReceiver, ImageReceiver {
@@ -35,7 +35,7 @@ package org.shypl.common.assets {
 			_xml = xml;
 			var imagePath:String = _xml.attribute("imagePath");
 			if (imagePath.indexOf("/") !== 0 && imagePath.indexOf("://") === -1) {
-				imagePath = FilePath.factory(_asset.path).resolveSibling(imagePath).toString();
+				imagePath = FilePathUtils.resolveSibling(_asset.path, imagePath).toString();
 			}
 			FileLoader.loadImage(imagePath, this);
 		}
