@@ -78,8 +78,7 @@ package org.shypl.common.assets {
 		}
 
 		private function createAsset(name:String, path:String, type:AssetType, deferred:Boolean, domain:ApplicationDomain):AbstractAsset {
-			var pathObj:FilePath = _basePath.resolve(path === null ? name : path);
-			path = pathObj.fileName;
+			path = _basePath.resolve(path === null ? name : path).toString();
 
 			if (type === null) {
 				type = defineTypeByExt(path);
@@ -99,7 +98,7 @@ package org.shypl.common.assets {
 				case AssetType.FONT:
 					return new FontAssetImpl(name, path, deferred);
 				case AssetType.ATLAS:
-					return new AtlasAssetImpl(name, path, deferred, pathObj.parent);
+					return new AtlasAssetImpl(name, path, deferred);
 				case AssetType.BYTES:
 					return new BytesAssetImpl(name, path, deferred);
 				default:

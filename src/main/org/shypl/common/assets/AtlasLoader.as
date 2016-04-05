@@ -11,11 +11,9 @@ package org.shypl.common.assets {
 		private var _asset:AtlasAssetImpl;
 		private var _progress:Progress;
 		private var _xml:XML;
-		private var _dir:FilePath;
 
-		public function AtlasLoader(asset:AtlasAssetImpl, dir:FilePath) {
+		public function AtlasLoader(asset:AtlasAssetImpl) {
 			_asset = asset;
-			_dir = dir;
 			_progress = FileLoader.loadXml(asset.path, this);
 		}
 
@@ -37,7 +35,7 @@ package org.shypl.common.assets {
 			_xml = xml;
 			var imagePath:String = _xml.attribute("imagePath");
 			if (imagePath.indexOf("/") !== 0 && imagePath.indexOf("://") === -1) {
-				imagePath = _dir.resolve(imagePath).fileName;
+				imagePath = FilePath.factory(_asset.path).resolveSibling(imagePath).toString();
 			}
 			FileLoader.loadImage(imagePath, this);
 		}
@@ -47,7 +45,6 @@ package org.shypl.common.assets {
 			_xml = null;
 			_asset = null;
 			_progress = null;
-			_dir = null;
 		}
 	}
 }

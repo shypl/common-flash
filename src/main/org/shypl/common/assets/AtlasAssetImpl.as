@@ -7,23 +7,20 @@ package org.shypl.common.assets {
 	import flash.system.System;
 
 	import org.shypl.common.lang.IllegalArgumentException;
-	import org.shypl.common.util.FilePath;
-	import org.shypl.common.util.progress.Progress;
 	import org.shypl.common.util.StaticPoint0;
+	import org.shypl.common.util.progress.Progress;
 
 	internal class AtlasAssetImpl extends AbstractAsset implements AtlasAsset {
 		private var _areas:Object = {};
 		private var _cache:Object = {};
 		private var _atlas:BitmapData;
-		private var _dir:FilePath;
 
-		function AtlasAssetImpl(name:String, path:String, deferred:Boolean, dir:FilePath) {
+		function AtlasAssetImpl(name:String, path:String, deferred:Boolean) {
 			super(name, path, deferred);
-			_dir = dir;
 		}
 
 		override public function load():Progress {
-			return new AtlasLoader(this, _dir);
+			return new AtlasLoader(this);
 		}
 
 		public function contains(name:String):Boolean {
@@ -78,7 +75,6 @@ package org.shypl.common.assets {
 			}
 			System.disposeXML(xml);
 			completeLoad();
-			_dir = null;
 		}
 
 		private function getArea(name:String):Rectangle {
