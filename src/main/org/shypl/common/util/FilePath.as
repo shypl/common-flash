@@ -2,18 +2,6 @@ package org.shypl.common.util {
 	import org.shypl.common.lang.IllegalStateException;
 
 	public class FilePath {
-		public static function splitToParts(path:String):Vector.<String> {
-			if (StringUtils.isEmpty(path)) {
-				return new Vector.<String>(0, true);
-			}
-
-			path = StringUtils.trim(path, "/");
-
-			var vector:Vector.<String> = Vector.<String>(path.split("/"));
-			vector.fixed = true;
-			return vector;
-		}
-
 		private var _parts:Vector.<String>;
 
 		public function FilePath(parts:Vector.<String> = null) {
@@ -43,7 +31,7 @@ package org.shypl.common.util {
 		}
 
 		public function resolve(path:String):FilePath {
-			return createPath(_parts.concat(splitToParts(path)));
+			return createPath(_parts.concat(FilePathUtils.splitToParts(path)));
 		}
 
 		public function resolvePath(path:FilePath):FilePath {
@@ -59,7 +47,15 @@ package org.shypl.common.util {
 		}
 
 		public function toString():String {
-			return isEmpty() ? "" : _parts.join("/");
+			return toUnixString();
+		}
+
+		public function toUnixString():String {
+			return FilePathUtils.joinToUnix(_parts);
+		}
+
+		public function toWindowsString():String {
+			return FilePathUtils.joinToWindows(_parts);
 		}
 
 		protected function createPath(parts:Vector.<String>):FilePath {
