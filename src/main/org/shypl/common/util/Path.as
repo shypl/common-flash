@@ -10,5 +10,7 @@ package org.shypl.common.util {
 		function resolve(path:String):Path;
 
 		function resolveSibling(path:String):Path;
+
+		function toString():String;
 	}
 }
