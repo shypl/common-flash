@@ -4,15 +4,15 @@ package org.shypl.common.assets {
 
 	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.sound.SoundSystem;
-	import org.shypl.common.util.Path;
+	import org.shypl.common.util.FilePath;
 	import org.shypl.common.util.progress.Progress;
 	import org.shypl.common.util.StringUtils;
 
 	public class AssetsLoader implements AssetsCollector {
-		private var _basePath:Path;
+		private var _basePath:FilePath;
 		private var _map:Object = {};
 
-		public function AssetsLoader(path:Path) {
+		public function AssetsLoader(path:FilePath) {
 			_basePath = path;
 		}
 
@@ -78,8 +78,8 @@ package org.shypl.common.assets {
 		}
 
 		private function createAsset(name:String, path:String, type:AssetType, deferred:Boolean, domain:ApplicationDomain):AbstractAsset {
-			var pathObj:Path = _basePath.resolve(path === null ? name : path);
-			path = pathObj.value;
+			var pathObj:FilePath = _basePath.resolve(path === null ? name : path);
+			path = pathObj.fileName;
 
 			if (type === null) {
 				type = defineTypeByExt(path);
