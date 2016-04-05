@@ -54,6 +54,44 @@ package org.shypl.common.util {
 			return e >= s ? string.slice(s, e + 1) : "";
 		}
 
+		public static function trimLeft(string:String, chars:String = " \t\r\n"):String {
+			if (string === null) {
+				throw new NullPointerException();
+			}
+
+			var s:int = 0;
+			var e:int = string.length - 1;
+
+			if (e === -1) {
+				return "";
+			}
+
+			while (s <= e && chars.indexOf(string.charAt(s)) !== -1) {
+				++s;
+			}
+
+			return e >= s ? string.slice(s, e + 1) : "";
+		}
+
+		public static function trimRight(string:String, chars:String = " \t\r\n"):String {
+			if (string === null) {
+				throw new NullPointerException();
+			}
+
+			var s:int = 0;
+			var e:int = string.length - 1;
+
+			if (e === -1) {
+				return "";
+			}
+
+			while (e > s && chars.indexOf(string.charAt(e)) !== -1) {
+				--e;
+			}
+
+			return e >= s ? string.slice(s, e + 1) : "";
+		}
+
 		public static function repeat(string:String, count:uint):String {
 			if (isEmpty(string) || count === 0) {
 				return "";
