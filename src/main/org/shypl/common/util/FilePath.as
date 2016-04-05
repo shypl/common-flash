@@ -1,17 +1,24 @@
 package org.shypl.common.util {
 	import org.shypl.common.lang.IllegalStateException;
 
-	import spark.primitives.Path;
-
 	public class FilePath {
-		public static function factory(path:String):FilePath {
-			return new FilePath(FilePathUtils.splitToParts(path));
+		public static function factory(path:String, base:String = null):FilePath {
+			return new FilePath(FilePathUtils.splitToParts(path), base);
 		}
 
 		private var _parts:Vector.<String>;
 
-		public function FilePath(parts:Vector.<String> = null) {
-			_parts = parts == null ? new Vector.<String>(0, true) : parts;
+		public function FilePath(parts:Vector.<String> = null, base:String = null) {
+			_parts = parts == null ? new Vector.<String>(0) : parts.concat();
+			if (base !== null) {
+				if (StringUtils.endsWith(base, FilePathUtils.UNIX_SEPARATOR)) {
+					base = StringUtils.trimRight(base, FilePathUtils.UNIX_SEPARATOR);
+				}
+				else if (StringUtils.endsWith(base, FilePathUtils.WINDOWS_SEPARATOR)) {
+					base = StringUtils.trimRight(base, FilePathUtils.WINDOWS_SEPARATOR);
+				}
+				_parts.unshift(base);
+			}
 		}
 
 		public function get length():int {
@@ -20,7 +27,7 @@ package org.shypl.common.util {
 
 		public function get parent():FilePath {
 			checkEmpty();
-			return createPath(_parts.slice(0, -2));
+			return createPath(_parts.slice(0, -1));
 		}
 
 		public function get fileName():String {
