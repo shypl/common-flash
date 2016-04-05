@@ -93,13 +93,13 @@ package org.shypl.common.collection {
 		}
 
 		protected function checkIndexForAdd(index:int):void {
-			if (index < 0 || index >= size()) {
+			if (index < 0 || index > size()) {
 				throw new IndexOutOfBoundsException(getOutOfBoundsMessage(index));
 			}
 		}
 
 		protected function checkIndex(index:int):void {
-			if (index < 0 && index > size()) {
+			if (index < 0 && index >= size()) {
 				throw new IndexOutOfBoundsException(getOutOfBoundsMessage(index));
 			}
 		}
