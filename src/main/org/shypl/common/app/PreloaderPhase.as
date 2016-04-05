@@ -1,6 +1,4 @@
 package org.shypl.common.app {
-	import flash.display.Stage;
-
 	import org.shypl.common.lang.AbstractMethodException;
 	import org.shypl.common.util.progress.Progress;
 
@@ -8,8 +6,6 @@ package org.shypl.common.app {
 	public class PreloaderPhase implements Progress {
 		private var _name:String;
 		private var _totalFinalProgress:Number;
-		private var _parameters:Object;
-		private var _stage:Stage;
 
 		public function PreloaderPhase(name:String, totalFinalProgressPercent:int) {
 			_name = name;
@@ -34,14 +30,6 @@ package org.shypl.common.app {
 			throw new AbstractMethodException();
 		}
 
-		protected final function get parameters():Object {
-			return _parameters;
-		}
-
-		protected final function get stage():Stage {
-			return _stage;
-		}
-
 		[Abstract]
 		public function start():void {
 			throw new AbstractMethodException();
@@ -50,11 +38,6 @@ package org.shypl.common.app {
 		[Abstract]
 		public function finish():PreloaderPhase {
 			throw new AbstractMethodException();
-		}
-
-		internal function init(parameters:Object, stage:Stage):void {
-			_parameters = parameters;
-			_stage = stage;
 		}
 	}
 }

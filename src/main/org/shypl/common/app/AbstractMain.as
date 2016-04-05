@@ -48,7 +48,7 @@ package org.shypl.common.app {
 
 			var parameters:Object = loaderInfo.parameters;
 
-			new Preloader(parameters, stage, getPreloaderScreen(), run(parameters, stage));
+			new Preloader(stage, getPreloaderScreen(), run(parameters, stage));
 		}
 
 		private function onAddedToStage(event:Event):void {

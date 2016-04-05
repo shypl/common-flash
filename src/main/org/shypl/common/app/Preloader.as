@@ -8,7 +8,7 @@ package org.shypl.common.app {
 
 	public class Preloader {
 		private var _logger:Logger = LogManager.getLoggerByClass(Preloader);
-		private var _parameters:Object;
+
 		private var _stage:Stage;
 		private var _screen:AbstractPreloaderScreen;
 		private var _currentPhase:PreloaderPhase;
@@ -16,8 +16,7 @@ package org.shypl.common.app {
 		private var _currentPhaseTotalProgressDelta:Number = 0;
 		private var _prevPhaseTotalProgress:Number = 0;
 
-		public function Preloader(parameters:Object, stage:Stage, screen:AbstractPreloaderScreen, firstPhase:PreloaderPhase) {
-			_parameters = parameters;
+		public function Preloader(stage:Stage, screen:AbstractPreloaderScreen, firstPhase:PreloaderPhase) {
 			_stage = stage;
 			_screen = screen;
 
@@ -40,7 +39,6 @@ package org.shypl.common.app {
 
 			_currentPhaseNeedStart = true;
 			_currentPhase = phase;
-			_currentPhase.init(_parameters, _stage);
 			_currentPhaseTotalProgressDelta = _currentPhase.totalFinalProgress - _prevPhaseTotalProgress;
 
 			_stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -86,7 +84,6 @@ package org.shypl.common.app {
 			_stage.removeChild(_screen);
 			_stage.removeEventListener(Event.RESIZE, onResize);
 
-			_parameters = null;
 			_stage = null;
 			_screen = null;
 		}
