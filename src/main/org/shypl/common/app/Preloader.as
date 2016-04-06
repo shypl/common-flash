@@ -23,7 +23,6 @@ package org.shypl.common.app {
 			_stage.addChild(_screen);
 			_stage.addEventListener(Event.RESIZE, onResize);
 
-			_screen.show();
 			resizeScreen();
 
 			_screen.updateTotalProgress(0);

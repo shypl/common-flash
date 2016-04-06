@@ -6,6 +6,8 @@ package org.shypl.common.app {
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 
+	import org.shypl.common.timeline.GlobalTimeline;
+
 	public class SimplePreloaderScreen extends AbstractPreloaderScreen {
 		private var _box:Sprite;
 		private var _totalProgressBar:Shape;
@@ -50,6 +52,10 @@ package org.shypl.common.app {
 
 		override public function updatePhaseProgress(percent:Number):void {
 			updateProgressBar(_phaseProgressBar, _phaseProgressBarLabel, percent);
+		}
+
+		override public function hide(completeCallback:Function):void {
+			GlobalTimeline.schedule(500, completeCallback);
 		}
 
 		private function updateProgressBar(bar:Shape, label:TextField, percent:Number):void {

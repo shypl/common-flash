@@ -5,9 +5,6 @@ package org.shypl.common.app {
 
 	[Abstract]
 	public class AbstractPreloaderScreen extends Sprite {
-		public function show():void {
-		}
-
 		public function hide(completeCallback:Function):void {
 			completeCallback();
 		}
