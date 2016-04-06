@@ -9,7 +9,7 @@ package org.shypl.common.app {
 		public function ModuleFacadesImpl() {
 		}
 
-		public function get(type:Class):Object {
+		public function get(type:Class):* {
 			return Module(_map[type]).getFacade();
 		}
 

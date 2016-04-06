@@ -24,7 +24,7 @@ package org.shypl.common.app {
 			return CompletedProgress.INSTANCE;
 		}
 
-		internal function getFacadeClass():Class {
+		internal final function getFacadeClass():Class {
 			return _facadeClass;
 		}
 	}
