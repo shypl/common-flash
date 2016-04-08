@@ -71,7 +71,7 @@ package org.shypl.common.assets {
 			return assets;
 		}
 
-		public function load(receiver:AssetsReceiver):Progress {
+		public function load(receiver:AssetsReceiver = null):Progress {
 			var map:Object = _map;
 			_map = {};
 			return new Loader(map, receiver);

@@ -49,8 +49,10 @@ package org.shypl.common.assets {
 		private function complete():void {
 			_competed = true;
 			_percent = 1;
-			_receiver.receiveAssets(_collection);
-			_receiver = null;
+			if (_receiver != null) {
+				_receiver.receiveAssets(_collection);
+				_receiver = null;
+			}
 			_collection = null;
 
 			if (_deferredAssets.length > 0) {
