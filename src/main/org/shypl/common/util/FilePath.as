@@ -1,4 +1,6 @@
 package org.shypl.common.util {
+	import mx.utils.StringUtil;
+
 	import org.shypl.common.lang.IllegalStateException;
 
 	public class FilePath {
@@ -10,7 +12,7 @@ package org.shypl.common.util {
 
 		public function FilePath(parts:Vector.<String> = null, base:String = null) {
 			_parts = parts == null ? new Vector.<String>(0) : parts.concat();
-			if (base !== null) {
+			if (!StringUtils.isEmpty(base)) {
 				if (StringUtils.endsWith(base, FilePathUtils.UNIX_SEPARATOR)) {
 					base = StringUtils.trimRight(base, FilePathUtils.UNIX_SEPARATOR);
 				}
