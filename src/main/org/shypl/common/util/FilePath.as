@@ -1,6 +1,4 @@
 package org.shypl.common.util {
-	import mx.utils.StringUtil;
-
 	import org.shypl.common.lang.IllegalStateException;
 
 	public class FilePath {
