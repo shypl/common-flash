@@ -13,17 +13,7 @@ package org.shypl.common.app {
 		}
 
 		[Abstract]
-		public function updatePhaseName(name:String):void {
-			throw new AbstractMethodException();
-		}
-
-		[Abstract]
-		public function updateTotalProgress(percent:Number):void {
-			throw new AbstractMethodException();
-		}
-
-		[Abstract]
-		public function updatePhaseProgress(percent:Number):void {
+		public function update(progressPercent:Number):void {
 			throw new AbstractMethodException();
 		}
 	}

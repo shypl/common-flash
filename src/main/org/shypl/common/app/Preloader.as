@@ -2,110 +2,57 @@ package org.shypl.common.app {
 	import flash.display.Stage;
 	import flash.events.Event;
 
-	import org.shypl.common.lang.IllegalStateException;
-	import org.shypl.common.logging.LogManager;
-	import org.shypl.common.logging.Logger;
+	import org.shypl.common.util.progress.Progress;
 
 	public class Preloader {
-		private var _logger:Logger = LogManager.getLoggerByClass(Preloader);
-
 		private var _stage:Stage;
 		private var _screen:AbstractPreloaderScreen;
-		private var _currentPhase:PreloaderPhase;
-		private var _currentPhaseNeedStart:Boolean;
-		private var _currentPhaseTotalProgressDelta:Number = 0;
-		private var _prevPhaseTotalProgress:Number = 0;
+		private var _progress:Progress;
 
-		public function Preloader(stage:Stage, screen:AbstractPreloaderScreen, firstPhase:PreloaderPhase) {
+		public function Preloader(stage:Stage, screen:AbstractPreloaderScreen, progress:Progress) {
 			_stage = stage;
 			_screen = screen;
+			_progress = progress;
 
 			_stage.addChild(_screen);
-			_stage.addEventListener(Event.RESIZE, onResize);
+			_stage.addEventListener(Event.RESIZE, onStageResize);
+			_stage.addEventListener(Event.ENTER_FRAME, onStageEnterFrame);
 
-			resizeScreen();
-
-			_screen.updateTotalProgress(0);
-			_screen.updatePhaseProgress(0);
-
-			startPhase(firstPhase);
+			resize();
+			update();
 		}
 
-		private function startPhase(phase:PreloaderPhase):void {
-			if (_currentPhase != null && _currentPhase.totalFinalProgress <= phase.totalFinalProgress) {
-				throw new IllegalStateException("Phase totalFinalProgress value less or equal previous phase");
-			}
 
-			_currentPhaseNeedStart = true;
-			_currentPhase = phase;
-			_currentPhaseTotalProgressDelta = _currentPhase.totalFinalProgress - _prevPhaseTotalProgress;
-
-			_stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			_screen.updatePhaseName(_currentPhase.name);
+		private function update():void {
+			_screen.update(_progress.percent);
 		}
 
-		private function updateProgress():void {
-			var phaseProgress:Number = _currentPhase.percent;
-
-			var total:Number = _prevPhaseTotalProgress + _currentPhaseTotalProgressDelta * phaseProgress;
-			_screen.updateTotalProgress(total);
-			_screen.updatePhaseProgress(phaseProgress);
-		}
-
-		private function finishPhase():void {
-			_stage.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-			_prevPhaseTotalProgress = _currentPhase.totalFinalProgress;
-
-			var phase:PreloaderPhase = _currentPhase;
-			_currentPhase = null;
-
-			var nextPhase:PreloaderPhase = phase.finish();
-
-			if (_prevPhaseTotalProgress == 1) {
-				if (nextPhase != null) {
-					throw new IllegalStateException("Total progress is complete, but there is a next phase");
-				}
-				finishTotal();
-			}
-			else if (nextPhase == null) {
-				throw new IllegalStateException("Total progress is not complete, but there is no next phase");
-			}
-			else {
-				startPhase(nextPhase);
-			}
-		}
-
-		private function finishTotal():void {
+		private function complete():void {
+			_stage.removeEventListener(Event.ENTER_FRAME, onStageEnterFrame);
 			_screen.hide(destroy);
 		}
 
 		private function destroy():void {
 			_stage.removeChild(_screen);
-			_stage.removeEventListener(Event.RESIZE, onResize);
+			_stage.removeEventListener(Event.RESIZE, onStageResize);
 
 			_stage = null;
 			_screen = null;
+			_progress = null;
 		}
 
-		private function resizeScreen():void {
+		private function resize():void {
 			_screen.resize(_stage.stageWidth, _stage.stageHeight);
 		}
 
-		private function onResize(event:Event):void {
-			resizeScreen();
+		private function onStageResize(event:Event):void {
+			resize();
 		}
 
-		private function onEnterFrame(event:Event):void {
-			if (_currentPhaseNeedStart) {
-				_currentPhaseNeedStart = false;
-				_logger.trace("Start phase: {}", _currentPhase.name);
-				_currentPhase.start();
-			}
-
-			updateProgress();
-			if (_currentPhase.completed) {
-				_logger.trace("Finish phase: {}", _currentPhase.name);
-				finishPhase();
+		private function onStageEnterFrame(event:Event):void {
+			update();
+			if (_progress.completed) {
+				complete();
 			}
 		}
 	}

@@ -10,24 +10,16 @@ package org.shypl.common.app {
 
 	public class SimplePreloaderScreen extends AbstractPreloaderScreen {
 		private var _box:Sprite;
-		private var _totalProgressBar:Shape;
-		private var _phaseProgressBar:Shape;
-		private var _totalProgressBarLabel:TextField;
-		private var _phaseProgressBarLabel:TextField;
-		private var _phaseLabel:TextField;
+		private var _progressBar:Shape;
+		private var _progressBarLabel:TextField;
 
 		public function SimplePreloaderScreen() {
 			_box = new Sprite();
 			addChild(_box);
 			createTextField(_box, 200, 0, "Loading", 14, TextFieldAutoSize.CENTER);
 
-			_totalProgressBar = createProgressBar(_box, _box.height + 10, 15);
-			_phaseProgressBar = createProgressBar(_box, _totalProgressBar.y + _totalProgressBar.height + 10, 5);
-
-			_totalProgressBarLabel = createTextField(_box, 410, _totalProgressBar.y - 2);
-			_phaseProgressBarLabel = createTextField(_box, 410, _phaseProgressBar.y - 4, "", 9);
-
-			_phaseLabel = createTextField(_box, 200, _phaseProgressBar.y + _phaseProgressBar.height + 10, "", 10, TextFieldAutoSize.CENTER);
+			_progressBar = createProgressBar(_box, _box.height + 10, 15);
+			_progressBarLabel = createTextField(_box, 410, _progressBar.y - 2);
 		}
 
 		override public function resize(width:int, height:int):void {
@@ -42,16 +34,8 @@ package org.shypl.common.app {
 			_box.y = int((height - _box.height) / 2);
 		}
 
-		override public function updatePhaseName(name:String):void {
-			_phaseLabel.text = name;
-		}
-
-		override public function updateTotalProgress(percent:Number):void {
-			updateProgressBar(_totalProgressBar, _totalProgressBarLabel, percent);
-		}
-
-		override public function updatePhaseProgress(percent:Number):void {
-			updateProgressBar(_phaseProgressBar, _phaseProgressBarLabel, percent);
+		override public function update(progressPercent:Number):void {
+			updateProgressBar(_progressBar, _progressBarLabel, progressPercent);
 		}
 
 		override public function hide(completeCallback:Function):void {

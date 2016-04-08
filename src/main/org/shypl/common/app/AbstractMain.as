@@ -7,6 +7,7 @@ package org.shypl.common.app {
 
 	import org.shypl.common.lang.AbstractMethodException;
 	import org.shypl.common.lang.UncaughtErrorDelegate;
+	import org.shypl.common.util.progress.Progress;
 
 	[Abstract]
 	public class AbstractMain extends Sprite {
@@ -21,21 +22,20 @@ package org.shypl.common.app {
 			}
 		}
 
-		protected function get stageAlign():String {
+		protected function defineStageAlign():String {
 			return StageAlign.TOP_LEFT;
 		}
 
-		protected function get stageScaleMode():String {
+		protected function defineStageScaleMode():String {
 			return StageScaleMode.NO_SCALE;
 		}
 
-		public function run(parameters:Object, stage:Stage):PreloaderPhase {
-			return new MainPreloaderPhase(parameters, stage);
+		protected function createPreloaderScreen():AbstractPreloaderScreen {
+			return new SimplePreloaderScreen();
 		}
 
-		[Abstract]
-		protected function getPreloaderScreen():AbstractPreloaderScreen {
-			throw new AbstractMethodException();
+		public function run(parameters:Object, stage:Stage):Progress {
+			return new MainPreloader(parameters, stage);
 		}
 
 		private function main():void {
@@ -43,12 +43,12 @@ package org.shypl.common.app {
 
 			var stage:Stage = this.stage;
 			stage.removeChild(this);
-			stage.scaleMode = stageScaleMode;
-			stage.align = stageAlign;
+			stage.scaleMode = defineStageScaleMode();
+			stage.align = defineStageAlign();
 
 			var parameters:Object = loaderInfo.parameters;
 
-			new Preloader(stage, getPreloaderScreen(), run(parameters, stage));
+			new Preloader(stage, createPreloaderScreen(), run(parameters, stage));
 		}
 
 		private function onAddedToStage(event:Event):void {
