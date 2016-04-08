@@ -37,5 +37,9 @@ package org.shypl.common.util.progress {
 		public function setProgressAt(index:int, progress:Progress):void {
 			_progresses[index] = progress;
 		}
+		
+		public function getProgressAt(index:int):Progress {
+			return _progresses[index];
+		}
 	}
 }
