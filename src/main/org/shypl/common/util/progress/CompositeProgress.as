@@ -25,6 +25,10 @@ package org.shypl.common.util.progress {
 		}
 
 		public function get percent():Number {
+			if (_progresses.length == 0) {
+				return 1;
+			}
+			
 			var total:Number = 0;
 
 			for each (var progress:Progress in _progresses) {
@@ -37,7 +41,7 @@ package org.shypl.common.util.progress {
 		public function setProgressAt(index:int, progress:Progress):void {
 			_progresses[index] = progress;
 		}
-		
+
 		public function getProgressAt(index:int):Progress {
 			return _progresses[index];
 		}
