@@ -2,6 +2,7 @@ package org.shypl.common.assets {
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
+	import flash.media.Sound;
 	import flash.system.ApplicationDomain;
 
 	public interface SwfAsset extends Asset {
@@ -20,5 +21,7 @@ package org.shypl.common.assets {
 		function createMovieClip(className:String):MovieClip;
 
 		function createBitmapData(className:String):BitmapData;
+
+		function createSound(className:String):Sound;
 	}
 }

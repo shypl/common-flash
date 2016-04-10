@@ -2,6 +2,7 @@ package org.shypl.common.assets {
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
+	import flash.media.Sound;
 	import flash.system.ApplicationDomain;
 
 	import org.shypl.common.lang.IllegalArgumentException;
@@ -56,6 +57,10 @@ package org.shypl.common.assets {
 
 		public function createBitmapData(className:String):BitmapData {
 			return BitmapData(create(className));
+		}
+
+		public function createSound(className:String):Sound {
+			return Sound(create(className));
 		}
 
 		public function receiveSwf(sprite:Sprite):void {
