@@ -3,25 +3,22 @@ package org.shypl.common.assets {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.system.ApplicationDomain;
-	import flash.text.TextField;
 
 	public interface SwfAsset extends Asset {
+		function get domain():ApplicationDomain;
+
 		function get sprite():Sprite;
 
 		function get movieClip():MovieClip;
 
-		function get domain():ApplicationDomain;
+		function hasClass(className:String):Boolean;
 
-		function setObjectResolver(factory:SwfAssetObjectResolver):void;
+		function create(className:String):Object;
 
-		function getObject(name:String, type:String = null):Object;
+		function createSprite(className:String):Sprite;
 
-		function getBitmapData(name:String):BitmapData;
+		function createMovieClip(className:String):MovieClip;
 
-		function getMovieClip(name:String):MovieClip;
-
-		function getSprite(name:String):Sprite;
-
-		function getTextField(name:String, text:String = null):TextField;
+		function createBitmapData(className:String):BitmapData;
 	}
 }
