@@ -72,8 +72,9 @@ package org.shypl.common.util {
 			return filed;
 		}
 
-		public function setFont(value:String):TextFieldBuilder {
+		public function setFont(value:String, embed:Boolean = true):TextFieldBuilder {
 			_font = value;
+			_embedFonts = embed;
 			return this;
 		}
 
