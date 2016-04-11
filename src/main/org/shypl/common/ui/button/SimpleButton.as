@@ -23,8 +23,6 @@ package org.shypl.common.ui.button {
 			_label.y = 5;
 
 			addChild(_label);
-
-			redraw();
 		}
 
 		public function get label():String {
@@ -33,14 +31,10 @@ package org.shypl.common.ui.button {
 
 		public function set label(text:String):void {
 			_label.text = text;
-			redraw();
+			update();
 		}
 
-		override protected function changeState(current:ButtonState, old:ButtonState):void {
-			redraw();
-		}
-
-		private function redraw():void {
+		override protected function update():void {
 			graphics.clear();
 
 			switch (buttonState) {

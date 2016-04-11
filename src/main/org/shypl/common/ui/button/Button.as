@@ -5,6 +5,7 @@ package org.shypl.common.ui.button {
 
 	import org.shypl.common.lang.AbstractMethodException;
 	import org.shypl.common.util.DestroyableSprite;
+	import org.shypl.common.util.callDelayed;
 
 	[Abstract]
 	[Event(name="press", type="org.shypl.common.ui.button.ButtonEvent")]
@@ -73,7 +74,7 @@ package org.shypl.common.ui.button {
 		}
 
 		[Abstract]
-		protected function changeState(current:ButtonState, old:ButtonState):void {
+		protected function update():void {
 			throw new AbstractMethodException();
 		}
 
@@ -85,9 +86,8 @@ package org.shypl.common.ui.button {
 
 		private function setState(state:ButtonState):void {
 			if (_state !== state) {
-				const old:ButtonState = _state;
 				_state = state;
-				changeState(state, old);
+				update();
 			}
 		}
 
