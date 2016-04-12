@@ -5,7 +5,6 @@ package org.shypl.common.ui.button {
 
 	import org.shypl.common.lang.AbstractMethodException;
 	import org.shypl.common.util.DestroyableSprite;
-	import org.shypl.common.util.callDelayed;
 
 	[Abstract]
 	[Event(name="press", type="org.shypl.common.ui.button.ButtonEvent")]
@@ -14,6 +13,7 @@ package org.shypl.common.ui.button {
 		private var _enabled:Boolean = true;
 		private var _underMouse:Boolean;
 		private var _pressed:Boolean;
+		private var _data:*;
 
 		public function Button(hitArea:Sprite = null) {
 			mouseChildren = false;
@@ -32,7 +32,7 @@ package org.shypl.common.ui.button {
 			enable0();
 		}
 
-		public function get buttonState():ButtonState {
+		public function get state():ButtonState {
 			return _state;
 		}
 
@@ -47,6 +47,14 @@ package org.shypl.common.ui.button {
 			else {
 				disable();
 			}
+		}
+
+		public function get data():* {
+			return _data;
+		}
+
+		public function set data(v:*):void {
+			_data = v;
 		}
 
 		public function enable():void {
@@ -150,6 +158,11 @@ package org.shypl.common.ui.button {
 		private function handleRemovedFromStageEvent(event:Event):void {
 			removeEventListener(Event.REMOVED_FROM_STAGE, handleRemovedFromStageEvent);
 			removeStageMouseHandlers();
+		}
+		
+		override protected function doDestroy():void {
+			super.doDestroy();
+			_data = null;
 		}
 	}
 }
