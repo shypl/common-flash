@@ -37,7 +37,7 @@ package org.shypl.common.ui.button {
 		override protected function update():void {
 			graphics.clear();
 
-			switch (buttonState) {
+			switch (state) {
 				case ButtonState.NORMAL:
 					graphics.beginFill(0x6699cc);
 					break;
