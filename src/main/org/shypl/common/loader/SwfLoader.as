@@ -33,7 +33,7 @@ package org.shypl.common.loader {
 			return _domain;
 		}
 
-		override protected function getPercent():Number {
+		override protected function getLoadingPercent():Number {
 			if (_cache) {
 				return 1;
 			}
@@ -46,7 +46,7 @@ package org.shypl.common.loader {
 			return 1;
 		}
 
-		override protected function start():void {
+		override protected function startLoading():void {
 			for each (var item:SwfLoaderCachedItem in CACHE) {
 				if (item.matches(_domain, url)) {
 					_cache = item;
@@ -58,11 +58,11 @@ package org.shypl.common.loader {
 			_loader1 = new URLLoader();
 			_loader1.dataFormat = URLLoaderDataFormat.BINARY;
 			_loader1.addEventListener(Event.COMPLETE, onComplete1);
-			_loader1.addEventListener(IOErrorEvent.IO_ERROR, onError);
+			_loader1.addEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
 			_loader1.load(new URLRequest(url));
 		}
 
-		override protected function complete():void {
+		override protected function produceResult():void {
 			var sprite:Sprite;
 			if (_cache) {
 				sprite = _cache.createObject();
@@ -78,16 +78,16 @@ package org.shypl.common.loader {
 			_receiver = null;
 		}
 
-		override protected function free():void {
+		override protected function freeLoading():void {
 			if (_loader1) {
 				_loader1.removeEventListener(Event.COMPLETE, onComplete1);
-				_loader1.removeEventListener(IOErrorEvent.IO_ERROR, onError);
+				_loader1.removeEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
 				_loader1 = null;
 			}
 			if (_loader2) {
 				const info:LoaderInfo = _loader2.contentLoaderInfo;
-				info.removeEventListener(Event.COMPLETE, onComplete);
-				info.removeEventListener(IOErrorEvent.IO_ERROR, onError);
+				info.removeEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
+				info.removeEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
 
 				unloadAndStop();
 				_loader2 = null;
@@ -105,15 +105,15 @@ package org.shypl.common.loader {
 		}
 
 		private function emulateLoad():void {
-			onComplete(null);
+			handleLoadingCompleteEvent(null);
 		}
 
 		private function onComplete1(event:Event):void {
 			_loader2 = new Loader();
 
 			const info:LoaderInfo = _loader2.contentLoaderInfo;
-			info.addEventListener(Event.COMPLETE, onComplete);
-			info.addEventListener(IOErrorEvent.IO_ERROR, onError);
+			info.addEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
+			info.addEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
 
 			UncaughtErrorDelegate.register(_loader2.uncaughtErrorEvents);
 

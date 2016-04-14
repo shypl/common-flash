@@ -6,95 +6,85 @@ package org.shypl.common.loader {
 	import org.shypl.common.lang.ErrorEventException;
 	import org.shypl.common.lang.IllegalStateException;
 	import org.shypl.common.timeline.GlobalTimeline;
+	import org.shypl.common.util.progress.AbstractProgress;
 	import org.shypl.common.util.progress.Progress;
 
 	[Abstract]
-	internal class AbstractLoader implements Progress {
+	internal class AbstractLoader extends AbstractProgress implements Progress {
 		private var _url:String;
-		private var _running:Boolean;
-		private var _completed:Boolean;
+		private var _loading:Boolean;
 		private var _attempt:int;
-		private var _error:Boolean;
 
 		function AbstractLoader(url:String) {
 			_url = url;
-		}
-
-		public final function get completed():Boolean {
-			return _completed;
-		}
-
-		public final function get percent():Number {
-			if (_completed) {
-				return 1;
-			}
-			if (_error) {
-				return 0;
-			}
-			if (_running) {
-				return getPercent();
-			}
-			return 0;
 		}
 
 		internal final function get url():String {
 			return _url;
 		}
 
+		override protected function calculatePercent():Number {
+			if (_loading) {
+				return getLoadingPercent();
+			}
+			return 0;
+		}
+
 		[Abstract]
-		protected function getPercent():Number {
+		protected function startLoading():void {
 			throw new AbstractMethodException();
 		}
 
 		[Abstract]
-		protected function start():void {
+		protected function getLoadingPercent():Number {
 			throw new AbstractMethodException();
 		}
 
 		[Abstract]
-		protected function complete():void {
+		protected function freeLoading():void {
 			throw new AbstractMethodException();
 		}
 
 		[Abstract]
-		protected function free():void {
+		protected function produceResult():void {
 			throw new AbstractMethodException();
 		}
 
-		protected final function onComplete(event:Event):void {
-			_running = false;
-			complete();
-			free();
-			_completed = true;
+		protected final function handleLoadingCompleteEvent(event:Event):void {
+			_loading = false;
 			FileLoader.LOGGER.trace("Loaded {}", url);
-			FileLoader.handleLoadComplete();
+
+			produceResult();
+			freeLoading();
+			complete();
+
+			FileLoader.handleLoadingComplete();
 		}
 
-		protected final function onError(event:ErrorEvent):void {
-			free();
-			_error = true;
+		protected final function handleLoadingErrorEvent(event:ErrorEvent):void {
+			freeLoading();
+			_loading = false;
 			if (_attempt == 3) {
 				FileLoader.LOGGER.error("Unable to load {}", url);
 				throw new ErrorEventException(event, "Error on load file " + _url);
 			}
 			else {
-				_running = false;
-				GlobalTimeline.schedule(1000, startAttempt);
+				GlobalTimeline.schedule(1000, attemptLoading);
 			}
 		}
 
-		internal final function start0():void {
-			if (_running || _completed) {
+		internal final function run():void {
+			if (_loading || completed) {
 				throw new IllegalStateException();
 			}
 			FileLoader.LOGGER.trace("Load {}", url);
-			startAttempt();
+			attemptLoading();
 		}
 
-		private function startAttempt():void {
+		private function attemptLoading():void {
 			++_attempt;
-			_running = true;
-			start();
+			_loading = true;
+			startLoading();
 		}
 	}
 }

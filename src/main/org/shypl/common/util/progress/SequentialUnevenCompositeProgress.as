@@ -6,7 +6,7 @@ package org.shypl.common.util.progress {
 		private var _queue:Vector.<ProgressRunner>;
 
 		public function SequentialUnevenCompositeProgress(queue:Vector.<ProgressRunner>, divisions:Vector.<int>) {
-			super(CollectionUtils.createVectorAndFill(Progress, queue.length, NotCompletedProgress.INSTANCE) as Vector.<Progress>, divisions);
+			super(CollectionUtils.createVectorAndFill(Progress, queue.length, FakeProgress.NOT_COMPLETED) as Vector.<Progress>, divisions);
 			_queue = queue;
 			runNext();
 		}

@@ -3,9 +3,8 @@ package org.shypl.common.util.progress {
 
 	import org.shypl.common.timeline.GlobalTimeline;
 	import org.shypl.common.util.Cancelable;
-	import org.shypl.common.util.notice.NoticeDispatcher;
 
-	public class TemporaryProgress extends NoticeDispatcher implements Progress {
+	public class TemporaryProgress extends AbstractProgress {
 		private var _time:int;
 		private var _autoComplete:Boolean;
 		private var _autoCompleteTask:Cancelable;
@@ -21,31 +20,24 @@ package org.shypl.common.util.progress {
 			}
 		}
 
-		public function get completed():Boolean {
-			return _startTime === -1;
+		public final function makeComplete():void {
+			complete();
 		}
 
-		public function get percent():Number {
-			if (completed) {
-				return 1;
-			}
-
+		override protected function calculatePercent():Number {
 			var passedTime:int = getTimer() - _startTime;
 			if (passedTime >= _time) {
 				return _autoComplete ? 1 : 0.99;
 			}
-
 			return passedTime / _time * (_autoComplete ? 1 : 0.99);
 		}
 
-		public function complete():void {
-			_startTime = -1;
-			if (_autoCompleteTask !== null) {
+		override protected function complete():void {
+			if (_autoComplete) {
 				_autoCompleteTask.cancel();
 				_autoCompleteTask = null;
 			}
-			dispatchNotice(new ProgressCompleteNotice(this));
-			removeAllNoticeHandlers();
+			super.complete();
 		}
 	}
 }

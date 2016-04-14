@@ -16,31 +16,31 @@ package org.shypl.common.loader {
 			_receiver = receiver;
 		}
 
-		override protected function getPercent():Number {
+		override protected function startLoading():void {
+			_loader = new Loader();
+
+			_loaderInfo = _loader.contentLoaderInfo;
+			_loaderInfo.addEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
+			_loaderInfo.addEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
+
+			_loader.load(new URLRequest(url));
+		}
+
+		override protected function getLoadingPercent():Number {
 			if (_loaderInfo.bytesTotal == 0) {
 				return 0;
 			}
 			return _loaderInfo.bytesLoaded / _loaderInfo.bytesTotal;
 		}
 
-		override protected function start():void {
-			_loader = new Loader();
-
-			_loaderInfo = _loader.contentLoaderInfo;
-			_loaderInfo.addEventListener(Event.COMPLETE, onComplete);
-			_loaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onError);
-
-			_loader.load(new URLRequest(url));
-		}
-
-		override protected function complete():void {
+		override protected function produceResult():void {
 			_receiver.receiveImage(Bitmap(_loader.content).bitmapData);
 			_receiver = null;
 		}
 
-		override protected function free():void {
-			_loaderInfo.removeEventListener(Event.COMPLETE, onComplete);
-			_loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onError);
+		override protected function freeLoading():void {
+			_loaderInfo.removeEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
+			_loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
 
 			try {
 				_loader.unloadAndStop(true);

@@ -1,11 +1,10 @@
 package org.shypl.common.util.progress {
 	import org.shypl.common.util.CollectionUtils;
-	import org.shypl.common.util.notice.NoticeDispatcher;
 
-	public class CompositeProgress extends NoticeDispatcher implements Progress {
+	public class CompositeProgress extends AbstractProgress {
 		public static function factoryEmpty(size:int):CompositeProgress {
 			return new CompositeProgress(
-				CollectionUtils.createVectorAndFill(Progress, size, NotCompletedProgress.INSTANCE) as Vector.<Progress>
+				CollectionUtils.createVectorAndFill(Progress, size, FakeProgress.NOT_COMPLETED) as Vector.<Progress>
 			);
 		}
 
@@ -14,32 +13,23 @@ package org.shypl.common.util.progress {
 		public function CompositeProgress(children:Vector.<Progress>) {
 			_children = children.concat();
 			_children.fixed = true;
-			for each (var progress:Progress in _children) {
-				progress.addNoticeHandler(ProgressCompleteNotice, onChildComplete);
+			if (_children.length == 0) {
+				complete();
 			}
-		}
-
-		public function get completed():Boolean {
-			for each (var progress:Progress in _children) {
-				if (!progress.completed) {
-					return false;
+			else {
+				var completedCount:int = 0;
+				for each (var progress:Progress in _children) {
+					if (progress.completed) {
+						++completedCount;
+					}
+					else {
+						progress.addNoticeHandler(ProgressCompleteNotice, onChildComplete, false);
+					}
+				}
+				if (completedCount == _children.length) {
+					complete();
 				}
 			}
-			return true;
-		}
-
-		public function get percent():Number {
-			if (_children.length == 0) {
-				return 1;
-			}
-
-			var total:Number = 0;
-
-			for each (var progress:Progress in _children) {
-				total += progress.percent;
-			}
-
-			return total / _children.length;
 		}
 
 		public function setChild(index:int, progress:Progress):void {
@@ -49,7 +39,7 @@ package org.shypl.common.util.progress {
 				onChildComplete();
 			}
 			else {
-				_children[index].addNoticeHandler(ProgressCompleteNotice, onChildComplete);
+				_children[index].addNoticeHandler(ProgressCompleteNotice, onChildComplete, false);
 			}
 		}
 
@@ -57,14 +47,35 @@ package org.shypl.common.util.progress {
 			return _children[index];
 		}
 
-		protected function onChildComplete():void {
-			if (completed) {
-				for each (var progress:Progress in _children) {
-					progress.removeNoticeHandler(ProgressCompleteNotice, onChildComplete);
-				}
-				dispatchNotice(new ProgressCompleteNotice(this));
-				removeAllNoticeHandlers();
+		override protected function calculatePercent():Number {
+			var total:Number = 0;
+			for each (var progress:Progress in _children) {
+				total += progress.percent;
 			}
+			return total / _children.length;
+		}
+
+		protected final function isAllChildrenCompleted():Boolean {
+			for each (var progress:Progress in _children) {
+				if (!progress.completed) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		protected function onChildComplete():void {
+			if (isAllChildrenCompleted()) {
+				complete();
+			}
+		}
+
+		override protected function complete():void {
+			for each (var progress:Progress in _children) {
+				progress.removeNoticeHandler(ProgressCompleteNotice, onChildComplete);
+			}
+			_children = null;
+			super.complete();
 		}
 	}
 }

@@ -47,11 +47,7 @@ package org.shypl.common.loader {
 			return addLoader(new SwfLoader(url, receiver, domain));
 		}
 
-		public static function loadFont(url:String, receiver:FontReceiver):Progress {
-			return addLoader(new FontLoader(url, receiver));
-		}
-
-		internal static function handleLoadComplete():void {
+		internal static function handleLoadingComplete():void {
 			--_currentProcesses;
 			loadNext();
 		}
@@ -65,7 +61,7 @@ package org.shypl.common.loader {
 		private static function loadNext():void {
 			if (_currentProcesses < _parallelProcesses && !_queue.isEmpty()) {
 				++_currentProcesses;
-				AbstractLoader(_queue.removeFirst()).start0();
+				AbstractLoader(_queue.removeFirst()).run();
 			}
 		}
 	}

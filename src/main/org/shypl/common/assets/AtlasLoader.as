@@ -5,30 +5,19 @@ package org.shypl.common.assets {
 	import org.shypl.common.loader.ImageReceiver;
 	import org.shypl.common.loader.XmlReceiver;
 	import org.shypl.common.util.FilePathUtils;
+	import org.shypl.common.util.progress.FakeProgress;
 	import org.shypl.common.util.progress.Progress;
+	import org.shypl.common.util.progress.UnevenCompositeProgress;
 
-	public class AtlasLoader implements Progress, XmlReceiver, ImageReceiver {
+	internal class AtlasLoader extends UnevenCompositeProgress implements Progress, XmlReceiver, ImageReceiver {
 		private var _asset:AtlasAssetImpl;
-		private var _progress:Progress;
 		private var _xml:XML;
 
 		public function AtlasLoader(asset:AtlasAssetImpl) {
+			super(
+				new <Progress>[FileLoader.loadXml(asset.path, this), FakeProgress.NOT_COMPLETED],
+				new <int>[2, 8]);
 			_asset = asset;
-			_progress = FileLoader.loadXml(asset.path, this);
-		}
-
-		public function get completed():Boolean {
-			return _asset === null;
-		}
-
-		public function get percent():Number {
-			if (completed) {
-				return 1;
-			}
-			if (_xml) {
-				return 0.2 + _progress.percent * 0.8;
-			}
-			return _progress.percent * 0.2;
 		}
 
 		public function receiveXml(xml:XML):void {
@@ -37,14 +26,13 @@ package org.shypl.common.assets {
 			if (imagePath.indexOf("/") !== 0 && imagePath.indexOf("://") === -1) {
 				imagePath = FilePathUtils.resolveSibling(_asset.path, imagePath).toString();
 			}
-			FileLoader.loadImage(imagePath, this);
+			setChild(1, FileLoader.loadImage(imagePath, this));
 		}
 
 		public function receiveImage(image:BitmapData):void {
 			_asset.complete(_xml, image);
-			_xml = null;
 			_asset = null;
-			_progress = null;
+			_xml = null;
 		}
 	}
 }

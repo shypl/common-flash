@@ -44,8 +44,19 @@ package org.shypl.common.util.notice {
 			}
 		}
 
+		public function removeNoticeHandlers(type:Object):void {
+			if (type is Class) {
+				type = getQualifiedClassName(type);
+			}
+			var handlers:NoticeDispatcher_Handlers = _handlersMap[type];
+			if (handlers !== null) {
+				handlers.clear();
+				delete _handlersMap[type];
+			}
+		}
+
 		public function removeAllNoticeHandlers():void {
-			for (var type:String in _handlersMap) {
+			for (var type:Object in _handlersMap) {
 				NoticeDispatcher_Handlers(_handlersMap[type]).clear();
 				delete _handlersMap[type];
 			}

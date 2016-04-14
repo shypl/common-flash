@@ -3,17 +3,17 @@ package org.shypl.common.util.progress {
 
 	public class UnevenCompositeProgress extends CompositeProgress {
 		public static function factoryEmpty(divisions:Vector.<int>):CompositeProgress {
-			var progresses:Vector.<Progress> = CollectionUtils.createVectorAndFill(Progress, divisions.length, NotCompletedProgress.INSTANCE) as
-				Vector.<Progress>;
-
-			return new UnevenCompositeProgress(progresses, divisions);
+			return new UnevenCompositeProgress(
+				CollectionUtils.createVectorAndFill(Progress, divisions.length, FakeProgress.NOT_COMPLETED) as Vector.<Progress>,
+				divisions
+			);
 		}
 
 		private var _divisions:Vector.<Number>;
 
 		public function UnevenCompositeProgress(progresses:Vector.<Progress>, divisions:Vector.<int>) {
 			super(progresses);
-			if (progresses.length > 0) {
+			if (!completed) {
 				var divisionsSum:int = CollectionUtils.sum(divisions);
 
 				_divisions = new Vector.<Number>(divisions.length, true);
@@ -23,17 +23,11 @@ package org.shypl.common.util.progress {
 			}
 		}
 
-		override public function get percent():Number {
-			if (_children.length == 0) {
-				return 1;
-			}
-			
+		override protected function calculatePercent():Number {
 			var total:Number = 0;
-
 			for (var i:int = 0; i < _children.length; i++) {
 				total += _children[i].percent * _divisions[i];
 			}
-
 			return total;
 		}
 	}

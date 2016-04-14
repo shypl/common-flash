@@ -13,28 +13,28 @@ package org.shypl.common.loader {
 			_receiver = receiver;
 		}
 
-		override protected function getPercent():Number {
+		override protected function getLoadingPercent():Number {
 			if (_sound.bytesTotal == 0) {
 				return 0;
 			}
 			return _sound.bytesLoaded / _sound.bytesTotal;
 		}
 
-		override protected function start():void {
+		override protected function startLoading():void {
 			_sound = new Sound();
-			_sound.addEventListener(Event.COMPLETE, onComplete);
-			_sound.addEventListener(IOErrorEvent.IO_ERROR, onError);
+			_sound.addEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
+			_sound.addEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
 			_sound.load(new URLRequest(url));
 		}
 
-		override protected function complete():void {
+		override protected function produceResult():void {
 			_receiver.receiveSound(_sound);
 			_receiver = null;
 		}
 
-		override protected function free():void {
-			_sound.removeEventListener(Event.COMPLETE, onComplete);
-			_sound.removeEventListener(IOErrorEvent.IO_ERROR, onError);
+		override protected function freeLoading():void {
+			_sound.removeEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
+			_sound.removeEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
 			_sound = null;
 		}
 	}

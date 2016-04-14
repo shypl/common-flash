@@ -4,13 +4,13 @@ package org.shypl.common.app {
 
 	import org.shypl.common.loader.FileLoader;
 	import org.shypl.common.loader.SwfReceiver;
-	import org.shypl.common.util.notice.NoticeDispatcher;
+	import org.shypl.common.util.progress.AbstractProgress;
 	import org.shypl.common.util.progress.CompositeProgress;
 	import org.shypl.common.util.progress.Progress;
 	import org.shypl.common.util.progress.ProgressCompleteNotice;
 	import org.shypl.common.util.progress.UnevenCompositeProgress;
 
-	public class MainPreloader extends NoticeDispatcher implements Progress, SwfReceiver {
+	public class MainPreloader extends AbstractProgress implements Progress, SwfReceiver {
 		private var _parameters:Object;
 		private var _stage:Stage;
 		private var _progresses:CompositeProgress;
@@ -21,16 +21,11 @@ package org.shypl.common.app {
 
 			_progresses = UnevenCompositeProgress.factoryEmpty(new <int>[1, 9]);
 			_progresses.setChild(0, FileLoader.loadSwf(_parameters["main"], this));
-
-			_progresses.addNoticeHandler(ProgressCompleteNotice, onProgressesComplete);
+			_progresses.addNoticeHandler(ProgressCompleteNotice, onProgressesComplete, false);
 		}
 
-		public function get completed():Boolean {
-			return _progresses === null || _progresses.completed;
-		}
-
-		public function get percent():Number {
-			return completed ? 1 : _progresses.percent;
+		override protected function calculatePercent():Number {
+			return _progresses.percent;
 		}
 
 		public function receiveSwf(sprite:Sprite):void {
@@ -45,8 +40,7 @@ package org.shypl.common.app {
 		}
 
 		private function onProgressesComplete():void {
-			dispatchNotice(new ProgressCompleteNotice(this));
-			removeAllNoticeHandlers();
+			complete();
 		}
 	}
 }

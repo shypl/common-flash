@@ -1,5 +1,5 @@
 package org.shypl.common.loader {
-	internal class XmlLoader extends SimpleLoader {
+	internal class XmlLoader extends DataLoader {
 		private var _receiver:XmlReceiver;
 
 		function XmlLoader(url:String, receiver:XmlReceiver) {
@@ -7,7 +7,7 @@ package org.shypl.common.loader {
 			_receiver = receiver;
 		}
 
-		override protected function completeText(data:String):void {
+		override protected function produceText(data:String):void {
 			_receiver.receiveXml(new XML(data));
 			_receiver = null;
 		}
