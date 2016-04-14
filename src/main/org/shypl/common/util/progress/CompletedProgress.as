@@ -9,5 +9,11 @@ package org.shypl.common.util.progress {
 		public function get percent():Number {
 			return 1;
 		}
+
+		public function addNoticeHandler(type:Object, handler:Function, obtainNotice:Boolean = true):void {
+		}
+
+		public function removeNoticeHandler(type:Object, handler:Function):void {
+		}
 	}
 }

@@ -2,9 +2,10 @@ package org.shypl.common.util.progress {
 	import flash.utils.getTimer;
 
 	import org.shypl.common.timeline.GlobalTimeline;
-	import org.shypl.common.util.*;
+	import org.shypl.common.util.Cancelable;
+	import org.shypl.common.util.notice.NoticeDispatcher;
 
-	public class TemporaryProgress implements Progress {
+	public class TemporaryProgress extends NoticeDispatcher implements Progress {
 		private var _time:int;
 		private var _autoComplete:Boolean;
 		private var _autoCompleteTask:Cancelable;
@@ -43,6 +44,8 @@ package org.shypl.common.util.progress {
 				_autoCompleteTask.cancel();
 				_autoCompleteTask = null;
 			}
+			dispatchNotice(new ProgressCompleteNotice(this));
+			removeAllNoticeHandlers();
 		}
 	}
 }

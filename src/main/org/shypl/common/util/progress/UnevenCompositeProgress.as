@@ -24,14 +24,14 @@ package org.shypl.common.util.progress {
 		}
 
 		override public function get percent():Number {
-			if (_progresses.length == 0) {
+			if (_children.length == 0) {
 				return 1;
 			}
 			
 			var total:Number = 0;
 
-			for (var i:int = 0; i < _progresses.length; i++) {
-				total += _progresses[i].percent * _divisions[i];
+			for (var i:int = 0; i < _children.length; i++) {
+				total += _children[i].percent * _divisions[i];
 			}
 
 			return total;
