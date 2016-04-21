@@ -16,7 +16,7 @@ package org.shypl.common.util.progress {
 			_startTime = getTimer();
 
 			if (_autoComplete) {
-				_autoCompleteTask = GlobalTimeline.schedule(seconds, complete);
+				_autoCompleteTask = GlobalTimeline.schedule(_time, complete);
 			}
 		}
 
