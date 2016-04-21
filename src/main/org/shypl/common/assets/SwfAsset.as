@@ -5,23 +5,70 @@ package org.shypl.common.assets {
 	import flash.media.Sound;
 	import flash.system.ApplicationDomain;
 
-	public interface SwfAsset extends Asset {
-		function get domain():ApplicationDomain;
+	import org.shypl.common.lang.IllegalArgumentException;
+	import org.shypl.common.util.progress.Progress;
 
-		function get sprite():Sprite;
+	public class SwfAsset extends Asset {
+		private var _sprite:Sprite;
+		private var _domain:ApplicationDomain;
 
-		function get movieClip():MovieClip;
+		public function SwfAsset(path:String, domain:ApplicationDomain = null) {
+			super(path);
+			_domain = domain === null ? (new ApplicationDomain(ApplicationDomain.currentDomain)) : domain;
+		}
 
-		function hasClass(className:String):Boolean;
+		public function get sprite():Sprite {
+			return _sprite;
+		}
 
-		function create(className:String):Object;
+		public function get movieClip():MovieClip {
+			return MovieClip(_sprite);
+		}
 
-		function createSprite(className:String):Sprite;
+		public function get domain():ApplicationDomain {
+			return _domain;
+		}
 
-		function createMovieClip(className:String):MovieClip;
+		public function hasClass(className:String):Boolean {
+			return _domain.hasDefinition(className);
+		}
 
-		function createBitmapData(className:String):BitmapData;
+		public function create(className:String):Object {
+			if (hasClass(className)) {
+				var Cls:Class = Class(_domain.getDefinition(className));
+				return new Cls();
+			}
+			throw new IllegalArgumentException("Class " + className + " is not defined in SwfAsset " + path);
+		}
 
-		function createSound(className:String):Sound;
+		public function createSprite(className:String):Sprite {
+			return Sprite(create(className));
+		}
+
+		public function createMovieClip(className:String):MovieClip {
+			return MovieClip(create(className));
+		}
+
+		public function createBitmapData(className:String):BitmapData {
+			return BitmapData(create(className));
+		}
+
+		public function createSound(className:String):Sound {
+			return Sound(create(className));
+		}
+
+		override protected function doLoad():Progress {
+			return new SwfAssetLoader(this);
+		}
+
+		override protected function doFree():void {
+			_sprite = null;
+			_domain = null;
+		}
+
+		internal function receiveData(sprite:Sprite):void {
+			_sprite = sprite;
+			completeLoad();
+		}
 	}
 }

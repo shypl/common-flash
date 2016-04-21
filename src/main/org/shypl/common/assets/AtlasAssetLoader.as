@@ -1,5 +1,6 @@
 package org.shypl.common.assets {
 	import flash.display.BitmapData;
+	import flash.system.System;
 
 	import org.shypl.common.loader.FileLoader;
 	import org.shypl.common.loader.ImageReceiver;
@@ -9,14 +10,12 @@ package org.shypl.common.assets {
 	import org.shypl.common.util.progress.Progress;
 	import org.shypl.common.util.progress.UnevenCompositeProgress;
 
-	internal class AtlasLoader extends UnevenCompositeProgress implements Progress, XmlReceiver, ImageReceiver {
-		private var _asset:AtlasAssetImpl;
+	internal class AtlasAssetLoader extends UnevenCompositeProgress implements XmlReceiver, ImageReceiver {
+		private var _asset:AtlasAsset;
 		private var _xml:XML;
 
-		public function AtlasLoader(asset:AtlasAssetImpl) {
-			super(
-				new <Progress>[FileLoader.loadXml(asset.path, this), FakeProgress.NOT_COMPLETED],
-				new <int>[2, 8]);
+		public function AtlasAssetLoader(asset:AtlasAsset) {
+			super(new <Progress>[FileLoader.loadXml(asset.path, this), FakeProgress.NOT_COMPLETED], new <int>[2, 8]);
 			_asset = asset;
 		}
 
@@ -30,7 +29,8 @@ package org.shypl.common.assets {
 		}
 
 		public function receiveImage(image:BitmapData):void {
-			_asset.complete(_xml, image);
+			_asset.receiveData(_xml, image);
+			System.disposeXML(_xml);
 			_asset = null;
 			_xml = null;
 		}

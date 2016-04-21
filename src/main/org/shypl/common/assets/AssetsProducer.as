@@ -3,14 +3,13 @@ package org.shypl.common.assets {
 	import flash.system.ApplicationDomain;
 
 	import org.shypl.common.lang.IllegalArgumentException;
-	import org.shypl.common.sound.SoundSystem;
 	import org.shypl.common.util.FilePath;
-	import org.shypl.common.util.progress.Progress;
 	import org.shypl.common.util.StringUtils;
+	import org.shypl.common.util.progress.Progress;
 
 	public class AssetsProducer implements AssetsCollector {
 		private var _basePath:FilePath;
-		private var _map:Object = {};
+		private var _items:Object = {};
 
 		public function AssetsProducer(path:FilePath) {
 			_basePath = path;
@@ -55,12 +54,15 @@ package org.shypl.common.assets {
 		}
 
 		public function add(name:String, type:AssetType = null, deferred:Boolean = false, path:String = null, domain:ApplicationDomain = null):Asset {
-			var asset:AbstractAsset = _map[name];
-			if (!asset) {
-				asset = createAsset(name, path, type, deferred, domain);
-				_map[name] = asset;
+			var item:AssetsCollectionItem = _items[name];
+			if (item === null) {
+				item = new AssetsCollectionItem(name, createAsset(name, path, type, domain), deferred);
+				_items[name] = item;
 			}
-			return asset;
+			else {
+				item.deferred = deferred;
+			}
+			return item.asset;
 		}
 
 		public function addMany(names:Vector.<String>, deferred:Boolean = false, paths:Vector.<String> = null):Vector.<Asset> {
@@ -72,12 +74,12 @@ package org.shypl.common.assets {
 		}
 
 		public function load(receiver:AssetsReceiver = null):Progress {
-			var map:Object = _map;
-			_map = {};
-			return new AssetsLoader(map, receiver);
+			var items:Object = _items;
+			_items = {};
+			return new AssetsLoader(items, receiver);
 		}
 
-		private function createAsset(name:String, path:String, type:AssetType, deferred:Boolean, domain:ApplicationDomain):AbstractAsset {
+		private function createAsset(name:String, path:String, type:AssetType, domain:ApplicationDomain):Asset {
 			path = _basePath.resolve(path === null ? name : path).toString();
 
 			if (type === null) {
@@ -86,21 +88,21 @@ package org.shypl.common.assets {
 
 			switch (type) {
 				case AssetType.IMAGE:
-					return new ImageAssetImpl(name, path, deferred);
+					return new ImageAsset(path);
 				case AssetType.SOUND:
-					return new SoundAssetImpl(name, path, deferred);
+					return new SoundAsset(path);
 				case AssetType.SWF:
-					return new SwfAssetImpl(name, path, domain === null ? new ApplicationDomain(ApplicationDomain.currentDomain) : domain, deferred);
+					return new SwfAsset(path, domain === null ? new ApplicationDomain(ApplicationDomain.currentDomain) : domain);
 				case AssetType.TEXT:
-					return new TextAssetImpl(name, path, deferred);
+					return new TextAsset(path);
 				case AssetType.XML:
-					return new XmlAssetImpl(name, path, deferred);
+					return new XmlAsset(path);
 				case AssetType.FONT:
-					return new FontAssetImpl(name, path, deferred);
+					return new FontAsset(path);
 				case AssetType.ATLAS:
-					return new AtlasAssetImpl(name, path, deferred);
+					return new AtlasAsset(path);
 				case AssetType.BYTES:
-					return new BytesAssetImpl(name, path, deferred);
+					return new BytesAsset(path);
 				default:
 					throw new IllegalArgumentException();
 			}

@@ -2,15 +2,46 @@ package org.shypl.common.assets {
 	import flash.media.Sound;
 
 	import org.shypl.common.sound.SoundPlayPreparer;
-
 	import org.shypl.common.sound.SoundStream;
 	import org.shypl.common.sound.SoundSystem;
+	import org.shypl.common.util.progress.Progress;
 
-	public interface SoundAsset extends Asset {
-		function get sound():Sound;
+	public class SoundAsset extends Asset {
+		private var _sound:Sound;
 
-		function play(soundSystem:SoundSystem, loop:Boolean = false):SoundStream;
+		function SoundAsset(path:String) {
+			super(path);
+		}
 
-		function prepare(soundSystem:SoundSystem):SoundPlayPreparer;
+		public function get sound():Sound {
+			return _sound;
+		}
+
+		public function play(soundSystem:SoundSystem, loop:Boolean = false):SoundStream {
+			if (loaded) {
+				return soundSystem.play(_sound, loop);
+			}
+			return null;
+		}
+
+		public function prepare(soundSystem:SoundSystem):SoundPlayPreparer {
+			if (loaded) {
+				return soundSystem.prepare(_sound);
+			}
+			return new SoundAssetFakePlayPreparer();
+		}
+
+		override protected function doLoad():Progress {
+			return new SoundAssetLoader(this);
+		}
+
+		override protected function doFree():void {
+			_sound = null;
+		}
+
+		internal function receiveData(sound:Sound):void {
+			_sound = sound;
+			completeLoad();
+		}
 	}
 }

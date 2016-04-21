@@ -9,23 +9,25 @@ package org.shypl.common.assets {
 		private var _receiver:AssetsReceiver;
 		private var _collection:AssetsCollectionImpl;
 		private var _loading:Progress;
-		private var _deferred:Vector.<AbstractAsset> = new Vector.<AbstractAsset>();
+		private var _deferred:Vector.<Asset> = new Vector.<Asset>();
 
-		public function AssetsLoader(map:Object, receiver:AssetsReceiver) {
+		public function AssetsLoader(items:Object, receiver:AssetsReceiver) {
 			_receiver = receiver;
-			_collection = new AssetsCollectionImpl(map);
 
+			var map:Object = {};
 			var progresses:Vector.<Progress> = new Vector.<Progress>();
 
-			for each (var asset:AbstractAsset in map) {
-				if (asset.deferred) {
-					_deferred.push(asset);
+			for each (var item:AssetsCollectionItem in items) {
+				map[item.name] = item.asset;
+				if (item.deferred) {
+					_deferred.push(item.asset);
 				}
 				else {
-					progresses.push(asset.load());
+					progresses.push(item.asset.load());
 				}
 			}
 
+			_collection = new AssetsCollectionImpl(map);
 			_loading = new CompositeProgress(progresses);
 
 
@@ -51,9 +53,10 @@ package org.shypl.common.assets {
 
 			super.complete();
 
-			for each (var asset:AbstractAsset in _deferred) {
+			for each (var asset:Asset in _deferred) {
 				asset.load();
 			}
+			_deferred.length = 0;
 			_deferred = null;
 		}
 	}

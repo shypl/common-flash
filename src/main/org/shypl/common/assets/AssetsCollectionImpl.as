@@ -76,7 +76,7 @@ package org.shypl.common.assets {
 		}
 
 		public function free():void {
-			for each (var asset:AbstractAsset in _map) {
+			for each (var asset:Asset in _map) {
 				asset.free();
 			}
 			CollectionUtils.clear(_map);
