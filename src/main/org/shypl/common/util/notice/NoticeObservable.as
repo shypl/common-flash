@@ -3,5 +3,7 @@ package org.shypl.common.util.notice {
 		function addNoticeHandler(type:Object, handler:Function, obtainNotice:Boolean = true):void;
 
 		function removeNoticeHandler(type:Object, handler:Function):void;
+
+		function removeNoticeHandlers(type:Object):void;
 	}
 }

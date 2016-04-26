@@ -13,5 +13,8 @@ package org.shypl.common.util.notice {
 
 		public function removeNoticeHandler(type:Object, handler:Function):void {
 		}
+
+		public function removeNoticeHandlers(type:Object):void {
+		}
 	}
 }

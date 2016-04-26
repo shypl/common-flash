@@ -22,5 +22,8 @@ package org.shypl.common.util.progress {
 
 		public function removeNoticeHandler(type:Object, handler:Function):void {
 		}
+
+		public function removeNoticeHandlers(type:Object):void {
+		}
 	}
 }
