@@ -70,6 +70,7 @@ package org.shypl.common.assets {
 		protected final function completeLoad():void {
 			_loading = FakeProgress.COMPLETED;
 			_noticeDispatcher.dispatchNotice(new AssetLoadedNotice(this));
+			NoticeDispatcher(_noticeDispatcher).removeAllNoticeHandlers();
 			_noticeDispatcher = FakeNoticeDispatchable.INSTANCE;
 		}
 	}
