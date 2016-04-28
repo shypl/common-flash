@@ -24,10 +24,6 @@ package org.shypl.common.app {
 			_progresses.addNoticeHandler(ProgressCompleteNotice, onProgressesComplete, false);
 		}
 
-		override protected function calculatePercent():Number {
-			return _progresses.percent;
-		}
-
 		public function receiveSwf(sprite:Sprite):void {
 			var main:AbstractMain = AbstractMain(sprite);
 			var progress:Progress = main.run(_parameters, _stage);
@@ -36,11 +32,15 @@ package org.shypl.common.app {
 
 			_parameters = null;
 			_stage = null;
-			_progresses = null;
+		}
+
+		override protected function calculatePercent():Number {
+			return _progresses.percent;
 		}
 
 		private function onProgressesComplete():void {
 			complete();
+			_progresses = null;
 		}
 	}
 }
