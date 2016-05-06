@@ -7,7 +7,6 @@ package org.shypl.common.app {
 	import org.shypl.common.util.progress.AbstractProgress;
 	import org.shypl.common.util.progress.CompositeProgress;
 	import org.shypl.common.util.progress.Progress;
-	import org.shypl.common.util.progress.ProgressCompleteNotice;
 	import org.shypl.common.util.progress.UnevenCompositeProgress;
 
 	public class MainPreloader extends AbstractProgress implements Progress, SwfReceiver {
@@ -21,7 +20,7 @@ package org.shypl.common.app {
 
 			_progresses = UnevenCompositeProgress.factoryEmpty(new <int>[1, 9]);
 			_progresses.setChild(0, FileLoader.loadSwf(_parameters["main"], this));
-			_progresses.addNoticeHandler(ProgressCompleteNotice, onProgressesComplete, false);
+			_progresses.handleComplete(complete, true);
 		}
 
 		public function receiveSwf(sprite:Sprite):void {
@@ -38,9 +37,9 @@ package org.shypl.common.app {
 			return _progresses.percent;
 		}
 
-		private function onProgressesComplete():void {
-			complete();
+		override protected function complete():void {
 			_progresses = null;
+			super.complete();
 		}
 	}
 }

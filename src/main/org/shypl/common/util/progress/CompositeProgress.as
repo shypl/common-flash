@@ -70,10 +70,7 @@ package org.shypl.common.util.progress {
 			}
 		}
 
-		override protected function complete():void {
-			for each (var progress:Progress in _children) {
-				progress.removeNoticeHandler(ProgressCompleteNotice, onChildComplete);
-			}
+		override final protected function complete():void {
 			_children = null;
 			super.complete();
 		}

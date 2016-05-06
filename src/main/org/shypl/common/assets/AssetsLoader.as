@@ -30,13 +30,7 @@ package org.shypl.common.assets {
 			_collection = new AssetsCollectionImpl(map);
 			_loading = new CompositeProgress(progresses);
 
-
-			if (_loading.completed) {
-				callDelayed(complete);
-			}
-			else {
-				_loading.addNoticeHandler(ProgressCompleteNotice, complete, false);
-			}
+			_loading.handleComplete(complete, true);
 		}
 
 		override protected function calculatePercent():Number {

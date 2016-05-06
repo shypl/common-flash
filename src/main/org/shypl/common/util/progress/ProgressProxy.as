@@ -29,5 +29,9 @@ package org.shypl.common.util.progress {
 		public function removeNoticeHandlers(type:Object):void {
 			_progress.removeNoticeHandlers(type);
 		}
+
+		public function handleComplete(handler:Function, delayed:Boolean = false):void {
+			_progress.handleComplete(handler, delayed);
+		}
 	}
 }

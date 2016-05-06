@@ -1,4 +1,6 @@
 package org.shypl.common.util.progress {
+	import org.shypl.common.util.callDelayed;
+
 	public class FakeProgress implements Progress {
 		public static const COMPLETED:Progress = new FakeProgress(true);
 		public static const NOT_COMPLETED:Progress = new FakeProgress(false);
@@ -24,6 +26,17 @@ package org.shypl.common.util.progress {
 		}
 
 		public function removeNoticeHandlers(type:Object):void {
+		}
+
+		public function handleComplete(handler:Function, delayed:Boolean = false):void {
+			if (_completed) {
+				if (delayed) {
+					callDelayed(handler);
+				}
+				else {
+					handler();
+				}
+			}
 		}
 	}
 }

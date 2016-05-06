@@ -5,5 +5,7 @@ package org.shypl.common.util.progress {
 		function get completed():Boolean;
 
 		function get percent():Number;
+
+		function handleComplete(handler:Function, delayed:Boolean = false):void;
 	}
 }
