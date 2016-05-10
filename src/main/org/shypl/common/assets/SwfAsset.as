@@ -4,6 +4,7 @@ package org.shypl.common.assets {
 	import flash.display.Sprite;
 	import flash.media.Sound;
 	import flash.system.ApplicationDomain;
+	import flash.utils.getQualifiedClassName;
 
 	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.util.progress.Progress;
@@ -39,6 +40,14 @@ package org.shypl.common.assets {
 				return new Cls();
 			}
 			throw new IllegalArgumentException("Class " + className + " is not defined in SwfAsset " + path);
+		}
+
+		public function createRootSprite():Sprite {
+			return createSprite(getQualifiedClassName(_sprite));
+		}
+
+		public function createRootMovieClip():MovieClip {
+			return MovieClip(createRootSprite());
 		}
 
 		public function createSprite(className:String):Sprite {
