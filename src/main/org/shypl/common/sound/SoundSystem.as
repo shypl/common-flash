@@ -4,7 +4,7 @@ package org.shypl.common.sound {
 	import org.shypl.common.collection.HashSet;
 	import org.shypl.common.collection.Set;
 
-	public final class SoundSystem extends AbstractSoundStream {
+	public final class SoundSystem extends AbstractSoundStream implements SoundStream {
 		private var _streams:Set = new HashSet();
 
 		public function SoundSystem(volume:Number = 1, system:SoundSystem = null) {
