@@ -31,19 +31,19 @@ package org.shypl.common.util {
 		}
 
 		public function resolve(path:String):FilePath {
-			return _source.resolve(path);
+			return wrapOriginatedPath(_source.resolve(path));
 		}
 
 		public function resolvePath(path:FilePath):FilePath {
-			return _source.resolvePath(path);
+			return wrapOriginatedPath(_source.resolvePath(path));
 		}
 
 		public function resolveSibling(path:String):FilePath {
-			return _source.resolveSibling(path);
+			return wrapOriginatedPath(_source.resolveSibling(path));
 		}
 
 		public function resolveSiblingPath(path:FilePath):FilePath {
-			return _source.resolveSiblingPath(path);
+			return wrapOriginatedPath(_source.resolveSiblingPath(path));
 		}
 
 		public function toString():String {
@@ -56,6 +56,10 @@ package org.shypl.common.util {
 
 		public function toWindowsString():String {
 			return _source.toWindowsString();
+		}
+
+		protected function wrapOriginatedPath(path:FilePath):FilePath {
+			return path;
 		}
 	}
 }

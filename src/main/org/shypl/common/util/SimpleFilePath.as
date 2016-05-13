@@ -1,10 +1,10 @@
 package org.shypl.common.util {
 	import org.shypl.common.lang.IllegalStateException;
 
-	internal class FilePathImpl implements FilePath {
+	public class SimpleFilePath implements FilePath {
 		private var _parts:Vector.<String>;
 
-		public function FilePathImpl(parts:Vector.<String>) {
+		public function SimpleFilePath(parts:Vector.<String>) {
 			_parts = parts.concat();
 		}
 
@@ -63,7 +63,7 @@ package org.shypl.common.util {
 		}
 
 		protected function factoryPath(parts:Vector.<String>):FilePath {
-			return new FilePathImpl(parts);
+			return new SimpleFilePath(parts);
 		}
 
 		protected function checkEmpty():void {

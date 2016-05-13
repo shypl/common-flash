@@ -81,5 +81,9 @@ package org.shypl.common.util {
 
 			return path.substring(0, index + 1) + sibling;
 		}
+
+		public static function getPath(path:String):FilePath {
+			return new SimpleFilePath(FilePathUtils.splitToParts(path));
+		}
 	}
 }
