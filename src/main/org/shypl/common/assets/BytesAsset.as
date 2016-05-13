@@ -1,13 +1,13 @@
 package org.shypl.common.assets {
 	import flash.utils.ByteArray;
 
-	import org.shypl.common.loader.FileLoader;
+	import org.shypl.common.util.FilePath;
 	import org.shypl.common.util.progress.Progress;
 
 	public class BytesAsset extends Asset {
 		private var _bytes:ByteArray;
 
-		public function BytesAsset(path:String) {
+		public function BytesAsset(path:FilePath) {
 			super(path);
 		}
 

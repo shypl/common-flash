@@ -1,10 +1,11 @@
 package org.shypl.common.assets {
+	import org.shypl.common.util.FilePath;
 	import org.shypl.common.util.progress.Progress;
 
 	public class TextAsset extends Asset {
 		private var _text:String;
 
-		function TextAsset(path:String) {
+		function TextAsset(path:FilePath) {
 			super(path);
 		}
 

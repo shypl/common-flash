@@ -10,7 +10,7 @@ package org.shypl.common.assets {
 
 		public function ImageAssetLoader(asset:ImageAsset) {
 			_asset = asset;
-			setProgress(FileLoader.loadImage(_asset.path, this));
+			setProgress(FileLoader.loadImage(_asset.path.toString(), this));
 		}
 
 		public function receiveImage(image:BitmapData):void {

@@ -7,13 +7,14 @@ package org.shypl.common.assets {
 	import flash.utils.getQualifiedClassName;
 
 	import org.shypl.common.lang.IllegalArgumentException;
+	import org.shypl.common.util.FilePath;
 	import org.shypl.common.util.progress.Progress;
 
 	public class SwfAsset extends Asset {
 		private var _sprite:Sprite;
 		private var _domain:ApplicationDomain;
 
-		public function SwfAsset(path:String, domain:ApplicationDomain = null) {
+		public function SwfAsset(path:FilePath, domain:ApplicationDomain = null) {
 			super(path);
 			_domain = domain === null ? (new ApplicationDomain(ApplicationDomain.currentDomain)) : domain;
 		}

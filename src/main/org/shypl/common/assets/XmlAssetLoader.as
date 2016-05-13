@@ -8,7 +8,7 @@ package org.shypl.common.assets {
 
 		public function XmlAssetLoader(asset:XmlAsset) {
 			_asset = asset;
-			setProgress(FileLoader.loadXml(_asset.path, this));
+			setProgress(FileLoader.loadXml(_asset.path.toString(), this));
 		}
 
 		public function receiveXml(xml:XML):void {

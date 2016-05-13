@@ -6,12 +6,13 @@ package org.shypl.common.assets {
 	import flash.geom.Rectangle;
 
 	import org.shypl.common.util.BitmapUtils;
+	import org.shypl.common.util.FilePath;
 	import org.shypl.common.util.progress.Progress;
 
 	public class ImageAsset extends Asset {
 		private var _bitmapData:BitmapData;
 
-		public function ImageAsset(path:String) {
+		public function ImageAsset(path:FilePath) {
 			super(path);
 		}
 

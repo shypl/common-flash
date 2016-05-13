@@ -26,7 +26,7 @@ package org.shypl.common.assets {
 		public function FontAssetLoader(asset:FontAsset) {
 			_asset = asset;
 			_domain = new ApplicationDomain(ApplicationDomain.currentDomain);
-			setProgress(FileLoader.loadSwf(_asset.path, this, _domain));
+			setProgress(FileLoader.loadSwf(_asset.path.toString(), this, _domain));
 		}
 
 		public function receiveSwf(sprite:Sprite):void {

@@ -1,5 +1,6 @@
 package org.shypl.common.assets {
 	import org.shypl.common.lang.AbstractMethodException;
+	import org.shypl.common.util.FilePath;
 	import org.shypl.common.util.notice.FakeNoticeDispatchable;
 	import org.shypl.common.util.notice.NoticeDispatchable;
 	import org.shypl.common.util.notice.NoticeDispatcher;
@@ -9,15 +10,15 @@ package org.shypl.common.assets {
 
 	[Abstract]
 	public class Asset implements NoticeObservable {
-		private var _path:String;
+		private var _path:FilePath;
 		private var _loading:Progress = FakeProgress.NOT_COMPLETED;
 		private var _noticeDispatcher:NoticeDispatchable = new NoticeDispatcher();
 
-		public function Asset(path:String) {
+		public function Asset(path:FilePath) {
 			_path = path;
 		}
 
-		public final function get path():String {
+		public final function get path():FilePath {
 			return _path;
 		}
 

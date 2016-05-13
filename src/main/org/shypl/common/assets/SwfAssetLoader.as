@@ -10,7 +10,7 @@ package org.shypl.common.assets {
 
 		public function SwfAssetLoader(asset:SwfAsset) {
 			_asset = asset;
-			setProgress(FileLoader.loadSwf(_asset.path, this, _asset.domain));
+			setProgress(FileLoader.loadSwf(_asset.path.toString(), this, _asset.domain));
 		}
 
 		public function receiveSwf(sprite:Sprite):void {

@@ -10,7 +10,7 @@ package org.shypl.common.assets {
 
 		public function BytesAssetLoader(asset:BytesAsset) {
 			_asset = asset;
-			setProgress(FileLoader.loadBytes(_asset.path, this));
+			setProgress(FileLoader.loadBytes(_asset.path.toString(), this));
 		}
 
 		public function receiveBytes(bytes:ByteArray):void {

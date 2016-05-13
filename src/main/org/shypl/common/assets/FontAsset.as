@@ -4,12 +4,14 @@ package org.shypl.common.assets {
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
 
+	import org.shypl.common.util.FilePath;
+
 	import org.shypl.common.util.progress.Progress;
 
 	public class FontAsset extends Asset {
 		private var _font:Font;
 
-		public function FontAsset(path:String) {
+		public function FontAsset(path:FilePath) {
 			super(path);
 		}
 

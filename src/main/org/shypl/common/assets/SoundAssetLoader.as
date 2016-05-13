@@ -10,7 +10,7 @@ package org.shypl.common.assets {
 
 		public function SoundAssetLoader(asset:SoundAsset) {
 			_asset = asset;
-			setProgress(FileLoader.loadSound(_asset.path, this));
+			setProgress(FileLoader.loadSound(_asset.path.toString(), this));
 		}
 
 		public function receiveSound(sound:Sound):void {

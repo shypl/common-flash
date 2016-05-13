@@ -3,7 +3,9 @@ package org.shypl.common.assets {
 	import flash.system.ApplicationDomain;
 
 	import org.shypl.common.lang.IllegalArgumentException;
+	import org.shypl.common.util.FileNameUtils;
 	import org.shypl.common.util.FilePath;
+	import org.shypl.common.util.FilePathUtils;
 	import org.shypl.common.util.StringUtils;
 	import org.shypl.common.util.progress.Progress;
 
@@ -80,36 +82,36 @@ package org.shypl.common.assets {
 		}
 
 		private function createAsset(name:String, path:String, type:AssetType, domain:ApplicationDomain):Asset {
-			path = _basePath.resolve(path === null ? name : path).toString();
+			var filePath:FilePath = _basePath.resolve(path === null ? name : path);
 
 			if (type === null) {
-				type = defineTypeByExt(path);
+				type = defineTypeByExt(filePath.fileName);
 			}
 
 			switch (type) {
 				case AssetType.IMAGE:
-					return new ImageAsset(path);
+					return new ImageAsset(filePath);
 				case AssetType.SOUND:
-					return new SoundAsset(path);
+					return new SoundAsset(filePath);
 				case AssetType.SWF:
-					return new SwfAsset(path, domain === null ? new ApplicationDomain(ApplicationDomain.currentDomain) : domain);
+					return new SwfAsset(filePath, domain === null ? new ApplicationDomain(ApplicationDomain.currentDomain) : domain);
 				case AssetType.TEXT:
-					return new TextAsset(path);
+					return new TextAsset(filePath);
 				case AssetType.XML:
-					return new XmlAsset(path);
+					return new XmlAsset(filePath);
 				case AssetType.FONT:
-					return new FontAsset(path);
+					return new FontAsset(filePath);
 				case AssetType.ATLAS:
-					return new AtlasAsset(path);
+					return new AtlasAsset(filePath);
 				case AssetType.BYTES:
-					return new BytesAsset(path);
+					return new BytesAsset(filePath);
 				default:
 					throw new IllegalArgumentException();
 			}
 		}
 
 		private function defineTypeByExt(path:String):AssetType {
-			var ext:String = path.substr(path.lastIndexOf(".") + 1).toLowerCase();
+			var ext:String = FileNameUtils.getExtension(path);
 
 			switch (ext) {
 				case "png":

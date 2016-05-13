@@ -4,12 +4,13 @@ package org.shypl.common.assets {
 	import org.shypl.common.sound.SoundPlayPreparer;
 	import org.shypl.common.sound.SoundStream;
 	import org.shypl.common.sound.SoundSystem;
+	import org.shypl.common.util.FilePath;
 	import org.shypl.common.util.progress.Progress;
 
 	public class SoundAsset extends Asset {
 		private var _sound:Sound;
 
-		function SoundAsset(path:String) {
+		function SoundAsset(path:FilePath) {
 			super(path);
 		}
 

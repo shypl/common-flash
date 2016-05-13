@@ -6,6 +6,7 @@ package org.shypl.common.assets {
 	import flash.geom.Rectangle;
 
 	import org.shypl.common.lang.IllegalArgumentException;
+	import org.shypl.common.util.FilePath;
 	import org.shypl.common.util.StaticPoint0;
 	import org.shypl.common.util.progress.Progress;
 
@@ -14,7 +15,7 @@ package org.shypl.common.assets {
 		private var _areas:Object = {};
 		private var _cache:Object = {};
 
-		function AtlasAsset(path:String) {
+		function AtlasAsset(path:FilePath) {
 			super(path);
 		}
 

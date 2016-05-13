@@ -15,7 +15,7 @@ package org.shypl.common.assets {
 		private var _xml:XML;
 
 		public function AtlasAssetLoader(asset:AtlasAsset) {
-			super(new <Progress>[FileLoader.loadXml(asset.path, this), FakeProgress.NOT_COMPLETED], new <int>[2, 8]);
+			super(new <Progress>[FileLoader.loadXml(asset.path.toString(), this), FakeProgress.NOT_COMPLETED], new <int>[2, 8]);
 			_asset = asset;
 		}
 
@@ -23,7 +23,7 @@ package org.shypl.common.assets {
 			_xml = xml;
 			var imagePath:String = _xml.attribute("imagePath");
 			if (imagePath.indexOf("/") !== 0 && imagePath.indexOf("://") === -1) {
-				imagePath = FilePathUtils.resolveSibling(_asset.path, imagePath).toString();
+				imagePath = _asset.path.resolveSibling(imagePath).toString();
 			}
 			setChild(1, FileLoader.loadImage(imagePath, this));
 		}

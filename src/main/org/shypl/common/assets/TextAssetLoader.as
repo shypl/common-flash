@@ -8,7 +8,7 @@ package org.shypl.common.assets {
 
 		public function TextAssetLoader(asset:TextAsset) {
 			_asset = asset;
-			setProgress(FileLoader.loadText(_asset.path, this));
+			setProgress(FileLoader.loadText(_asset.path.toString(), this));
 		}
 
 		public function receiveText(text:String):void {

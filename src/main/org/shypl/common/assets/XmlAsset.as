@@ -1,12 +1,14 @@
 package org.shypl.common.assets {
 	import flash.system.System;
 
+	import org.shypl.common.util.FilePath;
+
 	import org.shypl.common.util.progress.Progress;
 
 	public class XmlAsset extends Asset {
 		private var _xml:XML;
 
-		function XmlAsset(path:String) {
+		function XmlAsset(path:FilePath) {
 			super(path);
 		}
 
