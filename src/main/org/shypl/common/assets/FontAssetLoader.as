@@ -1,10 +1,10 @@
 package org.shypl.common.assets {
-	import flash.display.Sprite;
 	import flash.system.ApplicationDomain;
 	import flash.text.Font;
 
 	import org.shypl.common.lang.RuntimeException;
 	import org.shypl.common.loader.FileLoader;
+	import org.shypl.common.loader.SwfFile;
 	import org.shypl.common.loader.SwfReceiver;
 	import org.shypl.common.util.progress.ProgressProxy;
 
@@ -21,16 +21,14 @@ package org.shypl.common.assets {
 		}
 
 		private var _asset:FontAsset;
-		private var _domain:ApplicationDomain;
 
 		public function FontAssetLoader(asset:FontAsset) {
 			_asset = asset;
-			_domain = new ApplicationDomain(ApplicationDomain.currentDomain);
-			setProgress(FileLoader.loadSwf(_asset.path.toString(), this, _domain));
+			setProgress(FileLoader.loadSwf(_asset.path.toString(), this, new ApplicationDomain(ApplicationDomain.currentDomain)));
 		}
 
-		public function receiveSwf(sprite:Sprite):void {
-			var fontClass:Class = Class(_domain.getDefinition("ExternalFont"));
+		public function receiveSwf(swf:SwfFile):void {
+			var fontClass:Class = Class(swf.domain.getDefinition("ExternalFont"));
 			var font:Font = getFont(fontClass);
 
 			if (font == null) {
@@ -44,7 +42,6 @@ package org.shypl.common.assets {
 
 			_asset.receiveData(font);
 			_asset = null;
-			_domain = null;
 		}
 	}
 }

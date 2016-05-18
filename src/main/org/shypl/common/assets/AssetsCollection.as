@@ -5,6 +5,8 @@ package org.shypl.common.assets {
 	import flash.text.Font;
 	import flash.utils.ByteArray;
 
+	import org.shypl.common.loader.SwfFile;
+
 	public interface AssetsCollection {
 		function getBinary(name:String):BytesAsset;
 
@@ -32,7 +34,7 @@ package org.shypl.common.assets {
 
 		function getRawSound(name:String):Sound;
 
-		function getRawSwf(name:String):Sprite;
+		function getRawSwf(name:String):SwfFile;
 
 		function getRawFont(name:String):Font;
 

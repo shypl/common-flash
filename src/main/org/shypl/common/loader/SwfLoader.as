@@ -15,11 +15,11 @@ package org.shypl.common.loader {
 	import org.shypl.common.timeline.GlobalTimeline;
 
 	internal class SwfLoader extends AbstractLoader {
-		private static const CACHE:Vector.<SwfLoaderCachedItem> = new Vector.<SwfLoaderCachedItem>();
+		private static const CACHE:Vector.<SwfFileImpl> = new Vector.<SwfFileImpl>();
 
 		private var _receiver:SwfReceiver;
 		private var _domain:ApplicationDomain;
-		private var _cache:SwfLoaderCachedItem;
+		private var _cache:SwfFileImpl;
 		private var _loader1:URLLoader;
 		private var _loader2:Loader;
 
@@ -47,9 +47,9 @@ package org.shypl.common.loader {
 		}
 
 		override protected function startLoading():void {
-			for each (var item:SwfLoaderCachedItem in CACHE) {
-				if (item.matches(_domain, url)) {
-					_cache = item;
+			for each (var swf:SwfFileImpl in CACHE) {
+				if (swf.matches(_domain, url)) {
+					_cache = swf;
 					GlobalTimeline.forNextFrame(emulateLoad);
 					return;
 				}
@@ -63,18 +63,18 @@ package org.shypl.common.loader {
 		}
 
 		override protected function produceResult():void {
-			var sprite:Sprite;
-			if (_cache) {
-				sprite = _cache.createObject();
+			var swf:SwfFileImpl;
+			if (_cache != null) {
+				swf = _cache;
 				_cache = null;
 			}
 			else {
-				sprite = Sprite(_loader2.content);
-				CACHE.push(new SwfLoaderCachedItem(_domain, url, Class(_domain.getDefinition(getQualifiedClassName(sprite)))));
+				swf = new SwfFileImpl(_domain, url, _loader2);
+				CACHE.push(swf);
 				unloadAndStop();
 			}
 
-			_receiver.receiveSwf(sprite);
+			_receiver.receiveSwf(swf);
 			_receiver = null;
 		}
 

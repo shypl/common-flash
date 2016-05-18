@@ -1,7 +1,6 @@
 package org.shypl.common.assets {
-	import flash.display.Sprite;
-
 	import org.shypl.common.loader.FileLoader;
+	import org.shypl.common.loader.SwfFile;
 	import org.shypl.common.loader.SwfReceiver;
 	import org.shypl.common.util.progress.ProgressProxy;
 
@@ -13,8 +12,8 @@ package org.shypl.common.assets {
 			setProgress(FileLoader.loadSwf(_asset.path.toString(), this, _asset.domain));
 		}
 
-		public function receiveSwf(sprite:Sprite):void {
-			_asset.receiveData(sprite);
+		public function receiveSwf(swf:SwfFile):void {
+			_asset.receiveData(swf);
 			_asset = null;
 		}
 	}

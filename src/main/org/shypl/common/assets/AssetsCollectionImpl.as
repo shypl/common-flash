@@ -6,6 +6,7 @@ package org.shypl.common.assets {
 	import flash.utils.ByteArray;
 
 	import org.shypl.common.lang.IllegalArgumentException;
+	import org.shypl.common.loader.SwfFile;
 	import org.shypl.common.util.CollectionUtils;
 
 	internal class AssetsCollectionImpl implements AssetsCollection {
@@ -67,8 +68,8 @@ package org.shypl.common.assets {
 			return getSound(name).sound;
 		}
 
-		public function getRawSwf(name:String):Sprite {
-			return getSwf(name).sprite;
+		public function getRawSwf(name:String):SwfFile {
+			return getSwf(name).swf;
 		}
 
 		public function getRawFont(name:String):Font {

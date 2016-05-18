@@ -1,8 +1,8 @@
 package org.shypl.common.app {
-	import flash.display.Sprite;
 	import flash.display.Stage;
 
 	import org.shypl.common.loader.FileLoader;
+	import org.shypl.common.loader.SwfFile;
 	import org.shypl.common.loader.SwfReceiver;
 	import org.shypl.common.util.progress.AbstractProgress;
 	import org.shypl.common.util.progress.CompositeProgress;
@@ -23,8 +23,8 @@ package org.shypl.common.app {
 			_progresses.handleComplete(complete, true);
 		}
 
-		public function receiveSwf(sprite:Sprite):void {
-			var main:AbstractMain = AbstractMain(sprite);
+		public function receiveSwf(swf:SwfFile):void {
+			var main:AbstractMain = AbstractMain(swf.content);
 			var progress:Progress = main.run(_parameters, _stage);
 
 			_progresses.setChild(1, progress);
