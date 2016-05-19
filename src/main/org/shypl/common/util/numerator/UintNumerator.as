@@ -24,7 +24,8 @@ package org.shypl.common.util.numerator {
 		}
 
 		override protected function defineStepSize(diff:Object, steps:int):Object {
-			return uint(diff) / steps;
+			var v:uint = uint(uint(diff) / steps);
+			return v == 0 ? 1 : v;
 		}
 	}
 }

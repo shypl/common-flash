@@ -24,7 +24,8 @@ package org.shypl.common.util.numerator {
 		}
 
 		override protected function defineStepSize(diff:Object, steps:int):Object {
-			return Long(diff).divideUnsigned(steps);
+			var v:Long = Long(diff).divideUnsigned(steps);
+			return v.isZero() ? Long.ONE : v;
 		}
 	}
 }
