@@ -6,6 +6,7 @@ package org.shypl.common.assets {
 	import flash.geom.Rectangle;
 
 	import org.shypl.common.util.BitmapUtils;
+	import org.shypl.common.util.DestroyableBitmap;
 	import org.shypl.common.util.FilePath;
 	import org.shypl.common.util.progress.Progress;
 
@@ -37,6 +38,17 @@ package org.shypl.common.assets {
 				bitmapData = getRectangle(rect);
 			}
 			return new Bitmap(bitmapData, PixelSnapping.AUTO, true);
+		}
+
+		public function createDestroyableBitmap(rect:Rectangle = null):DestroyableBitmap {
+			var bitmapData:BitmapData;
+			if (rect === null) {
+				bitmapData = _bitmapData;
+			}
+			else {
+				bitmapData = getRectangle(rect);
+			}
+			return new DestroyableBitmap(bitmapData);
 		}
 
 		override protected function doLoad():Progress {
