@@ -1,7 +1,6 @@
 package org.shypl.common.timeline {
 	import org.shypl.common.collection.LiteLinkedSet;
 	import org.shypl.common.lang.IllegalStateException;
-	import org.shypl.common.lang.RuntimeException;
 	import org.shypl.common.util.Cancelable;
 
 	public class Timeline {
@@ -36,6 +35,10 @@ package org.shypl.common.timeline {
 
 		public final function forEachFrame(task:Function, obtainTime:Boolean = false):Cancelable {
 			return addTask(new Task(task, obtainTime, true));
+		}
+
+		public final function addTween(tween:Tween):Cancelable {
+			return addTask(tween);
 		}
 
 		public final function clear():void {
@@ -112,28 +115,30 @@ package org.shypl.common.timeline {
 
 				while (_tasks.next()) {
 					var task:Task = Task(_tasks.current);
-					if (task.canceled) {
+					var remove:Boolean = true;
+					
+					try {
+						remove = !task.execute(time);
+					}
+					catch (error:Error) {
+						try {
+							task.cancel();
+						}
+						catch (ignored:Error) {
+						}
+						_tasks.removeCurrent();
+						_tasks.stopIteration();
+						++removeCount;
+						Engine.decreaseTaskCounter(removeCount);
+
+						throw error;
+					}
+
+					if (remove) {
 						_tasks.removeCurrent();
 						++removeCount;
 					}
-					else {
-						try {
-							task.handleEnterFrame(time);
-						}
-						catch (error:Error) {
-							task.cancel();
-							_tasks.removeCurrent();
-							_tasks.stopIteration();
-							Engine.decreaseTaskCounter(++removeCount);
-
-							throw error;
-						}
-
-						if (task.canceled) {
-							_tasks.removeCurrent();
-							++removeCount;
-						}
-					}
+					
 				}
 
 				Engine.decreaseTaskCounter(removeCount);
