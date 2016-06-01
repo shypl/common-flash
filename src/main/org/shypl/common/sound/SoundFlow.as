@@ -128,10 +128,11 @@ package org.shypl.common.sound {
 		}
 
 		override protected function applyVolume():void {
-			const transform:SoundTransform = _channel.soundTransform;
-			transform.volume = realVolume;
-			_channel.soundTransform = transform;
-
+			if (_channel) {
+				const transform:SoundTransform = _channel.soundTransform;
+				transform.volume = realVolume;
+				_channel.soundTransform = transform;
+			}
 			if (_stopOnFade && volume == 0) {
 				stop();
 			}
