@@ -17,23 +17,23 @@ package org.shypl.common.util {
 		}
 
 		public function setBoolean(name:String, value:Boolean):void {
-			_obj[name] = value;
+			set(name, value);
 		}
 
 		public function setInt(name:String, value:int):void {
-			_obj[name] = value;
+			set(name, value);
 		}
 
 		public function setNumber(name:String, value:Number):void {
-			_obj[name] = value;
+			set(name, value);
 		}
 
 		public function setString(name:String, value:String):void {
-			_obj[name] = value;
+			set(name, value);
 		}
 
 		public function setByteArray(name:String, value:ByteArray):void {
-			_obj[name] = value;
+			set(name, value);
 		}
 
 		public function getBoolean(name:String, defaultValue:Boolean = false):Boolean {
@@ -54,6 +54,10 @@ package org.shypl.common.util {
 
 		public function getByteArray(name:String, defaultValue:ByteArray = null):ByteArray {
 			return contains(name) ? _obj[name] : defaultValue;
+		}
+
+		protected function set(name:String, value:Object):void {
+			_obj[name] = value;
 		}
 	}
 }
