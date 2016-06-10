@@ -1,46 +1,30 @@
 package org.shypl.common.util {
-	import org.shypl.common.lang.AbstractMethodException;
+	import flash.utils.ByteArray;
 
-	[Abstract]
-	public class Parameters {
-		public function Parameters() {
-		}
+	public interface Parameters {
 
-		[Abstract]
-		public function contains(name:String):Boolean {
-			throw new AbstractMethodException();
-		}
+		function setBoolean(name:String, value:Boolean):void;
 
-		public function get(name:String, defaultValue:Object = null):Object {
-			if (contains(name)) {
-				return extract(name);
-			}
-			return defaultValue;
-		}
+		function setInt(name:String, value:int):void;
 
-		public function getBoolean(name:String, defaultValue:Boolean = false):Boolean {
-			return Boolean(get(name, defaultValue));
-		}
+		function setNumber(name:String, value:Number):void;
 
-		public function getInt(name:String, defaultValue:int = 0):int {
-			return int(get(name, defaultValue));
-		}
+		function setString(name:String, value:String):void;
 
-		public function getUint(name:String, defaultValue:uint = 0):uint {
-			return uint(get(name, defaultValue));
-		}
+		function setByteArray(name:String, value:ByteArray):void;
 
-		public function getNumber(name:String, defaultValue:uint = 0):Number {
-			return Number(get(name, defaultValue));
-		}
+		function getBoolean(name:String, defaultValue:Boolean = false):Boolean;
 
-		public function getString(name:String, defaultValue:String = null):String {
-			return get(name, defaultValue) as String;
-		}
+		function getInt(name:String, defaultValue:int = 0):int;
 
-		[Abstract]
-		protected function extract(name:String):Object {
-			throw new AbstractMethodException();
-		}
+		function getNumber(name:String, defaultValue:Number = 0):Number;
+
+		function getString(name:String, defaultValue:String = null):String;
+
+		function getByteArray(name:String, defaultValue:ByteArray = null):ByteArray;
+
+		function contains(name:String):Boolean;
+
+		function remove(name:String):void;
 	}
 }
