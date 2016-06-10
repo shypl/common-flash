@@ -1,43 +1,32 @@
 package org.shypl.common.util.notice {
 	import org.shypl.common.collection.LiteLinkedMap;
-	import org.shypl.common.util.Changes;
+	import org.shypl.common.util.Executor;
 
 	internal class NoticeDispatcher_Handlers {
 		private var _handlers:LiteLinkedMap = new LiteLinkedMap();
-		private var _changes:Changes = new Changes();
+		private var _changer:Executor = new Executor();
 
 		public function NoticeDispatcher_Handlers() {
 		}
 
-		public function add(handler:Function, obtainNotice:Boolean):void {
-			if (_changes.locked) {
-				_changes.add(new NoticeDispatcher_Handlers_Change(this, NoticeDispatcher_Handlers_Change.ADD, handler, obtainNotice));
-			}
-			else {
+		public function add(handler:Function, obtainNotice:Boolean = false):void {
+			_changer.executeFunction(function ():void {
 				_handlers.put(handler, obtainNotice);
-			}
+			});
 		}
 
 		public function remove(handler:Function):void {
-			if (_changes.locked) {
-				_changes.add(new NoticeDispatcher_Handlers_Change(this, NoticeDispatcher_Handlers_Change.REMOVE, handler));
-			}
-			else {
+			_changer.executeFunction(function ():void {
 				_handlers.remove(handler);
-			}
+			});
 		}
 
 		public function clear():void {
-			if (_changes.locked) {
-				_changes.add(new NoticeDispatcher_Handlers_Change(this, NoticeDispatcher_Handlers_Change.CLEAR));
-			}
-			else {
-				_handlers.clear();
-			}
+			_changer.executeFunction(_handlers.clear);
 		}
 
 		public function dispatch(notice:Object):void {
-			_changes.lock();
+			_changer.lock();
 
 			while (_handlers.next()) {
 				var f:Function = _handlers.currentKey as Function;
@@ -49,7 +38,7 @@ package org.shypl.common.util.notice {
 				}
 			}
 
-			_changes.unlock();
+			_changer.unlock();
 		}
 
 		public function isEmpty():Boolean {

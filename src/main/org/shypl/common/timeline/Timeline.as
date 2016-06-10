@@ -1,124 +1,77 @@
 package org.shypl.common.timeline {
-	import org.shypl.common.collection.LiteLinkedSet;
-	import org.shypl.common.lang.IllegalStateException;
+	import flash.display.Shape;
+	import flash.events.Event;
+	import flash.utils.getTimer;
+
+	import org.shypl.common.collection.LiteLinkedList;
 	import org.shypl.common.util.Cancelable;
+	import org.shypl.common.util.Executor;
 
 	public class Timeline {
-		private var _tasks:LiteLinkedSet = new LiteLinkedSet();
+		private static const SHAPE:Shape = new Shape();
+
 		private var _running:Boolean = true;
-		private var _stopped:Boolean;
-		private var _lastFrameTime:int;
+		private var _changer:Executor = new Executor();
+
+		private var _frameTasks:LiteLinkedList = new LiteLinkedList();
+		private var _prevFrameTime:int;
 
 		public function Timeline() {
-			Engine.addTimeline(this);
 		}
 
-		public final function get lastFrameTime():int {
-			return _lastFrameTime;
+		public final function addFrameTask(task:FrameTask):Cancelable {
+			_changer.executeFunction(function ():void {
+				doAddFrameTask(task);
+			});
 		}
 
-		protected final function get dispatching():Boolean {
-			return Engine.dispatching;
+		public final function addTimeTask(task:TimeTask):Cancelable {
+			_changer.executeFunction(function ():void {
+				doAddTimeTask(task);
+			});
 		}
 
-		public final function schedule(delay:int, task:Function, obtainTime:Boolean = false):Cancelable {
-			return addTask(new ScheduledTask(task, obtainTime, false, delay));
+		private function doAddFrameTask(task:FrameTask):void {
+			bindFrameListenerIfNeeded();
+			_frameTasks.add(task);
 		}
 
-		public final function scheduleRepeatable(delay:int, task:Function, obtainTime:Boolean = false):Cancelable {
-			return addTask(new ScheduledTask(task, obtainTime, true, delay));
+		private function doAddTimeTask(task:TimeTask):void {
+
 		}
 
-		public final function forNextFrame(task:Function, obtainTime:Boolean = false):Cancelable {
-			return addTask(new Task(task, obtainTime, false));
-		}
-
-		public final function forEachFrame(task:Function, obtainTime:Boolean = false):Cancelable {
-			return addTask(new Task(task, obtainTime, true));
-		}
-
-		public final function addTween(tween:Tween):Cancelable {
-			return addTask(tween);
-		}
-
-		public final function clear():void {
-			if (dispatching) {
-				Engine.addChange(new TimelineChange(this, TimelineChange.CLEAR));
-			}
-			else {
-				doClear();
+		private function bindFrameListenerIfNeeded():void {
+			if (_frameTasks.isEmpty()) {
+				_prevFrameTime = getTimer();
+				SHAPE.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			}
 		}
 
-		public final function stop():void {
-			if (!_stopped) {
-				if (dispatching) {
-					Engine.addChange(new TimelineChange(this, TimelineChange.STOP));
-				}
-				else {
-					doStop();
-				}
+		private function unbindFrameListenerIfNeeded():void {
+			if (_frameTasks.isEmpty()) {
+				SHAPE.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 			}
 		}
 
-		public final function pause():void {
-			if (dispatching) {
-				Engine.addChange(new TimelineChange(this, TimelineChange.PAUSE));
-			}
-			else {
-				doPause();
-			}
-		}
+		private function handleFrame():void {
+			var currentFrameTime:int = getTimer();
+			var passedTime:int = currentFrameTime - _prevFrameTime;
+			_prevFrameTime = currentFrameTime;
 
-		public final function resume():void {
-			if (dispatching) {
-				Engine.addChange(new TimelineChange(this, TimelineChange.RESUME));
-			}
-			else {
-				doResume();
-			}
-		}
-
-		protected function doClear():void {
-			checkStopped();
-			Engine.decreaseTaskCounter(_tasks.size());
-			_tasks.clear();
-		}
-
-		protected function doStop():void {
-			doClear();
-			Engine.removeTimeline(this);
-			_tasks = null;
-			_stopped = true;
-		}
-
-		protected function doPause():void {
-			checkStopped();
-			_running = false;
-		}
-
-		protected function doResume():void {
-			checkStopped();
-			_running = true;
-		}
-
-		internal function checkStopped():void {
-			if (_stopped) {
-				throw new IllegalStateException("Timeline is stopped");
-			}
-		}
-
-		internal function handleEnterFrame(time:int):void {
 			if (_running) {
-				_lastFrameTime = time;
-				var removeCount:int = 0;
+				processTasks(_frameTasks, passedTime);
+			}
+		}
 
-				while (_tasks.next()) {
-					var task:Task = Task(_tasks.current);
+		private function processTasks(tasks:LiteLinkedList, passedTime:int):void {
+			_changer.lock();
+			try {
+				while (tasks.next()) {
+					var task:Task = Task(tasks.current);
 					var remove:Boolean = true;
-					
+
 					try {
-						remove = !task.execute(time);
+						remove = task.tryExecuteAndGetCanceled(passedTime);
 					}
 					catch (error:Error) {
 						try {
@@ -126,36 +79,26 @@ package org.shypl.common.timeline {
 						}
 						catch (ignored:Error) {
 						}
-						_tasks.removeCurrent();
-						_tasks.stopIteration();
-						++removeCount;
-						Engine.decreaseTaskCounter(removeCount);
+
+						tasks.stopIteration();
+						_changer.unlock();
 
 						throw error;
 					}
 
 					if (remove) {
-						_tasks.removeCurrent();
-						++removeCount;
+						tasks.removeCurrent();
 					}
-					
 				}
-
-				Engine.decreaseTaskCounter(removeCount);
+			}
+			finally {
+				_changer.unlock();
+				unbindFrameListenerIfNeeded();
 			}
 		}
 
-		internal function addTask(task:Task):Cancelable {
-			if (dispatching) {
-				Engine.addChange(new TimelineChangeAddTask(this, task));
-			}
-			else {
-				checkStopped();
-				_tasks.add(task);
-				Engine.increaseTaskCounter();
-			}
-
-			return task;
+		private function onEnterFrame(event:Event):void {
+			handleFrame();
 		}
 	}
 }
