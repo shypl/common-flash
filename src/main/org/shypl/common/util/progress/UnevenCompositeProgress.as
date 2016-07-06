@@ -1,7 +1,7 @@
 package org.shypl.common.util.progress {
 	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.util.CollectionUtils;
-	
+
 	public class UnevenCompositeProgress extends CompositeProgress {
 		public static function factoryEmpty(divisions:Vector.<int>):CompositeProgress {
 			return new UnevenCompositeProgress(
@@ -17,12 +17,12 @@ package org.shypl.common.util.progress {
 		private var _divisions:Vector.<Number>;
 		
 		public function UnevenCompositeProgress(progresses:Vector.<Progress>, divisions:Vector.<int>) {
+			super(progresses);
+
 			if (progresses.length != divisions.length) {
 				throw new IllegalArgumentException("Progresses length not equals Divisions length");
 			}
-			
-			super(progresses);
-			
+
 			if (!completed) {
 				var divisionsSum:int = CollectionUtils.sum(divisions);
 				
