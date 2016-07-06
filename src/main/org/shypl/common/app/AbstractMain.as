@@ -6,6 +6,8 @@ package org.shypl.common.app {
 	import flash.events.Event;
 
 	import org.shypl.common.lang.UncaughtErrorDelegate;
+	import org.shypl.common.util.Parameters;
+	import org.shypl.common.util.ParametersObject;
 	import org.shypl.common.util.progress.Progress;
 
 	[Abstract]
@@ -21,8 +23,8 @@ package org.shypl.common.app {
 			}
 		}
 
-		public function run(parameters:Object, stage:Stage):Progress {
-			return new MainPreloader(parameters, stage);
+		public function run(stage:Stage, parameters:Parameters):Progress {
+			return new MainPreloader(stage, parameters);
 		}
 
 		protected function defineStageAlign():String {
@@ -34,7 +36,7 @@ package org.shypl.common.app {
 		}
 
 		//noinspection JSUnusedLocalSymbols
-		protected function createPreloaderScreen(parameters:Object):AbstractPreloaderScreen {
+		protected function createPreloaderScreen(parameters:Parameters):AbstractPreloaderScreen {
 			return new SimplePreloaderScreen();
 		}
 
@@ -46,9 +48,9 @@ package org.shypl.common.app {
 			stage.scaleMode = defineStageScaleMode();
 			stage.align = defineStageAlign();
 
-			var parameters:Object = loaderInfo.parameters;
+			var parameters:Parameters = new ParametersObject(loaderInfo.parameters);
 
-			new Preloader(stage, createPreloaderScreen(parameters), run(parameters, stage));
+			new Preloader(stage, createPreloaderScreen(parameters), run(stage, parameters));
 		}
 
 		private function onAddedToStage(event:Event):void {
