@@ -65,9 +65,9 @@
 			<type>pom</type>
 		</dependency>
 		<dependency>
-			<groupId>org.shypl.flexunit</groupId>
+			<groupId>org.shypl</groupId>
 			<artifactId>flexunit</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.3</version>
 			<type>swc</type>
 			<scope>test</scope>
 		</dependency>
