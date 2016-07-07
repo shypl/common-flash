@@ -17,6 +17,9 @@ package org.shypl.common.util {
 		}
 
 		public function setIfAbsent(name:String, value:Object):void {
+			if (!contains(name)) {
+				set(name, value);
+			}
 		}
 
 		public function get(name:String, defaultValue:Object = null):Object {
