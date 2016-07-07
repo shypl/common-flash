@@ -36,6 +36,10 @@ package org.shypl.common.app {
 		}
 
 		//noinspection JSUnusedLocalSymbols
+		protected function processParameters(parameters:Parameters):void {
+		}
+
+		//noinspection JSUnusedLocalSymbols
 		protected function createPreloaderScreen(parameters:Parameters):AbstractPreloaderScreen {
 			return new SimplePreloaderScreen();
 		}
@@ -49,6 +53,7 @@ package org.shypl.common.app {
 			stage.align = defineStageAlign();
 
 			var parameters:Parameters = new ParametersObject(loaderInfo.parameters);
+			processParameters(parameters);
 
 			new Preloader(stage, createPreloaderScreen(parameters), run(stage, parameters));
 		}
