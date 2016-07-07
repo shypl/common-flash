@@ -2,6 +2,10 @@ package org.shypl.common.util.progress {
 	import org.shypl.common.util.CollectionUtils;
 
 	public class SequentialUnevenCompositeProgress extends UnevenCompositeProgress {
+		public static function createBuilder():SequentialUnevenCompositeProgressBuilder {
+			return new SequentialUnevenCompositeProgressBuilder();
+		}
+
 		private var _current:int = -1;
 		private var _queue:Vector.<ProgressRunner>;
 

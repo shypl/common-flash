@@ -2,6 +2,10 @@ package org.shypl.common.util.progress {
 	import org.shypl.common.util.CollectionUtils;
 
 	public class SequentialCompositeProgress extends CompositeProgress {
+		public static function createBuilder():SequentialCompositeProgressBuilder {
+			return new SequentialCompositeProgressBuilder();
+		}
+		
 		private var _current:int = -1;
 		private var _queue:Vector.<ProgressRunner>;
 
