@@ -45,14 +45,14 @@ package org.shypl.common.util {
 				return;
 			}
 			super.removeEventListener(type, listener, useCapture);
-			
+
 			const listeners:Dictionary = _eventListeners[type];
 			if (listeners !== null) {
 				delete listeners[listener];
 			}
 		}
 
-		public final function disposeBitmapData():Boolean {
+		public final function destroyBitmapData():void {
 			if (bitmapData !== null) {
 				bitmapData.dispose();
 				bitmapData = null;
@@ -94,7 +94,7 @@ package org.shypl.common.util {
 			}
 			_eventListeners = null;
 
-			disposeBitmapData();
+			destroyBitmapData();
 		}
 	}
 }
