@@ -1,6 +1,9 @@
 package org.shypl.common.util.progress {
 	public class CompositeProgressRunner implements ProgressRunner {
-
+		public static function createBuilder():CompositeProgressRunnerBuilder {
+			return new CompositeProgressRunnerBuilder();
+		}
+		
 		protected var _runners:Vector.<ProgressRunner>;
 		
 		public function CompositeProgressRunner(runners:Vector.<ProgressRunner>) {
