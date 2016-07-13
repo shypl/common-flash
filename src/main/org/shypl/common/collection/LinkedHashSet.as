@@ -1,6 +1,8 @@
 package org.shypl.common.collection {
 	import flash.utils.Dictionary;
 
+	import org.shypl.common.util.CollectionUtils;
+
 	public class LinkedHashSet extends HashSet {
 		internal var _first:LinkedNode;
 		internal var _last:LinkedNode;
@@ -74,13 +76,21 @@ package org.shypl.common.collection {
 			return new LinkedHashSet_Iterator(this, _first);
 		}
 
-		override public function toVector():Vector.<Object> {
-			var result:Vector.<Object> = new Vector.<Object>(_size, true);
+		override public function toArray():Array {
+			var array:Array = [];
+			for (var x:LinkedNode = _first; x != null; x = x.next) {
+				array.push(x.value);
+			}
+			return array;
+		}
+
+		override public function toVector(elementClass:Class):Object {
+			var vector:Object = CollectionUtils.createVector(elementClass, size(), true);
 			var i:int = 0;
 			for (var x:LinkedNode = _first; x != null; x = x.next) {
-				result[i++] = x.value;
+				vector[i++] = x.value;
 			}
-			return result;
+			return vector;
 		}
 	}
 }

@@ -5,6 +5,7 @@ package org.shypl.common.collection {
 	import org.shypl.common.lang.AbstractMethodException;
 	import org.shypl.common.lang.IllegalStateException;
 	import org.shypl.common.lang.UnsupportedOperationException;
+	import org.shypl.common.util.CollectionUtils;
 	import org.shypl.common.util.StringUtils;
 
 	use namespace flash_proxy;
@@ -107,18 +108,21 @@ package org.shypl.common.collection {
 			return modified;
 		}
 
-		public function toVector():Vector.<Object> {
-			if (isEmpty()) {
-				return new Vector.<Object>(0, true);
+		public function toArray():Array {
+			var array:Array = [];
+			for each (var e:Object in this) {
+				array.push(e);
 			}
+			return array;
+		}
 
-			var array:Vector.<Object> = new Vector.<Object>(size(), true);
+		public function toVector(elementClass:Class):Object {
+			var vector:Object = CollectionUtils.createVector(elementClass, size(), true);
 			var i:int = 0;
 			for each (var e:Object in this) {
-				array[i++] = e;
+				vector[i++] = e;
 			}
-
-			return array;
+			return vector;
 		}
 
 		public function toString():String {
