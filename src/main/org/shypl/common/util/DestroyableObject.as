@@ -11,8 +11,8 @@ package org.shypl.common.util {
 		
 		public final function destroy():void {
 			if (!_destroyed) {
-				_destroyed = true;
 				doDestroy();
+				_destroyed = true;
 			}
 		}
 		
