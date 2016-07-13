@@ -1,33 +1,24 @@
 package org.shypl.common.util {
 	import flash.net.SharedObject;
 
-	public class Cookies extends Parameters {
+	public class Cookies extends ParametersObject {
 		private var _sharedObject:SharedObject;
-		private var _data:Object;
-
+		
 		public function Cookies(storageName:String = "cookies", sharedName:String = null) {
 			_sharedObject = SharedObject.getLocal(storageName, sharedName);
-			_data = _sharedObject.data;
+			super(_sharedObject.data);
 		}
-
-		override public function contains(name:String):Boolean {
-			return name in _data;
-		}
-
-		public function set(name:String, value:Object):void {
-			_data[name] = value;
+		
+		override public function remove(name:String):void {
+			super.remove(name);
 			save();
 		}
-
-		public function remove(name:String):void {
-			delete _data[name];
+		
+		override public function set(name:String, value:Object):void {
+			super.set(name, value);
 			save();
 		}
-
-		override protected function extract(name:String):Object {
-			return _data[name];
-		}
-
+		
 		private function save():void {
 			_sharedObject.flush();
 		}

@@ -1,5 +1,5 @@
 package org.shypl.common.collection {
-	public class LinkedHashSet_Iterator implements Iterator {
+	internal class LinkedHashSet_Iterator implements Iterator {
 		private var _set:LinkedHashSet;
 		private var _current:LinkedNode;
 		private var _next:LinkedNode;

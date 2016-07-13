@@ -1,7 +1,6 @@
 package org.shypl.common.loader {
 	import flash.display.Loader;
 	import flash.display.LoaderInfo;
-	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.net.URLLoader;
@@ -9,7 +8,6 @@ package org.shypl.common.loader {
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
-	import flash.utils.getQualifiedClassName;
 
 	import org.shypl.common.lang.UncaughtErrorDelegate;
 	import org.shypl.common.timeline.GlobalTimeline;
@@ -75,7 +73,6 @@ package org.shypl.common.loader {
 			}
 
 			_receiver.receiveSwf(swf);
-			_receiver = null;
 		}
 
 		override protected function freeLoading():void {
@@ -92,6 +89,9 @@ package org.shypl.common.loader {
 				unloadAndStop();
 				_loader2 = null;
 			}
+
+			_receiver = null;
+			_cache = null;
 		}
 
 		private function unloadAndStop():void {

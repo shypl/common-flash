@@ -1,15 +1,17 @@
 package org.shypl.common.util.progress {
 	import org.shypl.common.util.CollectionUtils;
-
+	
 	public class CompositeProgress extends AbstractProgress {
 		public static function factoryEmpty(size:int):CompositeProgress {
-			return new CompositeProgress(
-				CollectionUtils.createVectorAndFill(Progress, size, FakeProgress.NOT_COMPLETED) as Vector.<Progress>
-			);
+			return new CompositeProgress(CollectionUtils.createVectorAndFill(Progress, size, FakeProgress.NOT_COMPLETED) as Vector.<Progress>);
 		}
-
+		
+		public static function createBuilder():CompositeProgressBuilder {
+			return new CompositeProgressBuilder();
+		}
+		
 		protected var _children:Vector.<Progress>;
-
+		
 		public function CompositeProgress(children:Vector.<Progress>) {
 			_children = children.concat();
 			_children.fixed = true;
@@ -31,7 +33,7 @@ package org.shypl.common.util.progress {
 				}
 			}
 		}
-
+		
 		public function setChild(index:int, progress:Progress):void {
 			_children[index].removeNoticeHandler(ProgressCompleteNotice, onChildComplete);
 			_children[index] = progress;
@@ -42,11 +44,11 @@ package org.shypl.common.util.progress {
 				_children[index].addNoticeHandler(ProgressCompleteNotice, onChildComplete, false);
 			}
 		}
-
+		
 		public function getChild(index:int):Progress {
 			return _children[index];
 		}
-
+		
 		override protected function calculatePercent():Number {
 			var total:Number = 0;
 			for each (var progress:Progress in _children) {
@@ -54,7 +56,12 @@ package org.shypl.common.util.progress {
 			}
 			return total / _children.length;
 		}
-
+		
+		override final protected function complete():void {
+			_children = null;
+			super.complete();
+		}
+		
 		protected final function isAllChildrenCompleted():Boolean {
 			for each (var progress:Progress in _children) {
 				if (!progress.completed) {
@@ -63,16 +70,11 @@ package org.shypl.common.util.progress {
 			}
 			return true;
 		}
-
+		
 		protected function onChildComplete():void {
 			if (isAllChildrenCompleted()) {
 				complete();
 			}
-		}
-
-		override final protected function complete():void {
-			_children = null;
-			super.complete();
 		}
 	}
 }

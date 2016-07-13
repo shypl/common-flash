@@ -1,6 +1,8 @@
 package org.shypl.common.collection {
 	import flash.utils.Dictionary;
 
+	import org.shypl.common.util.CollectionUtils;
+	
 	public class HashSet extends AbstractSet {
 		internal var _map:Dictionary = new Dictionary();
 		internal var _size:int;
@@ -47,18 +49,21 @@ package org.shypl.common.collection {
 			return new HashSet_Iterator(this);
 		}
 
-		override public function toVector():Vector.<Object> {
-			if (isEmpty()) {
-				return new Vector.<Object>(0, true);
+		override public function toArray():Array {
+			var array:Array = [];
+			for (var e:Object in _map) {
+				array.push(e);
 			}
+			return array;
+		}
 
-			var result:Vector.<Object> = new Vector.<Object>(_size, true);
+		override public function toVector(elementClass:Class):Object {
+			var vector:Object = CollectionUtils.createVector(elementClass, size(), true);
 			var i:int = 0;
 			for (var e:Object in _map) {
-				result[i++] = e;
+				vector[i++] = e;
 			}
-
-			return result;
+			return vector;
 		}
 
 		//TODO other methods

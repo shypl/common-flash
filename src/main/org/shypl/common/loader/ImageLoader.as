@@ -4,52 +4,78 @@ package org.shypl.common.loader {
 	import flash.display.LoaderInfo;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
+	import flash.net.URLLoader;
+	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
+	import flash.system.ApplicationDomain;
+	import flash.system.LoaderContext;
+
+	import org.shypl.common.lang.UncaughtErrorDelegate;
 
 	internal class ImageLoader extends AbstractLoader {
+		private var _loader1:URLLoader;
+		private var _loader2:Loader;
 		private var _receiver:ImageReceiver;
-		private var _loader:Loader;
-		private var _loaderInfo:LoaderInfo;
 
 		function ImageLoader(url:String, receiver:ImageReceiver) {
 			super(url);
 			_receiver = receiver;
 		}
 
-		override protected function startLoading():void {
-			_loader = new Loader();
-
-			_loaderInfo = _loader.contentLoaderInfo;
-			_loaderInfo.addEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
-			_loaderInfo.addEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
-
-			_loader.load(new URLRequest(url));
+		override protected function produceResult():void {
+			_receiver.receiveImage(Bitmap(_loader2.content).bitmapData);
 		}
 
 		override protected function getLoadingPercent():Number {
-			if (_loaderInfo.bytesTotal == 0) {
-				return 0;
+			if (_loader2 == null) {
+				if (_loader1.bytesTotal == 0) {
+					return 0;
+				}
+				return _loader1.bytesLoaded / _loader1.bytesTotal * 0.99;
 			}
-			return _loaderInfo.bytesLoaded / _loaderInfo.bytesTotal;
+			return 1;
 		}
 
-		override protected function produceResult():void {
-			_receiver.receiveImage(Bitmap(_loader.content).bitmapData);
-			_receiver = null;
+		override protected function startLoading():void {
+			_loader1 = new URLLoader();
+			_loader1.dataFormat = URLLoaderDataFormat.BINARY;
+			_loader1.addEventListener(Event.COMPLETE, onComplete1);
+			_loader1.addEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
+			_loader1.load(new URLRequest(url));
 		}
 
 		override protected function freeLoading():void {
-			_loaderInfo.removeEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
-			_loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
-
-			try {
-				_loader.unloadAndStop(true);
+			if (_loader1) {
+				_loader1.removeEventListener(Event.COMPLETE, onComplete1);
+				_loader1.removeEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
+				_loader1 = null;
 			}
-			catch (e:Error) {
+			if (_loader2) {
+				const info:LoaderInfo = _loader2.contentLoaderInfo;
+				info.removeEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
+				info.removeEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
+
+				try {
+					_loader2.unloadAndStop(true);
+				}
+				catch (e:Error) {
+				}
+				_loader2 = null;
 			}
 
-			_loader = null;
-			_loaderInfo = null;
+			_receiver = null;
+		}
+
+		private function onComplete1(event:Event):void {
+			_loader2 = new Loader();
+
+			const info:LoaderInfo = _loader2.contentLoaderInfo;
+			info.addEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
+			info.addEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
+
+			UncaughtErrorDelegate.register(_loader2.uncaughtErrorEvents);
+
+			_loader2.loadBytes(_loader1.data, new LoaderContext(false, ApplicationDomain.currentDomain, null));
 		}
 	}
 }

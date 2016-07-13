@@ -20,7 +20,9 @@ package org.shypl.common.collection {
 
 		function removeAll(collection:Object):Boolean;
 
-		function toVector():Vector.<Object>;
+		function toArray():Array;
+
+		function toVector(elementClass:Class):Object;
 
 		function toString():String;
 	}

@@ -12,22 +12,6 @@
 	<description>Flash common assistants kit</description>
 	<url>https://github.com/shypl/common-flash.git</url>
 
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<developers>
-		<developer>
-			<id>shnyaka</id>
-			<name>Alexey Chuprina</name>
-			<email>shnyaka@gmail.com</email>
-		</developer>
-	</developers>
-
 	<scm>
 		<connection>scm:git:https://github.com/shypl/common-flash.git</connection>
 		<developerConnection>scm:git:https://github.com/shypl/common-flash.git</developerConnection>
@@ -46,9 +30,31 @@
 		</snapshotRepository>
 	</distributionManagement>
 
+	<repositories>
+		<repository>
+			<id>shypl-thirdparty</id>
+			<url>http://nexus.shypl.org/content/repositories/thirdparty/</url>
+		</repository>
+		<repository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>shypl-thirdparty</id>
+			<url>http://nexus.shypl.org/content/repositories/thirdparty/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<properties>
-		<skipTests>true</skipTests>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<flash.flexSdk>4.15.0</flash.flexSdk>
 	</properties>
 
 	<dependencies>
@@ -61,13 +67,13 @@
 		<dependency>
 			<groupId>org.apache.flex</groupId>
 			<artifactId>framework</artifactId>
-			<version>4.15.0</version>
+			<version>${flash.flexSdk}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
-			<groupId>org.shypl.flexunit</groupId>
+			<groupId>org.shypl</groupId>
 			<artifactId>flexunit</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
+			<version>1.0.3</version>
 			<type>swc</type>
 			<scope>test</scope>
 		</dependency>
@@ -83,18 +89,18 @@
 				<version>7.1.0</version>
 				<extensions>true</extensions>
 
-				<configuration>
-					<debug>true</debug>
-				</configuration>
-
 				<dependencies>
 					<dependency>
 						<groupId>org.apache.flex</groupId>
 						<artifactId>compiler</artifactId>
-						<version>4.15.0</version>
+						<version>${flash.flexSdk}</version>
 						<type>pom</type>
 					</dependency>
 				</dependencies>
+
+				<configuration>
+					<debug>true</debug>
+				</configuration>
 
 				<executions>
 					<execution>
@@ -119,26 +125,20 @@
 		</plugins>
 	</build>
 
-	<repositories>
-		<repository>
-			<id>shypl-thirdparty</id>
-			<url>http://nexus.shypl.org/content/repositories/thirdparty/</url>
-		</repository>
-		<repository>
-			<id>sonatype</id>
-			<url>https://oss.sonatype.org/content/repositories/releases/</url>
-		</repository>
-	</repositories>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>shypl-thirdparty</id>
-			<url>http://nexus.shypl.org/content/repositories/thirdparty/</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>sonatype</id>
-			<url>https://oss.sonatype.org/content/repositories/releases/</url>
-		</pluginRepository>
-	</pluginRepositories>
+	<developers>
+		<developer>
+			<id>shnyaka</id>
+			<name>Alexey Chuprina</name>
+			<email>shnyaka@gmail.com</email>
+		</developer>
+	</developers>
 
 </project>

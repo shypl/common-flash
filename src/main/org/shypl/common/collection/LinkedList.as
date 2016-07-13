@@ -1,6 +1,8 @@
 package org.shypl.common.collection {
 	import flash.utils.flash_proxy;
 
+	import org.shypl.common.util.CollectionUtils;
+
 	use namespace flash_proxy;
 
 	public class LinkedList extends AbstractList implements List, Deque {
@@ -45,7 +47,7 @@ package org.shypl.common.collection {
 			checkIndexForAdd(index);
 
 			if (collection is Collection) {
-				collection = Collection(collection).toVector();
+				collection = Collection(collection).toArray();
 			}
 
 			var len:int = collection.length;
@@ -165,13 +167,21 @@ package org.shypl.common.collection {
 			return new LinkedList_ListIterator(this, index, true);
 		}
 
-		override public function toVector():Vector.<Object> {
-			var result:Vector.<Object> = new Vector.<Object>(_size, true);
+		override public function toArray():Array {
+			var array:Array = [];
+			for (var x:LinkedNode = _first; x != null; x = x.next) {
+				array.push(x.value);
+			}
+			return array;
+		}
+
+		override public function toVector(elementClass:Class):Object {
+			var vector:Object = CollectionUtils.createVector(elementClass, size(), true);
 			var i:int = 0;
 			for (var x:LinkedNode = _first; x != null; x = x.next) {
-				result[i++] = x.value;
+				vector[i++] = x.value;
 			}
-			return result;
+			return vector;
 		}
 
 		public function getFirst():Object {

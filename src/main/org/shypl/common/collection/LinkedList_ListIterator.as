@@ -1,7 +1,7 @@
 package org.shypl.common.collection {
 	import org.shypl.common.lang.IllegalStateException;
 
-	public class LinkedList_ListIterator implements ListIterator {
+	internal class LinkedList_ListIterator implements ListIterator {
 		private var _list:LinkedList;
 		private var _expectedModCount:int;
 		private var _next:LinkedNode;

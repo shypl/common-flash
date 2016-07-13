@@ -1,5 +1,5 @@
 package org.shypl.common.collection {
-	public class LinkedHashMap_Iterator implements MapIterator {
+	internal class LinkedHashMap_Iterator implements MapIterator {
 		private var _map:LinkedHashMap;
 		private var _current:LinkedMapEntry;
 		private var _next:LinkedMapEntry;

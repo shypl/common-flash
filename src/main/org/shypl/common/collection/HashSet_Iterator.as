@@ -3,7 +3,7 @@ package org.shypl.common.collection {
 
 	internal class HashSet_Iterator implements Iterator {
 		private var _set:HashSet;
-		private var _elements:Vector.<Object>;
+		private var _elements:Array;
 		private var _elementsLength:uint;
 		private var _cursor:int = 0;
 		private var _expectedModCount:int;
@@ -12,7 +12,7 @@ package org.shypl.common.collection {
 
 		public function HashSet_Iterator(hashSet:HashSet) {
 			_set = hashSet;
-			_elements = _set.toVector();
+			_elements = _set.toArray();
 			_elementsLength = _elements.length;
 		}
 
