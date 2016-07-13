@@ -31,11 +31,11 @@ package org.shypl.common.util {
 			}
 		}
 		
-		override public final function hasEventListener(type:String):Boolean {
+		override public function hasEventListener(type:String):Boolean {
 			return _destroyed ? false : super.hasEventListener(type);
 		}
 		
-		override public final function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void {
+		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void {
 			if (!_destroyed) {
 				super.removeEventListener(type, listener, useCapture);
 
@@ -66,7 +66,7 @@ package org.shypl.common.util {
 			}
 		}
 		
-		override public final function dispatchEvent(event:Event):Boolean {
+		override public function dispatchEvent(event:Event):Boolean {
 			return _destroyed ? false : super.dispatchEvent(event);
 		}
 
