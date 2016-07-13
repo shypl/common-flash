@@ -7,7 +7,7 @@ package org.shypl.common.util {
 		}
 
 		public function execute():void {
-			_fn.apply();
+			_fn();
 			_fn = null;
 		}
 	}

@@ -11,7 +11,11 @@ package org.shypl.common.timeline {
 			_notRepeatable = !repeatable;
 		}
 		
-		public function cancel():void {
+		public final function get canceled():Boolean {
+			return _canceled;
+		}
+		
+		public final function cancel():void {
 			if (!_canceled) {
 				_canceled = true;
 				free();
