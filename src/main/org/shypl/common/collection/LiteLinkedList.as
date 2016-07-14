@@ -19,7 +19,7 @@ package org.shypl.common.collection {
 		public function LiteLinkedList() {
 		}
 
-		public function get current():Object {
+		public function get current():* {
 			if (!_iteration || _current === null) {
 				throw new IllegalArgumentException();
 			}

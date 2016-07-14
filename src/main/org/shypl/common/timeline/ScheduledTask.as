@@ -2,11 +2,11 @@ package org.shypl.common.timeline {
 	import org.shypl.common.lang.IllegalArgumentException;
 	
 	[Abstract]
-	public class DelayTask extends Task {
+	public class ScheduledTask extends Task {
 		private var _delay:int;
 		private var _remainedTime:int;
 		
-		public function DelayTask(delay:int, repeatable:Boolean) {
+		public function ScheduledTask(delay:int, repeatable:Boolean) {
 			super(repeatable);
 			if (_delay < 0) {
 				throw new IllegalArgumentException();

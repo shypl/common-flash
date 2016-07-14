@@ -23,8 +23,8 @@ package org.shypl.common.util {
 			if (!_locked) {
 				throw new IllegalStateException("Executor is not locked");
 			}
-			executePendingTasks();
 			_locked = false;
+			executePendingTasks();
 		}
 		
 		public function execute(task:Executable):void {
@@ -36,12 +36,12 @@ package org.shypl.common.util {
 			}
 		}
 		
-		public function executeFunction(task:Function):void {
+		public function executeFunction(closure:Function):void {
 			if (_locked) {
-				_pendingTasks.push(new ExecutableFunction(task));
+				_pendingTasks.push(new ExecutableClosure(closure));
 			}
 			else {
-				task();
+				closure();
 			}
 		}
 		
