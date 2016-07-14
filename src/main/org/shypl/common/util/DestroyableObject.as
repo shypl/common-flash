@@ -1,6 +1,7 @@
 package org.shypl.common.util {
 	public class DestroyableObject implements CheckableDestroyable {
 		private var _destroyed:Boolean;
+		private var _destroying:Boolean;
 		
 		public function DestroyableObject() {
 		}
@@ -10,7 +11,8 @@ package org.shypl.common.util {
 		}
 		
 		public final function destroy():void {
-			if (!_destroyed) {
+			if (!_destroyed && !_destroying) {
+				_destroying = true;
 				doDestroy();
 				_destroyed = true;
 			}

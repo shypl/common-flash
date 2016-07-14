@@ -3,10 +3,11 @@ package org.shypl.common.util {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
-
+	
 	[Event(name="destroy", type="org.shypl.common.util.DestroyEvent")]
 	public class DestroyableSprite extends Sprite implements CheckableDestroyable {
 		private var _destroyed:Boolean;
+		private var _destroying:Boolean;
 		private var _eventListeners:Object = {};
 		
 		public function DestroyableSprite() {
@@ -21,7 +22,7 @@ package org.shypl.common.util {
 		):void {
 			if (!_destroyed) {
 				super.addEventListener(type, listener, useCapture, priority, useWeakReference);
-
+				
 				var listeners:Dictionary = _eventListeners[type];
 				if (listeners === null) {
 					listeners = new Dictionary();
@@ -38,16 +39,17 @@ package org.shypl.common.util {
 		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void {
 			if (!_destroyed) {
 				super.removeEventListener(type, listener, useCapture);
-
+				
 				const listeners:Dictionary = _eventListeners[type];
 				if (listeners !== null) {
 					delete listeners[listener];
 				}
 			}
 		}
-
+		
 		public final function destroy():void {
-			if (!_destroyed) {
+			if (!_destroyed && !_destroying) {
+				_destroying = true;
 				dispatchEvent(new DestroyEvent());
 				doDestroy();
 				_destroyed = true;
@@ -69,12 +71,12 @@ package org.shypl.common.util {
 		override public function dispatchEvent(event:Event):Boolean {
 			return _destroyed ? false : super.dispatchEvent(event);
 		}
-
+		
 		protected function doDestroy():void {
 			if (super.parent !== null) {
 				super.parent.removeChild(this);
 			}
-
+			
 			var i:int = super.numChildren;
 			while (i != 0) {
 				var child:DisplayObject = super.getChildAt(--i);
@@ -83,7 +85,7 @@ package org.shypl.common.util {
 					Destroyable(child).destroy();
 				}
 			}
-
+			
 			removeAllEventListeners();
 			_eventListeners = null;
 		}

@@ -6,6 +6,7 @@ package org.shypl.common.util {
 	[Event(name="destroy", type="org.shypl.common.util.DestroyEvent")]
 	public class DestroyableEventDispatcher extends EventDispatcher implements CheckableDestroyable {
 		private var _destroyed:Boolean;
+		private var _destroying:Boolean;
 		private var _eventListeners:Object = {};
 		
 		public function DestroyableEventDispatcher() {
@@ -46,7 +47,8 @@ package org.shypl.common.util {
 		}
 		
 		public final function destroy():void {
-			if (!_destroyed) {
+			if (!_destroyed && !_destroying) {
+				_destroying = true;
 				dispatchEvent(new DestroyEvent());
 				doDestroy();
 				_destroyed = true;

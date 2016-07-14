@@ -8,6 +8,7 @@ package org.shypl.common.util {
 	[Event(name="destroy", type="org.shypl.common.util.DestroyEvent")]
 	public class DestroyableBitmap extends Bitmap implements CheckableDestroyable {
 		private var _destroyed:Boolean;
+		private var _destroying:Boolean;
 		private var _eventListeners:Object = {};
 		
 		public function DestroyableBitmap(bitmapData:BitmapData = null, pixelSnapping:String = PixelSnapping.AUTO, smoothing:Boolean = true) {
@@ -56,7 +57,8 @@ package org.shypl.common.util {
 		}
 		
 		public final function destroy():void {
-			if (!_destroyed) {
+			if (!_destroyed && !_destroying) {
+				_destroying = true;
 				dispatchEvent(new DestroyEvent());
 				doDestroy();
 				_destroyed = true;
