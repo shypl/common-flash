@@ -68,6 +68,8 @@ package org.shypl.common.collection {
 				node.destroy();
 			}
 			_map = new Dictionary();
+			_first = null;
+			_last = null;
 			_size = 0;
 			++_modCount;
 		}
