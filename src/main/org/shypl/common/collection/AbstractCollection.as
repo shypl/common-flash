@@ -116,7 +116,7 @@ package org.shypl.common.collection {
 			return array;
 		}
 
-		public function toVector(elementClass:Class):Object {
+		public function toVector(elementClass:Class):* {
 			var vector:Object = CollectionUtils.createVector(elementClass, size(), true);
 			var i:int = 0;
 			for each (var e:Object in this) {

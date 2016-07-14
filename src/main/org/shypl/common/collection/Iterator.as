@@ -1,8 +1,8 @@
 package org.shypl.common.collection {
 	public interface Iterator {
-		function get element():Object;
+		function get element():*;
 
-		function set element(value:Object):void;
+		function set element(value:*):void;
 
 		function next():Boolean;
 

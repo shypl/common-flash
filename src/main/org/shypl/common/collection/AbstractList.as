@@ -1,10 +1,10 @@
 package org.shypl.common.collection {
 	import flash.utils.flash_proxy;
-
+	
 	import org.shypl.common.lang.AbstractMethodException;
 	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.lang.IndexOutOfBoundsException;
-
+	
 	use namespace flash_proxy;
 
 	[Abstract]
@@ -44,17 +44,17 @@ package org.shypl.common.collection {
 		}
 
 		[Abstract]
-		public function get(index:int):Object {
+		public function get(index:int):* {
 			throw new AbstractMethodException();
 		}
 
 		[Abstract]
-		public function set(index:int, element:Object):Object {
+		public function set(index:int, element:Object):* {
 			throw new AbstractMethodException();
 		}
 
 		[Abstract]
-		public function removeAt(index:int):Object {
+		public function removeAt(index:int):* {
 			throw new AbstractMethodException();
 		}
 

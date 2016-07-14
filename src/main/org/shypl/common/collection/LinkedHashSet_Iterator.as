@@ -11,12 +11,12 @@ package org.shypl.common.collection {
 			_expectedModCount = _set._modCount;
 		}
 
-		public function get element():Object {
+		public function get element():* {
 			checkCurrent();
 			return _current.value;
 		}
 
-		public function set element(value:Object):void {
+		public function set element(value:*):void {
 			checkCurrent();
 			_current.value = value;
 		}

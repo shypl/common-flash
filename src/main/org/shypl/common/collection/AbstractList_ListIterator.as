@@ -1,7 +1,7 @@
 package org.shypl.common.collection {
 	import org.shypl.common.lang.IllegalStateException;
 	import org.shypl.common.lang.IndexOutOfBoundsException;
-
+	
 	internal class AbstractList_ListIterator implements ListIterator {
 		private var _list:AbstractList;
 		private var _reversed:Boolean;
@@ -17,14 +17,14 @@ package org.shypl.common.collection {
 			_index = _reversed ? (index + 1) : (index - 1);
 		}
 
-		public function get element():Object {
+		public function get element():* {
 			if (_elementExists) {
 				return _element;
 			}
 			throw new IllegalStateException();
 		}
 
-		public function set element(value:Object):void {
+		public function set element(value:*):void {
 			if (_elementExists) {
 				checkModification();
 

@@ -1,10 +1,10 @@
 package org.shypl.common.collection {
 	public interface MapIterator {
-		function get key():Object;
+		function get key():*;
 
-		function get value():Object;
+		function get value():*;
 
-		function set value(value:Object):void;
+		function set value(value:*):void;
 
 		function next():Boolean;
 

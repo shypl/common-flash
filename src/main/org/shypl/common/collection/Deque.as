@@ -4,12 +4,12 @@ package org.shypl.common.collection {
 
 		function addLast(element:Object):void;
 
-		function removeFirst():Object;
+		function removeFirst():*;
 
-		function removeLast():Object;
+		function removeLast():*;
 
-		function getFirst():Object;
+		function getFirst():*;
 
-		function getLast():Object;
+		function getLast():*;
 	}
 }

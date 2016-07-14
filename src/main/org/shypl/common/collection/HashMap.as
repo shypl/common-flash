@@ -1,9 +1,9 @@
 package org.shypl.common.collection {
 	import flash.utils.Dictionary;
 	import flash.utils.flash_proxy;
-
+	
 	import org.shypl.common.lang.IllegalStateException;
-
+	
 	use namespace flash_proxy;
 
 	public class HashMap extends AbstractMap {
@@ -18,7 +18,7 @@ package org.shypl.common.collection {
 			return _size;
 		}
 
-		override public function put(key:Object, value:Object):Object {
+		override public function put(key:Object, value:Object):* {
 			var entry:MapEntryImpl;
 			try {
 				entry = _dic[key];
@@ -37,7 +37,7 @@ package org.shypl.common.collection {
 			return v;
 		}
 
-		override public function get(key:Object):Object {
+		override public function get(key:Object):* {
 			var entry:MapEntryImpl;
 			try {
 				entry = _dic[key];
@@ -52,7 +52,7 @@ package org.shypl.common.collection {
 			return entry._value;
 		}
 
-		override public function remove(key:Object):Object {
+		override public function remove(key:Object):* {
 			var entry:MapEntryImpl = _dic[key];
 			if (entry === null) {
 				return null;

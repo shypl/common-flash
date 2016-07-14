@@ -4,11 +4,11 @@ package org.shypl.common.collection {
 
 		function addAllAt(index:int, collection:Object):Boolean;
 
-		function set(index:int, element:Object):Object;
+		function set(index:int, element:Object):*;
 
-		function get(index:int):Object;
+		function get(index:int):*;
 
-		function removeAt(index:int):Object;
+		function removeAt(index:int):*;
 
 		function indexOf(element:Object):int;
 

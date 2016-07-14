@@ -11,17 +11,17 @@ package org.shypl.common.collection {
 			_expectedModCount = _map._modCount;
 		}
 
-		public function get key():Object {
+		public function get key():* {
 			checkCurrent();
 			return _current.key;
 		}
 
-		public function get value():Object {
+		public function get value():* {
 			checkCurrent();
 			return _current.value;
 		}
 
-		public function set value(value:Object):void {
+		public function set value(value:*):void {
 			checkCurrent();
 			_current.value = value;
 		}

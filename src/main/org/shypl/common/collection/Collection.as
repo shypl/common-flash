@@ -22,7 +22,7 @@ package org.shypl.common.collection {
 
 		function toArray():Array;
 
-		function toVector(elementClass:Class):Object;
+		function toVector(elementClass:Class):*;
 
 		function toString():String;
 	}

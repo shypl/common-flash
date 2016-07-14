@@ -8,15 +8,15 @@ package org.shypl.common.collection {
 			_value = value;
 		}
 
-		public function get key():Object {
+		public function get key():* {
 			return _key;
 		}
 
-		public function get value():Object {
+		public function get value():* {
 			return _value;
 		}
 
-		public function set value(value:Object):void {
+		public function set value(value:*):void {
 			_value = value;
 		}
 

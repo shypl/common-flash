@@ -6,11 +6,11 @@ package org.shypl.common.collection {
 
 		function isEmpty():Boolean;
 
-		function put(key:Object, value:Object):Object;
+		function put(key:Object, value:Object):*;
 
-		function get(key:Object):Object;
+		function get(key:Object):*;
 
-		function remove(key:Object):Object;
+		function remove(key:Object):*;
 
 		function containsKey(key:Object):Boolean;
 
@@ -24,9 +24,9 @@ package org.shypl.common.collection {
 
 		function entries():Vector.<MapEntry>;
 
-		function keys():Vector.<Object>;
+		function keys():Array;
 
-		function values():Vector.<Object>;
+		function values():Array;
 
 		function toString():String;
 	}

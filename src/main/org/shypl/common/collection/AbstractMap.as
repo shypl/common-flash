@@ -1,12 +1,12 @@
 package org.shypl.common.collection {
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
-
+	
 	import org.shypl.common.lang.AbstractMethodException;
 	import org.shypl.common.lang.RuntimeException;
 	import org.shypl.common.lang.UnsupportedOperationException;
 	import org.shypl.common.util.StringUtils;
-
+	
 	[Abstract]
 	public class AbstractMap extends Proxy implements Map {
 		public function get length():int {
@@ -22,11 +22,11 @@ package org.shypl.common.collection {
 			return size() === 0;
 		}
 
-		public function put(key:Object, value:Object):Object {
+		public function put(key:Object, value:Object):* {
 			throw new UnsupportedOperationException();
 		}
 
-		public function get(key:Object):Object {
+		public function get(key:Object):* {
 			var it:MapIterator = iterator();
 			while (it.next()) {
 				if (it.key === key) {
@@ -37,7 +37,7 @@ package org.shypl.common.collection {
 		}
 
 		[Abstract]
-		public function remove(key:Object):Object {
+		public function remove(key:Object):* {
 			var it:MapIterator = iterator();
 			while (it.next()) {
 				if (it.key === key) {
@@ -93,12 +93,12 @@ package org.shypl.common.collection {
 			throw new AbstractMethodException();
 		}
 
-		public function keys():Vector.<Object> {
+		public function keys():Array {
 			//TODO
 			throw new RuntimeException("TODO");
 		}
 
-		public function values():Vector.<Object> {
+		public function values():Array {
 			//TODO
 			throw new RuntimeException("TODO");
 		}

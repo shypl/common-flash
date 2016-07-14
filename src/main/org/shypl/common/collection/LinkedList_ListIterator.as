@@ -1,6 +1,6 @@
 package org.shypl.common.collection {
 	import org.shypl.common.lang.IllegalStateException;
-
+	
 	internal class LinkedList_ListIterator implements ListIterator {
 		private var _list:LinkedList;
 		private var _expectedModCount:int;
@@ -18,14 +18,14 @@ package org.shypl.common.collection {
 			_index = _reversed ? (index + 1) : (index - 1);
 		}
 
-		public function get element():Object {
+		public function get element():* {
 			if (_current === null) {
 				throw new IllegalStateException();
 			}
 			return _current.value;
 		}
 
-		public function set element(value:Object):void {
+		public function set element(value:*):void {
 			if (_current == null) {
 				throw new IllegalStateException();
 			}

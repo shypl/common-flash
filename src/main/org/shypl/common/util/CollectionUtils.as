@@ -222,11 +222,11 @@ package org.shypl.common.util {
 			return Class(getDefinitionByName(VECTOR_CLASS_NAME + ".<" + getQualifiedClassName(elementClass) + ">"));
 		}
 
-		public static function createVector(elementClass:Class, length:uint = 0, fixed:Boolean = false):Object {
+		public static function createVector(elementClass:Class, length:uint = 0, fixed:Boolean = false):* {
 			return new (getVectorClass(elementClass))(length, fixed);
 		}
 
-		public static function createVectorAndFill(elementClass:Class, length:uint, value:Object, fixed:Boolean = false):Object {
+		public static function createVectorAndFill(elementClass:Class, length:uint, value:Object, fixed:Boolean = false):* {
 			var vector:Object = new (getVectorClass(elementClass))(length, fixed);
 			fill(vector, value);
 			return vector;
@@ -276,7 +276,7 @@ package org.shypl.common.util {
 			return vector;
 		}
 
-		public static function objectValuesToVector(object:Object, elementClass:Class):Object {
+		public static function objectValuesToVector(object:Object, elementClass:Class):* {
 			const vector:Object = createVector(elementClass, 0, false);
 			for each (var value:Object in object) {
 				vector.push(value);

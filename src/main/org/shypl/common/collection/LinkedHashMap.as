@@ -7,7 +7,7 @@ package org.shypl.common.collection {
 		public function LinkedHashMap() {
 		}
 
-		override public function put(key:Object, value:Object):Object {
+		override public function put(key:Object, value:Object):* {
 			var entry:LinkedMapEntry = _dic[key];
 
 			if (entry === null) {
@@ -28,7 +28,7 @@ package org.shypl.common.collection {
 			return v;
 		}
 
-		override public function remove(key:Object):Object {
+		override public function remove(key:Object):* {
 			var entry:LinkedMapEntry = _dic[key];
 			if (entry === null) {
 				return null;

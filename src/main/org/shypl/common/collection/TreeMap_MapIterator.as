@@ -1,6 +1,6 @@
 package org.shypl.common.collection {
 	import org.shypl.common.lang.IllegalStateException;
-
+	
 	internal class TreeMap_MapIterator implements MapIterator {
 		private var _map:TreeMap;
 		private var _expectedModCount:int;
@@ -14,15 +14,15 @@ package org.shypl.common.collection {
 			_next = first;
 		}
 
-		public function get key():Object {
+		public function get key():* {
 			return _current.key;
 		}
 
-		public function get value():Object {
+		public function get value():* {
 			return _current.value;
 		}
 
-		public function set value(value:Object):void {
+		public function set value(value:*):void {
 			_current.value = value;
 		}
 

@@ -1,6 +1,6 @@
 package org.shypl.common.collection {
 	import org.shypl.common.lang.UnsupportedOperationException;
-
+	
 	internal class HashSet_Iterator implements Iterator {
 		private var _set:HashSet;
 		private var _elements:Array;
@@ -16,12 +16,12 @@ package org.shypl.common.collection {
 			_elementsLength = _elements.length;
 		}
 
-		public function get element():Object {
+		public function get element():* {
 			checkCurrent();
 			return _current;
 		}
 
-		public function set element(value:Object):void {
+		public function set element(value:*):void {
 			throw new UnsupportedOperationException();
 		}
 

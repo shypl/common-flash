@@ -1,8 +1,8 @@
 package org.shypl.common.collection {
 	import flash.utils.flash_proxy;
-
+	
 	import org.shypl.common.util.CollectionUtils;
-
+	
 	use namespace flash_proxy;
 
 	public class LinkedList extends AbstractList implements List, Deque {
@@ -104,12 +104,12 @@ package org.shypl.common.collection {
 			++_modCount;
 		}
 
-		override public function get(index:int):Object {
+		override public function get(index:int):* {
 			checkIndex(index);
 			return getNodeAt(index).value;
 		}
 
-		override public function set(index:int, element:Object):Object {
+		override public function set(index:int, element:Object):* {
 			checkIndex(index);
 			var x:LinkedNode = getNodeAt(index);
 			var v:Object = x.value;
@@ -127,7 +127,7 @@ package org.shypl.common.collection {
 			}
 		}
 
-		override public function removeAt(index:int):Object {
+		override public function removeAt(index:int):* {
 			checkIndex(index);
 			return unlink(getNodeAt(index));
 		}
@@ -175,7 +175,7 @@ package org.shypl.common.collection {
 			return array;
 		}
 
-		override public function toVector(elementClass:Class):Object {
+		override public function toVector(elementClass:Class):* {
 			var vector:Object = CollectionUtils.createVector(elementClass, size(), true);
 			var i:int = 0;
 			for (var x:LinkedNode = _first; x != null; x = x.next) {
@@ -184,28 +184,28 @@ package org.shypl.common.collection {
 			return vector;
 		}
 
-		public function getFirst():Object {
+		public function getFirst():* {
 			if (_first === null) {
 				throw new NoSuchElementException();
 			}
 			return _first.value;
 		}
 
-		public function getLast():Object {
+		public function getLast():* {
 			if (_last === null) {
 				throw new NoSuchElementException();
 			}
 			return _last.value;
 		}
 
-		public function removeFirst():Object {
+		public function removeFirst():* {
 			if (_first === null) {
 				throw new NoSuchElementException();
 			}
 			return unlinkFirst(_first);
 		}
 
-		public function removeLast():Object {
+		public function removeLast():* {
 			if (_last === null) {
 				throw new NoSuchElementException();
 			}

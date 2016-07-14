@@ -84,7 +84,7 @@ package org.shypl.common.collection {
 			return array;
 		}
 
-		override public function toVector(elementClass:Class):Object {
+		override public function toVector(elementClass:Class):* {
 			var vector:Object = CollectionUtils.createVector(elementClass, size(), true);
 			var i:int = 0;
 			for (var x:LinkedNode = _first; x != null; x = x.next) {

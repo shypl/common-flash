@@ -1,6 +1,6 @@
 package org.shypl.common.collection {
 	import org.shypl.common.util.Comparator;
-
+	
 	public class TreeMap extends AbstractMap implements SortedMap {
 		internal static function successor(t:TreeMapEntry):TreeMapEntry {
 			if (t === null) {
@@ -67,8 +67,8 @@ package org.shypl.common.collection {
 			return _size === 0;
 		}
 
-		override public function keys():Vector.<Object> {
-			const list:Vector.<Object> = new Vector.<Object>(_size, true);
+		override public function keys():Array {
+			const list:Array = [];
 			const it:MapIterator = iterator();
 			var i:int = 0;
 
@@ -79,8 +79,8 @@ package org.shypl.common.collection {
 			return list;
 		}
 
-		override public function values():Vector.<Object> {
-			const list:Vector.<Object> = new Vector.<Object>(_size, true);
+		override public function values():Array {
+			const list:Array = [];
 			const it:MapIterator = iterator();
 			var i:int = 0;
 
@@ -95,7 +95,7 @@ package org.shypl.common.collection {
 			return new TreeMap_MapIterator(this, getFirstEntry());
 		}
 
-		override public function put(key:Object, value:Object):Object {
+		override public function put(key:Object, value:Object):* {
 			var t:TreeMapEntry = _root;
 			if (t === null) {
 				_root = new TreeMapEntry(key, value);
@@ -137,12 +137,12 @@ package org.shypl.common.collection {
 			return null;
 		}
 
-		override public function get(key:Object):Object {
+		override public function get(key:Object):* {
 			var p:TreeMapEntry = getEntry(key);
 			return p === null ? null : p.value;
 		}
 
-		override public function remove(key:Object):Object {
+		override public function remove(key:Object):* {
 			const p:TreeMapEntry = getEntry(key);
 			if (p === null) {
 				return null;

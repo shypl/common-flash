@@ -1,9 +1,9 @@
 package org.shypl.common.collection {
 	public interface MapEntry {
-		function get key():Object;
+		function get key():*;
 
-		function get value():Object;
+		function get value():*;
 
-		function set value(value:Object):void;
+		function set value(value:*):void;
 	}
 }
