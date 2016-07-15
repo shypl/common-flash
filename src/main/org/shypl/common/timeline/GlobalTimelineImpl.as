@@ -13,8 +13,5 @@ package org.shypl.common.timeline {
 		override public function resume():void {
 			throw new UnsupportedOperationException("Unable to resume global timeline")
 		}
-		
-		override protected function checkStopped():void {
-		}
 	}
 }

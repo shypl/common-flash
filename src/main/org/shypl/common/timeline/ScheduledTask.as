@@ -2,7 +2,7 @@ package org.shypl.common.timeline {
 	import org.shypl.common.lang.IllegalArgumentException;
 	
 	[Abstract]
-	public class ScheduledTask extends Task {
+	public class ScheduledTask extends TimedTask {
 		private var _delay:int;
 		private var _remainedTime:int;
 		

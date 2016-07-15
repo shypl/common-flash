@@ -3,11 +3,11 @@ package org.shypl.common.timeline {
 	import org.shypl.common.util.Cancelable;
 	
 	[Abstract]
-	internal class Task implements Cancelable {
+	internal class TimedTask implements Cancelable {
 		private var _notRepeatable:Boolean;
 		private var _canceled:Boolean;
 		
-		public function Task(repeatable:Boolean) {
+		public function TimedTask(repeatable:Boolean) {
 			_notRepeatable = !repeatable;
 		}
 		

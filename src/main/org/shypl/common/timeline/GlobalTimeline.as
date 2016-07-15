@@ -20,8 +20,8 @@ package org.shypl.common.timeline {
 			return INSTANCE.forEachFrame(task, obtainTime);
 		}
 		
-		public static function lazy(closure:Function):Cancelable {
-			return INSTANCE.lazy(closure);
+		public static function callDeferred(closure:Function):Cancelable {
+			return INSTANCE.callDeferred(closure);
 		}
 		
 		public static function addFrameTask(task:FrameTask):Cancelable {

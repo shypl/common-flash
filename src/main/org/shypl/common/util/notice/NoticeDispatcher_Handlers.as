@@ -1,10 +1,10 @@
 package org.shypl.common.util.notice {
 	import org.shypl.common.collection.LiteLinkedMap;
-	import org.shypl.common.util.Executor;
+	import org.shypl.common.util.ChangeExecutor;
 
 	internal class NoticeDispatcher_Handlers {
 		private var _handlers:LiteLinkedMap = new LiteLinkedMap();
-		private var _changer:Executor = new Executor();
+		private var _changer:ChangeExecutor = new ChangeExecutor();
 
 		public function NoticeDispatcher_Handlers() {
 		}

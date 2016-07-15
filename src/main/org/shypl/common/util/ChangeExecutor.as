@@ -1,11 +1,11 @@
 package org.shypl.common.util {
 	import org.shypl.common.lang.IllegalStateException;
 	
-	public class Executor implements Lock {
+	public class ChangeExecutor implements Lock {
 		private var _pendingTasks:Vector.<Executable> = new Vector.<Executable>();
 		private var _locked:Boolean;
 		
-		public function Executor() {
+		public function ChangeExecutor() {
 		}
 		
 		public function get locked():Boolean {
