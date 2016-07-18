@@ -5,7 +5,7 @@ package org.shypl.common.timeline {
 	import org.shypl.common.lang.AbstractMethodException;
 	
 	[Abstract]
-	public class TimedProcessor implements Processor {
+	internal class TimedProcessor implements Processor {
 		private var _executeOnAddOrResume:Boolean;
 		private var _running:Boolean = true;
 		private var _executing:Boolean;
@@ -14,7 +14,6 @@ package org.shypl.common.timeline {
 		private var _ticker:Boolean;
 		private var _lastExecuteTime:int;
 		private var _stopPassedTime:int;
-		
 		
 		public function TimedProcessor(executeOnAddOrResume:Boolean) {
 			_executeOnAddOrResume = executeOnAddOrResume;
@@ -40,6 +39,7 @@ package org.shypl.common.timeline {
 				for each (var task:TimedTask in _newTasks) {
 					task.cancel();
 				}
+				_newTasks.length = 0;
 			}
 			while (_tasks.next()) {
 				TimedTask(_tasks.current).cancel();
@@ -91,6 +91,8 @@ package org.shypl.common.timeline {
 				for each (var task:TimedTask in _newTasks) {
 					_tasks.add(task);
 				}
+				_newTasks.length = 0;
+				
 				if (_executeOnAddOrResume) {
 					executeTasks(_tasks, passedTime);
 				}
