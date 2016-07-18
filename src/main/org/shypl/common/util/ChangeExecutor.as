@@ -36,12 +36,12 @@ package org.shypl.common.util {
 			}
 		}
 		
-		public function executeFunction(closure:Function):void {
+		public function executeFunction(closure:Function, ...arguments):void {
 			if (_locked) {
-				_pendingTasks.push(new ExecutableClosure(closure));
+				_pendingTasks.push(new ExecutableClosure(closure, arguments));
 			}
 			else {
-				closure();
+				closure.apply(null, arguments);
 			}
 		}
 		
