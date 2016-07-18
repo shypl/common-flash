@@ -19,7 +19,11 @@ package org.shypl.common.timeline {
 			_executeOnAddOrResume = executeOnAddOrResume;
 		}
 		
-		public final function addTask(task:TimedTask):void {
+		public function get executing():Boolean {
+			return _executing;
+		}
+		
+		public function addTask(task:TimedTask):void {
 			if (_executing) {
 				_newTasks.push(task);
 			}
@@ -27,14 +31,11 @@ package org.shypl.common.timeline {
 				_tasks.add(task);
 				if (_running) {
 					startTicker();
-					if (_executeOnAddOrResume) {
-						execute();
-					}
 				}
 			}
 		}
 		
-		public final function clear():void {
+		public function clear():void {
 			if (_executing) {
 				for each (var task:TimedTask in _newTasks) {
 					task.cancel();
@@ -48,18 +49,15 @@ package org.shypl.common.timeline {
 			stopTicker();
 		}
 		
-		public final function pause():void {
+		public function pause():void {
 			_running = false;
 			stopTicker();
 		}
 		
-		public final function resume():void {
+		public function resume():void {
 			_running = true;
 			if (!_tasks.isEmpty()) {
 				startTicker();
-				if (_executeOnAddOrResume) {
-					execute();
-				}
 			}
 		}
 		
@@ -78,7 +76,7 @@ package org.shypl.common.timeline {
 			throw new AbstractMethodException();
 		}
 		
-		protected final function execute():void {
+		protected function execute():void {
 			_executing = true;
 			
 			var currentTime:int = getTimer();
@@ -94,7 +92,7 @@ package org.shypl.common.timeline {
 				_newTasks.length = 0;
 				
 				if (_executeOnAddOrResume) {
-					executeTasks(_tasks, passedTime);
+					executeTasks(_tasks, 0);
 				}
 			}
 			

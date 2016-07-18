@@ -12,8 +12,17 @@ package org.shypl.common.timeline {
 			_timer = new Timer(0);
 		}
 		
+		override public function addTask(task:TimedTask):void {
+			super.addTask(task);
+			if (!executing) {
+				_timer.delay = 0;
+			}
+		}
+		
 		override protected function doStartTicker():void {
 			_timer.addEventListener(TimerEvent.TIMER, onTimer);
+			_timer.delay = 0;
+			_timer.start();
 		}
 		
 		override protected function doStopTicker():void {
