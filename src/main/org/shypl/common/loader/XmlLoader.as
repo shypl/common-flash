@@ -2,8 +2,8 @@ package org.shypl.common.loader {
 	internal class XmlLoader extends DataLoader {
 		private var _receiver:XmlReceiver;
 
-		function XmlLoader(url:String, receiver:XmlReceiver) {
-			super(url, false);
+		function XmlLoader(url:String, receiver:XmlReceiver, failHandler:LoadingFailHandler) {
+			super(url, failHandler, false);
 			_receiver = receiver;
 		}
 

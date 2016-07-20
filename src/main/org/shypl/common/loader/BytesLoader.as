@@ -1,11 +1,11 @@
 package org.shypl.common.loader {
 	import flash.utils.ByteArray;
-
+	
 	internal class BytesLoader extends DataLoader {
 		private var _receiver:BytesReceiver;
 
-		function BytesLoader(url:String, receiver:BytesReceiver) {
-			super(url, true);
+		function BytesLoader(url:String, receiver:BytesReceiver, failHandler:LoadingFailHandler) {
+			super(url, failHandler, true);
 			_receiver = receiver;
 		}
 
