@@ -6,6 +6,7 @@ package org.shypl.common.loader {
 	import org.shypl.common.lang.ErrorEventException;
 	import org.shypl.common.lang.IllegalStateException;
 	import org.shypl.common.timeline.GlobalTimeline;
+	import org.shypl.common.util.Cancelable;
 	import org.shypl.common.util.progress.AbstractProgress;
 	import org.shypl.common.util.progress.CancelableProgress;
 	
@@ -14,6 +15,7 @@ package org.shypl.common.loader {
 		private var _url:String;
 		private var _loading:Boolean;
 		private var _attempt:int;
+		private var _attemptLoadingCall:Cancelable;
 		private var _failHandler:LoadingFailHandler;
 		
 		function AbstractLoader(url:String, failHandler:LoadingFailHandler) {
@@ -26,6 +28,12 @@ package org.shypl.common.loader {
 		}
 		
 		public final function cancel():void {
+			FileLoader.LOGGER.trace("Loading cancel {}", _url);
+			
+			if (_attemptLoadingCall != null) {
+				_attemptLoadingCall.cancel();
+			}
+			
 			cancelLoading();
 			freeLoading();
 			complete();
@@ -41,6 +49,8 @@ package org.shypl.common.loader {
 		override final protected function complete():void {
 			super.complete();
 			FileLoader.handleLoadingComplete();
+			_attemptLoadingCall = null;
+			_failHandler = null;
 		}
 		
 		[Abstract]
@@ -70,7 +80,7 @@ package org.shypl.common.loader {
 		
 		protected final function handleLoadingCompleteEvent(event:Event):void {
 			_loading = false;
-			FileLoader.LOGGER.trace("Loaded {}", url);
+			FileLoader.LOGGER.trace("Loaded {}", _url);
 			
 			produceResult();
 			freeLoading();
@@ -81,11 +91,10 @@ package org.shypl.common.loader {
 			freeLoading();
 			_loading = false;
 			if (_attempt == 3) {
-				FileLoader.LOGGER.warn("Unable to load {}", url);
 				handleLoadingFail(event);
 			}
 			else {
-				GlobalTimeline.schedule(1000, attemptLoading);
+				_attemptLoadingCall = GlobalTimeline.schedule(1000, attemptLoading);
 			}
 		}
 		
@@ -93,11 +102,12 @@ package org.shypl.common.loader {
 			if (_loading || completed) {
 				throw new IllegalStateException();
 			}
-			FileLoader.LOGGER.trace("Load {}", url);
+			FileLoader.LOGGER.trace("Load {}", _url);
 			attemptLoading();
 		}
 		
 		private function attemptLoading():void {
+			_attemptLoadingCall = null;
 			++_attempt;
 			_loading = true;
 			startLoading();
@@ -105,10 +115,12 @@ package org.shypl.common.loader {
 		
 		private function handleLoadingFail(event:ErrorEvent):void {
 			if (_failHandler === null) {
+				FileLoader.LOGGER.error("Loading fail {}", _url);
 				throw new ErrorEventException(event, "Error on load file " + _url);
 			}
 			else {
 				_failHandler.handleLoadingFail(_url);
+				FileLoader.LOGGER.warn("Loading fail {}", _url);
 				complete();
 			}
 		}
