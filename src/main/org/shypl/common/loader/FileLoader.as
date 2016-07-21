@@ -12,7 +12,7 @@ package org.shypl.common.loader {
 		
 		private static var _queue:Deque = new LinkedList();
 		private static var _currentProcesses:int = 0;
-		private static var _parallelProcesses:int = 5;
+		private static var _parallelProcesses:int = 10;
 		
 		public static function get parallelProcesses():int {
 			return _parallelProcesses;
