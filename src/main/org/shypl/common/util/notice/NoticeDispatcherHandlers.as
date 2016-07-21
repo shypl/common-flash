@@ -34,11 +34,11 @@ package org.shypl.common.util.notice {
 			
 			while (_handlers.next()) {
 				var f:Function = _handlers.current;
-				if (f.length === 1) {
-					f.call(null, notice);
+				if (f.length === 0) {
+					f.call();
 				}
 				else {
-					f.call();
+					f.call(null, notice);
 				}
 			}
 			
