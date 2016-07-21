@@ -9,22 +9,22 @@ package org.shypl.common.collection {
 		private var _expectedModCount:int;
 		private var _current:Object;
 		private var _currentExists:Boolean;
-
+		
 		public function HashSet_Iterator(hashSet:HashSet) {
 			_set = hashSet;
 			_elements = _set.toArray();
 			_elementsLength = _elements.length;
 		}
-
+		
 		public function get element():* {
 			checkCurrent();
 			return _current;
 		}
-
+		
 		public function set element(value:*):void {
 			throw new UnsupportedOperationException();
 		}
-
+		
 		public function next():Boolean {
 			if (_cursor < _elementsLength) {
 				_current = _elements[_cursor++];
@@ -35,7 +35,7 @@ package org.shypl.common.collection {
 			_currentExists = false;
 			return false;
 		}
-
+		
 		public function remove():void {
 			checkForModification();
 			checkCurrent();
@@ -45,13 +45,13 @@ package org.shypl.common.collection {
 			_current = null;
 			_currentExists = false;
 		}
-
+		
 		protected final function checkForModification():void {
 			if (_set._modCount != _expectedModCount) {
 				throw new ConcurrentModificationException();
 			}
 		}
-
+		
 		private function checkCurrent():void {
 			if (!_currentExists) {
 				throw new NoSuchElementException();

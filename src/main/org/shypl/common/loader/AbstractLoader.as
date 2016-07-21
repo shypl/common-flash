@@ -90,8 +90,15 @@ package org.shypl.common.loader {
 		protected final function handleLoadingErrorEvent(event:ErrorEvent):void {
 			freeLoading();
 			_loading = false;
-			if (_attempt == 3) {
-				handleLoadingFail(event);
+			
+			if (_failHandler === null && _attempt == 3) {
+				FileLoader.LOGGER.error("Loading fail {}", _url);
+				throw new ErrorEventException(event, "Error on load file " + _url);
+			}
+			else if (_failHandler !== null) {
+				_failHandler.handleLoadingFail(_url);
+				FileLoader.LOGGER.warn("Loading fail {} ({})", _url, event.text);
+				complete();
 			}
 			else {
 				_attemptLoadingCall = GlobalTimeline.schedule(1000, attemptLoading);
@@ -113,16 +120,5 @@ package org.shypl.common.loader {
 			startLoading();
 		}
 		
-		private function handleLoadingFail(event:ErrorEvent):void {
-			if (_failHandler === null) {
-				FileLoader.LOGGER.error("Loading fail {}", _url);
-				throw new ErrorEventException(event, "Error on load file " + _url);
-			}
-			else {
-				_failHandler.handleLoadingFail(_url);
-				FileLoader.LOGGER.warn("Loading fail {}", _url);
-				complete();
-			}
-		}
 	}
 }

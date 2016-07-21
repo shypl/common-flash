@@ -1,19 +1,31 @@
 package org.shypl.common.collection {
-	internal class TreeMapEntry {
+	internal class TreeMapEntry implements MapEntry {
 		public static const RED:Boolean = false;
 		public static const BLACK:Boolean = true;
-
-		public var key:Object;
-		public var value:Object;
-		public var left:TreeMapEntry;
-		public var right:TreeMapEntry;
-		public var parent:TreeMapEntry;
-		public var color:Boolean = BLACK;
-
+		
+		internal var _key:Object;
+		internal var _value:Object;
+		internal var _left:TreeMapEntry;
+		internal var _right:TreeMapEntry;
+		internal var _parent:TreeMapEntry;
+		internal var _color:Boolean = BLACK;
+		
 		public function TreeMapEntry(key:Object, value:Object, parent:TreeMapEntry = null) {
-			this.key = key;
-			this.value = value;
-			this.parent = parent;
+			this._key = key;
+			this._value = value;
+			this._parent = parent;
+		}
+		
+		public function get key():* {
+			return _key;
+		}
+		
+		public function get value():* {
+			return _value;
+		}
+		
+		public function set value(value:*):void {
+			_value = value;
 		}
 	}
 }
