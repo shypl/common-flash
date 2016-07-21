@@ -105,12 +105,16 @@ package org.shypl.common.loader {
 			}
 		}
 		
-		internal final function run():void {
-			if (_loading || completed) {
+		internal final function run():Boolean {
+			if (completed) {
+				return false;
+			}
+			if (_loading) {
 				throw new IllegalStateException();
 			}
 			FileLoader.LOGGER.trace("Load {}", _url);
 			attemptLoading();
+			return true;
 		}
 		
 		private function attemptLoading():void {

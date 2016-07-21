@@ -62,8 +62,9 @@ package org.shypl.common.loader {
 		
 		private static function loadNext():void {
 			if (_currentProcesses < _parallelProcesses && !_queue.isEmpty()) {
-				++_currentProcesses;
-				AbstractLoader(_queue.removeFirst()).run();
+				if (AbstractLoader(_queue.removeFirst()).run()) {
+					++_currentProcesses;
+				}
 			}
 		}
 	}
