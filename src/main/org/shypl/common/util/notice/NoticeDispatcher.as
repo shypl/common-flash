@@ -14,12 +14,12 @@ package org.shypl.common.util.notice {
 				type = getQualifiedClassName(type);
 			}
 
-			var handlers:NoticeDispatcher_Handlers = _handlersMap[type];
+			var handlers:NoticeDispatcherHandlers = _handlersMap[type];
 			if (handlers === null) {
-				handlers = new NoticeDispatcher_Handlers();
+				handlers = new NoticeDispatcherHandlers();
 				_handlersMap[type] = handlers;
 			}
-			handlers.add(handler, obtainNotice);
+			handlers.add(handler);
 		}
 
 		public function removeNoticeHandler(type:Object, handler:Function):void {
@@ -27,7 +27,7 @@ package org.shypl.common.util.notice {
 				type = getQualifiedClassName(type);
 			}
 
-			var handlers:NoticeDispatcher_Handlers = _handlersMap[type];
+			var handlers:NoticeDispatcherHandlers = _handlersMap[type];
 			if (handlers !== null) {
 				handlers.remove(handler);
 				if (handlers.isEmpty()) {
@@ -38,7 +38,7 @@ package org.shypl.common.util.notice {
 
 		public function dispatchNotice(notice:Object):void {
 			var type:String = (notice is String) ? (notice as String) : getQualifiedClassName(notice);
-			var handlers:NoticeDispatcher_Handlers = _handlersMap[type];
+			var handlers:NoticeDispatcherHandlers = _handlersMap[type];
 			if (handlers !== null) {
 				handlers.dispatch(notice);
 			}
@@ -48,7 +48,7 @@ package org.shypl.common.util.notice {
 			if (type is Class) {
 				type = getQualifiedClassName(type);
 			}
-			var handlers:NoticeDispatcher_Handlers = _handlersMap[type];
+			var handlers:NoticeDispatcherHandlers = _handlersMap[type];
 			if (handlers !== null) {
 				handlers.clear();
 				delete _handlersMap[type];
@@ -57,7 +57,7 @@ package org.shypl.common.util.notice {
 
 		public function removeAllNoticeHandlers():void {
 			for (var type:Object in _handlersMap) {
-				NoticeDispatcher_Handlers(_handlersMap[type]).clear();
+				NoticeDispatcherHandlers(_handlersMap[type]).clear();
 				delete _handlersMap[type];
 			}
 		}

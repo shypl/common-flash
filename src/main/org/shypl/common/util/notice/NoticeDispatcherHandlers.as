@@ -1,16 +1,16 @@
 package org.shypl.common.util.notice {
-	import org.shypl.common.collection.LiteLinkedMap;
+	import org.shypl.common.collection.LiteLinkedSet;
 	import org.shypl.common.util.ChangeExecutor;
 	
-	internal class NoticeDispatcher_Handlers {
-		private var _handlers:LiteLinkedMap = new LiteLinkedMap();
+	internal class NoticeDispatcherHandlers {
+		private var _handlers:LiteLinkedSet = new LiteLinkedSet();
 		private var _changer:ChangeExecutor = new ChangeExecutor();
 		
-		public function NoticeDispatcher_Handlers() {
+		public function NoticeDispatcherHandlers() {
 		}
 		
-		public function add(handler:Function, obtainNotice:Boolean = false):void {
-			_changer.executeFunction(_handlers.put, handler, obtainNotice);
+		public function add(handler:Function):void {
+			_changer.executeFunction(_handlers.add, handler);
 		}
 		
 		public function remove(handler:Function):void {
@@ -33,8 +33,8 @@ package org.shypl.common.util.notice {
 			_changer.lock();
 			
 			while (_handlers.next()) {
-				var f:Function = _handlers.currentKey as Function;
-				if (_handlers.currentValue) {
+				var f:Function = _handlers.current;
+				if (f.length === 1) {
 					f.call(null, notice);
 				}
 				else {
