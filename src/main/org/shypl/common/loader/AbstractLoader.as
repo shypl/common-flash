@@ -97,7 +97,7 @@ package org.shypl.common.loader {
 			}
 			else if (_failHandler !== null) {
 				_failHandler.handleLoadingFail(_url);
-				FileLoader.LOGGER.warn("Loading fail {} ({})", _url, event.text);
+				FileLoader.LOGGER.warn("Loading fail {}", _url);
 				complete();
 			}
 			else {
