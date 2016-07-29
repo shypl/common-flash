@@ -2,20 +2,21 @@ package org.shypl.common.timeline {
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
-	import org.shypl.common.collection.LiteLinkedList;
-	
 	internal class ScheduledProcessor extends TimedProcessor {
 		private var _timer:Timer;
 		
 		public function ScheduledProcessor() {
-			super(true);
 			_timer = new Timer(0);
 		}
 		
 		override public function addTask(task:TimedTask):void {
-			super.addTask(task);
-			if (!executing) {
-				_timer.delay = 0;
+			if (executing && !running) {
+				super.addTask(task);
+			}
+			else {
+				execute();
+				super.addTask(task);
+				executeTasks(0);
 			}
 		}
 		
@@ -30,15 +31,15 @@ package org.shypl.common.timeline {
 			_timer.stop();
 		}
 		
-		override protected function executeTasks(tasks:LiteLinkedList, passedTime:int):void {
+		override protected function executeTasks(passedTime:int):void {
 			var nextDelay:int = -1;
 			_timer.stop();
 			
-			while (tasks.next()) {
-				var task:ScheduledTask = tasks.current;
+			while (_tasks.next()) {
+				var task:ScheduledTask = _tasks.current;
 				try {
 					if (task.tryExecuteAndGetCanceled(passedTime)) {
-						tasks.removeCurrent();
+						_tasks.removeCurrent();
 					}
 					else if (nextDelay === -1 || task.remainedTime < nextDelay) {
 						nextDelay = task.remainedTime;
@@ -46,8 +47,8 @@ package org.shypl.common.timeline {
 				}
 				catch (error:Error) {
 					task.cancel();
-					tasks.removeCurrent();
-					tasks.stopIteration();
+					_tasks.removeCurrent();
+					_tasks.stopIteration();
 					throw error;
 				}
 			}
@@ -56,6 +57,11 @@ package org.shypl.common.timeline {
 				_timer.delay = nextDelay;
 				_timer.start();
 			}
+		}
+		
+		override protected function addNewTasksAfterExecute():void {
+			super.addNewTasksAfterExecute();
+			executeTasks(0);
 		}
 		
 		private function onTimer(event:TimerEvent):void {

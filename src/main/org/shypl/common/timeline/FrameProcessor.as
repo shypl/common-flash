@@ -1,11 +1,8 @@
 package org.shypl.common.timeline {
 	import flash.events.Event;
 	
-	import org.shypl.common.collection.LiteLinkedList;
-	
 	internal class FrameProcessor extends TimedProcessor {
 		public function FrameProcessor() {
-			super(false);
 		}
 		
 		override protected function doStartTicker():void {
@@ -16,18 +13,18 @@ package org.shypl.common.timeline {
 			Timeline.SHAPE.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
-		override protected function executeTasks(tasks:LiteLinkedList, passedTime:int):void {
-			while (tasks.next()) {
-				var task:TimedTask = tasks.current;
+		override protected function executeTasks(passedTime:int):void {
+			while (_tasks.next()) {
+				var task:TimedTask = _tasks.current;
 				try {
 					if (task.tryExecuteAndGetCanceled(passedTime)) {
-						tasks.removeCurrent();
+						_tasks.removeCurrent();
 					}
 				}
 				catch (error:Error) {
 					task.cancel();
-					tasks.removeCurrent();
-					tasks.stopIteration();
+					_tasks.removeCurrent();
+					_tasks.stopIteration();
 					throw error;
 				}
 			}

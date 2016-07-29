@@ -6,21 +6,24 @@ package org.shypl.common.timeline {
 	
 	[Abstract]
 	internal class TimedProcessor implements Processor {
-		private var _executeOnAddOrResume:Boolean;
+		protected var _tasks:LiteLinkedList = new LiteLinkedList();
+		
 		private var _running:Boolean = true;
 		private var _executing:Boolean;
 		private var _newTasks:Vector.<TimedTask> = new Vector.<TimedTask>();
-		private var _tasks:LiteLinkedList = new LiteLinkedList();
 		private var _ticker:Boolean;
 		private var _lastExecuteTime:int;
 		private var _stopPassedTime:int;
 		
-		public function TimedProcessor(executeOnAddOrResume:Boolean) {
-			_executeOnAddOrResume = executeOnAddOrResume;
+		public function TimedProcessor() {
 		}
 		
 		public function get executing():Boolean {
 			return _executing;
+		}
+		
+		public function get running():Boolean {
+			return _running;
 		}
 		
 		public function addTask(task:TimedTask):void {
@@ -72,7 +75,7 @@ package org.shypl.common.timeline {
 		}
 		
 		[Abstract]
-		protected function executeTasks(tasks:LiteLinkedList, passedTime:int):void {
+		protected function executeTasks(passedTime:int):void {
 			throw new AbstractMethodException();
 		}
 		
@@ -83,17 +86,9 @@ package org.shypl.common.timeline {
 			var passedTime:int = currentTime - _lastExecuteTime;
 			_lastExecuteTime = currentTime;
 			
-			executeTasks(_tasks, passedTime);
-			
+			executeTasks(passedTime);
 			while (_newTasks.length !== 0) {
-				for each (var task:TimedTask in _newTasks) {
-					_tasks.add(task);
-				}
-				_newTasks.length = 0;
-				
-				if (_executeOnAddOrResume) {
-					executeTasks(_tasks, 0);
-				}
+				addNewTasksAfterExecute();
 			}
 			
 			if (_tasks.isEmpty()) {
@@ -101,6 +96,13 @@ package org.shypl.common.timeline {
 			}
 			
 			_executing = false;
+		}
+		
+		protected function addNewTasksAfterExecute():void {
+			for each (var task:TimedTask in _newTasks) {
+				_tasks.add(task);
+			}
+			_newTasks.length = 0;
 		}
 		
 		private function startTicker():void {
