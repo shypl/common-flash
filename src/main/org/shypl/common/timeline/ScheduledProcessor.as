@@ -2,6 +2,8 @@ package org.shypl.common.timeline {
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
+	import org.shypl.common.logging.LogManager;
+	
 	internal class ScheduledProcessor extends TimedProcessor {
 		private var _timer:Timer;
 		
@@ -10,13 +12,13 @@ package org.shypl.common.timeline {
 		}
 		
 		override public function addTask(task:TimedTask):void {
-			if (executing && !running) {
+			if (executing || !running) {
 				super.addTask(task);
 			}
 			else {
 				execute();
 				super.addTask(task);
-				executeTasks(0);
+				doExecute(0);
 			}
 		}
 		
@@ -31,7 +33,7 @@ package org.shypl.common.timeline {
 			_timer.stop();
 		}
 		
-		override protected function executeTasks(passedTime:int):void {
+		override protected function doExecuteTasks(passedTime:int):void {
 			var nextDelay:int = -1;
 			_timer.stop();
 			
@@ -61,7 +63,7 @@ package org.shypl.common.timeline {
 		
 		override protected function addNewTasksAfterExecute():void {
 			super.addNewTasksAfterExecute();
-			executeTasks(0);
+			doExecuteTasks(0);
 		}
 		
 		private function onTimer(event:TimerEvent):void {

@@ -75,18 +75,22 @@ package org.shypl.common.timeline {
 		}
 		
 		[Abstract]
-		protected function executeTasks(passedTime:int):void {
+		protected function doExecuteTasks(passedTime:int):void {
 			throw new AbstractMethodException();
 		}
 		
 		protected function execute():void {
-			_executing = true;
-			
 			var currentTime:int = getTimer();
 			var passedTime:int = currentTime - _lastExecuteTime;
 			_lastExecuteTime = currentTime;
 			
-			executeTasks(passedTime);
+			doExecute(passedTime);
+		}
+		
+		protected function doExecute(passedTime:int):void {
+			_executing = true;
+			
+			doExecuteTasks(passedTime);
 			while (_newTasks.length !== 0) {
 				addNewTasksAfterExecute();
 			}

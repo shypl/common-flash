@@ -13,7 +13,7 @@ package org.shypl.common.timeline {
 			Timeline.SHAPE.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
-		override protected function executeTasks(passedTime:int):void {
+		override protected function doExecuteTasks(passedTime:int):void {
 			while (_tasks.next()) {
 				var task:TimedTask = _tasks.current;
 				try {
