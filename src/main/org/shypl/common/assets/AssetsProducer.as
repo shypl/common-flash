@@ -1,60 +1,59 @@
 package org.shypl.common.assets {
-
+	
 	import flash.system.ApplicationDomain;
-
+	
 	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.util.FileNameUtils;
 	import org.shypl.common.util.FilePath;
-	import org.shypl.common.util.FilePathUtils;
 	import org.shypl.common.util.StringUtils;
 	import org.shypl.common.util.progress.Progress;
-
+	
 	public class AssetsProducer implements AssetsCollector {
 		private var _basePath:FilePath;
 		private var _items:Object = {};
-
+		
 		public function AssetsProducer(path:FilePath) {
 			_basePath = path;
 		}
-
+		
 		public function addBinary(name:String, deferred:Boolean = false, path:String = null):BytesAsset {
 			return BytesAsset(add(name, AssetType.BYTES, deferred, path));
 		}
-
+		
 		public function addText(name:String, deferred:Boolean = false, path:String = null):TextAsset {
 			return TextAsset(add(name, AssetType.TEXT, deferred, path));
 		}
-
+		
 		public function addXml(name:String, deferred:Boolean = false, path:String = null):XmlAsset {
 			return XmlAsset(add(name, AssetType.XML, deferred, path));
 		}
-
+		
 		public function addImage(name:String, deferred:Boolean = false, path:String = null):ImageAsset {
 			return ImageAsset(add(name, AssetType.IMAGE, deferred, path));
 		}
-
+		
 		public function addAtlas(name:String, deferred:Boolean = false, path:String = null):AtlasAsset {
 			return AtlasAsset(add(name, AssetType.ATLAS, deferred, path));
 		}
-
+		
 		public function addSound(name:String, deferred:Boolean = false, path:String = null):SoundAsset {
 			return SoundAsset(add(name, AssetType.SOUND, deferred, path));
 		}
-
+		
 		public function addSwf(name:String, deferred:Boolean = false, path:String = null, inCurrentDomain:Boolean = false):SwfAsset {
 			return addSwfInDomain(name,
 				inCurrentDomain ? ApplicationDomain.currentDomain : new ApplicationDomain(ApplicationDomain.currentDomain),
 				deferred, path);
 		}
-
+		
 		public function addSwfInDomain(name:String, domain:ApplicationDomain, deferred:Boolean = false, path:String = null):SwfAsset {
 			return SwfAsset(add(name, AssetType.SWF, deferred, path, domain));
 		}
-
+		
 		public function addFont(name:String, deferred:Boolean = false, path:String = null):FontAsset {
 			return FontAsset(add(name, AssetType.FONT, deferred, path));
 		}
-
+		
 		public function add(name:String, type:AssetType = null, deferred:Boolean = false, path:String = null, domain:ApplicationDomain = null):Asset {
 			var item:AssetsCollectionItem = _items[name];
 			if (item === null) {
@@ -66,7 +65,7 @@ package org.shypl.common.assets {
 			}
 			return item.asset;
 		}
-
+		
 		public function addMany(names:Vector.<String>, deferred:Boolean = false, paths:Vector.<String> = null):Vector.<Asset> {
 			var assets:Vector.<Asset> = new Vector.<Asset>(names.length, true);
 			for (var i:int = 0; i < names.length; i++) {
@@ -74,20 +73,20 @@ package org.shypl.common.assets {
 			}
 			return assets;
 		}
-
+		
 		public function load(receiver:AssetsReceiver = null):Progress {
 			var items:Object = _items;
 			_items = {};
 			return new AssetsLoader(items, receiver);
 		}
-
+		
 		private function createAsset(name:String, path:String, type:AssetType, domain:ApplicationDomain):Asset {
 			var filePath:FilePath = _basePath.resolve(path === null ? name : path);
-
+			
 			if (type === null) {
 				type = defineTypeByExt(filePath.fileName);
 			}
-
+			
 			switch (type) {
 				case AssetType.IMAGE:
 					return new ImageAsset(filePath);
@@ -109,36 +108,36 @@ package org.shypl.common.assets {
 					throw new IllegalArgumentException();
 			}
 		}
-
+		
 		private function defineTypeByExt(path:String):AssetType {
 			var ext:String = FileNameUtils.getExtension(path);
-
+			
 			switch (ext) {
 				case "png":
 				case "jpg":
 				case "jpeg":
 				case "gif":
 					return AssetType.IMAGE;
-
+				
 				case "mp3":
 					return AssetType.SOUND;
-
+				
 				case "swf":
 					if (StringUtils.contains(path, ".font.")) {
 						return AssetType.FONT;
 					}
 					return AssetType.SWF;
-
+				
 				case "txt":
 				case "properties":
 					return AssetType.TEXT;
-
+				
 				case "xml":
 					if (StringUtils.contains(path, ".atlas.")) {
 						return AssetType.ATLAS;
 					}
 					return AssetType.XML;
-
+				
 				default :
 					return AssetType.BYTES;
 			}
