@@ -37,5 +37,9 @@ package org.shypl.common.util.progress {
 		public function handleComplete(handler:Function, delayed:Boolean = false):void {
 			_progress.handleComplete(handler, delayed);
 		}
+		
+		public function removeAllNoticeHandlers():void {
+			_progress.removeAllNoticeHandlers();
+		}
 	}
 }
