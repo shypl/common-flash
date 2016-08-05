@@ -17,7 +17,11 @@ package org.shypl.common.loader {
 		}
 		
 		override protected final function cancelLoading():void {
-			_loader.close();
+			try {
+				_loader.close();
+			}
+			catch (e:Error) {
+			}
 		}
 		
 		override protected final function getLoadingPercent():Number {

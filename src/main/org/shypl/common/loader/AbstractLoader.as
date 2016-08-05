@@ -17,6 +17,7 @@ package org.shypl.common.loader {
 		private var _attempt:int;
 		private var _attemptLoadingCall:Cancelable;
 		private var _failHandler:LoadingFailHandler;
+		private var _canceled:Boolean;
 		
 		function AbstractLoader(url:String, failHandler:LoadingFailHandler) {
 			_url = url;
@@ -28,15 +29,19 @@ package org.shypl.common.loader {
 		}
 		
 		public final function cancel():void {
-			FileLoader.LOGGER.trace("Loading cancel {}", _url);
-			
-			if (_attemptLoadingCall != null) {
-				_attemptLoadingCall.cancel();
+			if (!completed && !_canceled) {
+				_canceled = true;
+				
+				FileLoader.LOGGER.trace("Loading cancel {}", _url);
+				
+				if (_attemptLoadingCall != null) {
+					_attemptLoadingCall.cancel();
+				}
+				
+				cancelLoading();
+				freeLoading();
+				complete();
 			}
-			
-			cancelLoading();
-			freeLoading();
-			complete();
 		}
 		
 		override final protected function calculatePercent():Number {

@@ -40,10 +40,18 @@ package org.shypl.common.loader {
 				_emulateLoad.cancel();
 			}
 			if (_loader1) {
-				_loader1.close()
+				try {
+					_loader1.close();
+				}
+				catch (e:Error) {
+				}
 			}
 			if (_loader2) {
-				_loader2.close();
+				try {
+					_loader2.close();
+				}
+				catch (e:Error) {
+				}
 			}
 		}
 		
