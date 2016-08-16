@@ -58,7 +58,7 @@ package org.shypl.common.util {
 		}
 
 		public static function defineWordDeclinationRu(number:Number, word1:String, word2:String, word5:String):String {
-			if (number > 10 && number < 15) {
+			if (number % 100 > 10 && number % 100 < 15) {
 				return word5;
 			}
 
