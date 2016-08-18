@@ -6,8 +6,8 @@ package org.shypl.common.timeline {
 		private var _canceled:Boolean;
 		private var _nextTask:DeferredTask;
 		
-		public function DeferredTask(closure:Function) {
-			super(closure);
+		public function DeferredTask(closure:Function, arguments:Array) {
+			super(closure, arguments);
 		}
 		
 		override public function execute():void {

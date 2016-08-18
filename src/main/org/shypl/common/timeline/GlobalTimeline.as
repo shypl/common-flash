@@ -20,8 +20,12 @@ package org.shypl.common.timeline {
 			return INSTANCE.forEachFrame(task, obtainTime);
 		}
 		
-		public static function callDeferred(closure:Function):Cancelable {
-			return INSTANCE.callDeferred(closure);
+		public static function callDeferred(closure:Function, ...arguments):Cancelable {
+			return INSTANCE.applyDeferred(closure, arguments);
+		}
+		
+		public static function applyDeferred(closure:Function, arguments:Array):Cancelable {
+			return INSTANCE.applyDeferred(closure, arguments);
 		}
 		
 		public static function addFrameTask(task:FrameTask):Cancelable {

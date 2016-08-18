@@ -40,9 +40,13 @@ package org.shypl.common.timeline {
 			return addFrameTask(new ClosureFrameTask(true, closure, obtainTime));
 		}
 		
-		public final function callDeferred(closure:Function):Cancelable {
+		public final function callDeferred(closure:Function, ...arguments):Cancelable {
+			return applyDeferred(closure, arguments);
+		}
+		
+		public final function applyDeferred(closure:Function, arguments:Array):Cancelable {
 			checkStopped();
-			var task:DeferredTask = new DeferredTask(closure);
+			var task:DeferredTask = new DeferredTask(closure, arguments);
 			_deferredProcessor.addTask(task);
 			return task;
 		}
