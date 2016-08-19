@@ -28,6 +28,10 @@ package org.shypl.common.timeline {
 			return INSTANCE.applyDeferred(closure, arguments);
 		}
 		
+		public static function runDeferred():void {
+			INSTANCE.runDeferred();
+		}
+		
 		public static function addFrameTask(task:FrameTask):Cancelable {
 			return INSTANCE.addFrameTask(task);
 		}

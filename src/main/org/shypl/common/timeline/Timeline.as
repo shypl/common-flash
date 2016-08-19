@@ -51,6 +51,11 @@ package org.shypl.common.timeline {
 			return task;
 		}
 		
+		public final function runDeferred():void {
+			checkStopped();
+			_deferredProcessor.run();
+		}
+		
 		public final function addFrameTask(task:FrameTask):Cancelable {
 			checkStopped();
 			_frameProcessor.addTask(task);

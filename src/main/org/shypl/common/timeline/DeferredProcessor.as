@@ -54,6 +54,10 @@ package org.shypl.common.timeline {
 			}
 		}
 		
+		public function run():void {
+			execute();
+		}
+		
 		private function startTicker():void {
 			Timeline.SHAPE.addEventListener(Event.EXIT_FRAME, onExitFrame);
 		}
