@@ -1,34 +1,45 @@
 package org.shypl.common.timeline {
+	import org.shypl.common.lang.AbstractMethodException;
 	import org.shypl.common.util.Cancelable;
-	import org.shypl.common.util.ExecutableClosure;
 	
-	internal class DeferredTask extends ExecutableClosure implements Cancelable {
+	public class DeferredTask implements Cancelable {
 		private var _canceled:Boolean;
 		private var _nextTask:DeferredTask;
 		
-		public function DeferredTask(closure:Function, arguments:Array) {
-			super(closure, arguments);
+		public function DeferredTask() {
 		}
 		
-		override public function execute():void {
-			if (!_canceled) {
-				super.execute();
-				free();
-			}
+		public final function get canceled():Boolean {
+			return _canceled;
 		}
 		
-		public function cancel():void {
+		public final function cancel():void {
 			if (!_canceled) {
 				_canceled = true;
 				free();
 			}
 		}
 		
-		public function setNextTask(value:DeferredTask):void {
+		protected function free():void {
+		}
+		
+		[Abstract]
+		protected function execute():void {
+			throw new AbstractMethodException();
+		}
+		
+		internal final function setNextTask(value:DeferredTask):void {
 			_nextTask = value;
 		}
 		
-		internal function nextTask():DeferredTask {
+		internal final function tryExecute():void {
+			if (!_canceled) {
+				execute();
+			}
+			free();
+		}
+		
+		internal final function nextTask():DeferredTask {
 			var next:DeferredTask = _nextTask;
 			_nextTask = null;
 			return next;

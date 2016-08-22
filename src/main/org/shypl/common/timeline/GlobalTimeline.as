@@ -20,12 +20,16 @@ package org.shypl.common.timeline {
 			return INSTANCE.forEachFrame(task, obtainTime);
 		}
 		
-		public static function callDeferred(closure:Function, ...arguments):Cancelable {
-			return INSTANCE.applyDeferred(closure, arguments);
+		public static function callDeferred(closure:Function):Cancelable {
+			return INSTANCE.callDeferredWithArgumentsArray(closure, null);
 		}
 		
-		public static function applyDeferred(closure:Function, arguments:Array):Cancelable {
-			return INSTANCE.applyDeferred(closure, arguments);
+		public static function callDeferredWithArguments(closure:Function, ...arguments):Cancelable {
+			return INSTANCE.callDeferredWithArgumentsArray(closure, arguments);
+		}
+		
+		public static function callDeferredWithArgumentsArray(closure:Function, arguments:Array):Cancelable {
+			return INSTANCE.callDeferredWithArgumentsArray(closure, arguments);
 		}
 		
 		public static function runDeferred():void {
@@ -38,6 +42,10 @@ package org.shypl.common.timeline {
 		
 		public static function addScheduledTask(task:ScheduledTask):Cancelable {
 			return INSTANCE.addScheduledTask(task);
+		}
+		
+		public static function addDeferredTask(task:DeferredTask):Cancelable {
+			return INSTANCE.addDeferredTask(task);
 		}
 		
 		public static function clear():void {

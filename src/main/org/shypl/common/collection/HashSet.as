@@ -16,7 +16,7 @@ package org.shypl.common.collection {
 		}
 		
 		override public function contains(element:Object):Boolean {
-			return element in _map;
+			return _map[element] === true;
 		}
 		
 		override public function add(element:Object):Boolean {

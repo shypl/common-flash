@@ -70,7 +70,7 @@ package org.shypl.common.timeline {
 			stopTicker();
 			var task:DeferredTask = _first;
 			while (task !== null) {
-				task.execute();
+				task.tryExecute();
 				task = task.nextTask();
 			}
 			_first = null;

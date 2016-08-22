@@ -1,4 +1,5 @@
 package org.shypl.common.util {
+	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 
@@ -8,6 +9,7 @@ package org.shypl.common.util {
 	public final class CollectionUtils {
 
 		public static const VECTOR_CLASS_NAME:String = getQualifiedClassName(Vector);
+		public static const VECTOR_CLASSES_CACHE:Dictionary = new Dictionary();
 
 		public static function isVector(collection:Object):Boolean {
 			if (collection === null) {
@@ -219,7 +221,12 @@ package org.shypl.common.util {
 		}
 
 		public static function getVectorClass(elementClass:Class):Class {
-			return Class(getDefinitionByName(VECTOR_CLASS_NAME + ".<" + getQualifiedClassName(elementClass) + ">"));
+			var cls:Class = VECTOR_CLASSES_CACHE[elementClass];
+			if (cls === null) {
+				cls = Class(getDefinitionByName(VECTOR_CLASS_NAME + ".<" + getQualifiedClassName(elementClass) + ">"));
+				VECTOR_CLASSES_CACHE[elementClass] = cls;
+			}
+			return cls;
 		}
 
 		public static function createVector(elementClass:Class, length:uint = 0, fixed:Boolean = false):* {
