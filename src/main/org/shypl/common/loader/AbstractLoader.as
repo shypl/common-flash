@@ -86,10 +86,11 @@ package org.shypl.common.loader {
 		protected final function handleLoadingCompleteEvent(event:Event):void {
 			_loading = false;
 			FileLoader.LOGGER.trace("Loaded {}", _url);
-			
-			produceResult();
-			freeLoading();
-			complete();
+			if (!_canceled) {
+				produceResult();
+				freeLoading();
+				complete();
+			}
 		}
 		
 		protected final function handleLoadingErrorEvent(event:ErrorEvent):void {
