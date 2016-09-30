@@ -20,7 +20,11 @@ package org.shypl.common.util {
 		}
 		
 		private function save():void {
-			_sharedObject.flush();
+			try {
+				_sharedObject.flush();
+			}
+			catch (ignored:Error) {
+			}
 		}
 	}
 }
