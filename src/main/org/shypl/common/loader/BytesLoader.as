@@ -10,8 +10,10 @@ package org.shypl.common.loader {
 		}
 
 		override protected function produceBytes(data:ByteArray):void {
-			_receiver.receiveBytes(data);
-			_receiver = null;
+			if (_receiver) {
+				_receiver.receiveBytes(data);
+				_receiver = null;
+			}
 		}
 	}
 }

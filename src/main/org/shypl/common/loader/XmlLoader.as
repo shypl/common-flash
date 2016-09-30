@@ -8,8 +8,10 @@ package org.shypl.common.loader {
 		}
 
 		override protected function produceText(data:String):void {
-			_receiver.receiveXml(new XML(data));
-			_receiver = null;
+			if (_receiver) {
+				_receiver.receiveXml(new XML(data));
+				_receiver = null;
+			}
 		}
 	}
 }
