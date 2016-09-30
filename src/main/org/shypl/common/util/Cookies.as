@@ -1,12 +1,21 @@
 package org.shypl.common.util {
 	import flash.net.SharedObject;
-
+	
+	import org.shypl.common.lang.notNull;
+	
 	public class Cookies extends ParametersObject {
 		private var _sharedObject:SharedObject;
 		
 		public function Cookies(storageName:String = "cookies", sharedName:String = null) {
-			_sharedObject = SharedObject.getLocal(storageName, sharedName);
-			super(_sharedObject.data);
+			var data:Object;
+			try {
+				_sharedObject = SharedObject.getLocal(storageName, sharedName);
+				data = _sharedObject.data;
+			}
+			catch (ignored:Error) {
+				data = {};
+			}
+			super(data);
 		}
 		
 		override public function remove(name:String):void {
@@ -20,10 +29,13 @@ package org.shypl.common.util {
 		}
 		
 		private function save():void {
-			try {
-				_sharedObject.flush();
-			}
-			catch (ignored:Error) {
+			if (notNull(_sharedObject)) {
+				try {
+					_sharedObject.flush();
+				}
+				catch (ignored:Error) {
+					
+				}
 			}
 		}
 	}
