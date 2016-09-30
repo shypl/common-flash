@@ -1,6 +1,6 @@
 package org.shypl.common.loader.cache {
-	import org.shypl.common.lang.RuntimeException;
 	import org.shypl.common.lang.notNull;
+	import org.shypl.common.loader.FileLoaderException;
 	import org.shypl.common.loader.LoadingFailHandler;
 	import org.shypl.common.timeline.GlobalTimeline;
 	import org.shypl.common.util.progress.CancelableProgress;
@@ -61,7 +61,7 @@ package org.shypl.common.loader.cache {
 		
 		private function callFailHandlers():void {
 			if (_failHandlers.length == 0) {
-				throw new RuntimeException("Cannot load file " + _failedUrl);
+				throw new FileLoaderException("Cannot load file " + _failedUrl);
 			}
 			
 			for each (var handler:LoadingFailHandler in _failHandlers) {

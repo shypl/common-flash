@@ -98,7 +98,7 @@ package org.shypl.common.loader {
 			
 			if (_failHandler === null && _attempt == 3) {
 				FileLoader.LOGGER.error("Loading fail {}", _url);
-				throw new ErrorEventException(event, "Error on load file " + _url);
+				throw new FileLoaderException("Error on load file " + _url, new ErrorEventException(event));
 			}
 			else if (_failHandler !== null) {
 				_failHandler.handleLoadingFail(_url);
