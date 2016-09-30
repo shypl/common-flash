@@ -464,6 +464,10 @@ package org.shypl.common.math {
 		}
 
 		public function sqrt():Long {
+			if (isZero() || isOne()) {
+				return this;
+			}
+			
 			var p:Long = ONE;
 			while (p.compareTo(this.divide(p)) <= 0) {
 				p = p.shiftLeft(1);
