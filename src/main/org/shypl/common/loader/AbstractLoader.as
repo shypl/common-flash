@@ -32,7 +32,7 @@ package org.shypl.common.loader {
 			if (!completed && !_canceled) {
 				_canceled = true;
 				
-				FileLoader.LOGGER.trace("Loading cancel {}", _url);
+				FileLoader.LOGGER.debug("Cancel load {}", _url);
 				
 				if (_attemptLoadingCall != null) {
 					_attemptLoadingCall.cancel();
@@ -85,7 +85,7 @@ package org.shypl.common.loader {
 		
 		protected final function handleLoadingCompleteEvent(event:Event):void {
 			_loading = false;
-			FileLoader.LOGGER.trace("Loaded {}", _url);
+			FileLoader.LOGGER.debug("Complete load {}", _url);
 			if (!completed) {
 				produceResult();
 				freeLoading();
@@ -118,7 +118,7 @@ package org.shypl.common.loader {
 			if (_loading) {
 				throw new IllegalStateException();
 			}
-			FileLoader.LOGGER.trace("Load {}", _url);
+			FileLoader.LOGGER.debug("Start load {}", _url);
 			attemptLoading();
 			return true;
 		}
