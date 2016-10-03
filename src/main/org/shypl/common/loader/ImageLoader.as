@@ -4,6 +4,7 @@ package org.shypl.common.loader {
 	import flash.display.LoaderInfo;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
@@ -60,6 +61,7 @@ package org.shypl.common.loader {
 			_loader1.dataFormat = URLLoaderDataFormat.BINARY;
 			_loader1.addEventListener(Event.COMPLETE, onComplete1);
 			_loader1.addEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
+			_loader1.addEventListener(SecurityErrorEvent.SECURITY_ERROR, handleLoadingErrorEvent);
 			_loader1.load(new URLRequest(url));
 		}
 		
@@ -67,6 +69,7 @@ package org.shypl.common.loader {
 			if (_loader1) {
 				_loader1.removeEventListener(Event.COMPLETE, onComplete1);
 				_loader1.removeEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
+				_loader1.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, handleLoadingErrorEvent);
 				_loader1 = null;
 			}
 			if (_loader2) {
