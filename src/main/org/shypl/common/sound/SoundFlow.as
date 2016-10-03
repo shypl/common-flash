@@ -30,16 +30,20 @@ package org.shypl.common.sound {
 
 			const transform:SoundTransform = new SoundTransform(realVolume);
 
-			if (_loop) {
-				if (start == 0 && _end == 0) {
-					_channel = _sound.play(0, int.MAX_VALUE, transform);
+			try {
+				if (_loop) {
+					if (start == 0 && _end == 0) {
+						_channel = _sound.play(0, int.MAX_VALUE, transform);
+					}
+					else {
+						_channel = _sound.play(start, 1, transform);
+					}
 				}
 				else {
 					_channel = _sound.play(start, 1, transform);
 				}
 			}
-			else {
-				_channel = _sound.play(start, 1, transform);
+			catch (ignored:Error) {
 			}
 
 			if (_channel === null) {
