@@ -24,20 +24,20 @@ package org.shypl.common.timeline {
 			return _running;
 		}
 		
-		public final function schedule(delay:int, closure:Function, obtainPassedTime:Boolean = false):Cancelable {
-			return addScheduledTask(new ClosureScheduledTask(delay, false, closure, obtainPassedTime));
+		public final function schedule(delay:int, closure:Function):Cancelable {
+			return addScheduledTask(new ClosureScheduledTask(delay, false, closure));
 		}
 		
-		public final function scheduleRepeatable(delay:int, closure:Function, obtainPassedTime:Boolean = false):Cancelable {
-			return addScheduledTask(new ClosureScheduledTask(delay, true, closure, obtainPassedTime));
+		public final function scheduleRepeatable(delay:int, closure:Function):Cancelable {
+			return addScheduledTask(new ClosureScheduledTask(delay, true, closure));
 		}
 		
-		public final function forNextFrame(closure:Function, obtainTime:Boolean = false):Cancelable {
-			return addFrameTask(new ClosureFrameTask(false, closure, obtainTime));
+		public final function forNextFrame(closure:Function):Cancelable {
+			return addFrameTask(new ClosureFrameTask(false, closure));
 		}
 		
-		public final function forEachFrame(closure:Function, obtainTime:Boolean = false):Cancelable {
-			return addFrameTask(new ClosureFrameTask(true, closure, obtainTime));
+		public final function forEachFrame(closure:Function):Cancelable {
+			return addFrameTask(new ClosureFrameTask(true, closure));
 		}
 		
 		public final function callDeferred(closure:Function):Cancelable {

@@ -12,7 +12,7 @@ package org.shypl.common.util.notice {
 		public function NoticeDispatcher() {
 		}
 		
-		public function addNoticeHandler(type:Object, handler:Function, obtainNotice:Boolean = true):void {
+		public function addNoticeHandler(type:Object, handler:Function):void {
 			if (destroyed) {
 				return;
 			}

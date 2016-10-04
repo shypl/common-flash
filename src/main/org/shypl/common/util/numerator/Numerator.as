@@ -3,121 +3,130 @@ package org.shypl.common.util.numerator {
 	import org.shypl.common.timeline.GlobalTimeline;
 	import org.shypl.common.timeline.Timeline;
 	import org.shypl.common.util.Cancelable;
-
+	
 	[Abstract]
 	public class Numerator {
+		private var _handler:NumeratorHandler;
 		private var _timeline:Timeline;
-		private var _handler:Function;
-
-		private var _stepsDefiner:Function;
+		private var _stepTime:int;
+		
+		private var _sourceValue:Object;
 		private var _currentValue:Object;
-		private var _targetValue:Object;
-		private var _increment:Boolean;
-		private var _stepAmount:int;
 		private var _stepValue:Object;
-
-		private var _updateTask:Cancelable;
-
-		public function Numerator(handler:Function, value:Object, stepsDefiner:Function, timeline:Timeline) {
-			_timeline = timeline === null ? GlobalTimeline.INSTANCE : timeline;
+		private var _targetValue:Object;
+		
+		private var _running:Boolean;
+		private var _increase:Boolean;
+		private var _step:uint;
+		private var _updater:Cancelable;
+		
+		public function Numerator(handler:NumeratorHandler, sourceValue:Object, timeline:Timeline = null, stepTime:int = 0) {
 			_handler = handler;
-			_currentValue = value;
-			_stepsDefiner = stepsDefiner;
+			_sourceValue = sourceValue;
+			_currentValue = sourceValue;
+			_targetValue = sourceValue;
+			_stepValue = getZeroValue();
+			
+			_timeline = timeline === null ? GlobalTimeline.INSTANCE : timeline;
+			_stepTime = stepTime;
 		}
-
+		
+		public final function get sourceValue():Object {
+			return _sourceValue;
+		}
+		
 		public final function get currentValue():Object {
 			return _currentValue;
 		}
-
+		
 		public final function get targetValue():Object {
 			return _targetValue;
 		}
-
-		public final function set(value:Object, instant:Boolean = false):void {
-			if (instant) {
-				_targetValue = value;
-				if (_updateTask === null) {
-					_currentValue = _targetValue;
-					_handler(_currentValue);
-				}
-				else {
-					complete();
+		
+		public final function get stepValue():Object {
+			return _stepValue;
+		}
+		
+		public final function get step():uint {
+			return _step;
+		}
+		
+		public final function run(target:Object):void {
+			_sourceValue = _currentValue;
+			_targetValue = target;
+			_step = 0;
+			
+			var comp:int = compare(_targetValue, _sourceValue);
+			_increase = comp == 1;
+			
+			if (_running) {
+				if (comp == 0) {
+					doEnd();
 				}
 			}
 			else {
-
-				var com:int = compare(value, _currentValue);
-
-				if (com !== 0 || _updateTask !== null) {
-					_targetValue = value;
-					_increment = com > 0;
-
-					var diff:Object;
-					if (_increment) {
-						diff = subtract(_targetValue, _currentValue);
-					}
-					else {
-						diff = subtract(_currentValue, _targetValue);
-					}
-
-					_stepAmount = _stepsDefiner(diff);
-					if (_stepAmount <= 0) {
-						_stepAmount = 1;
-					}
-					else if (_stepAmount > 300) {
-						_stepAmount = 300;
-					}
-					_stepValue = defineStepSize(diff, _stepAmount);
-
-					if (_updateTask === null) {
-						_updateTask = _timeline.forEachFrame(update);
-					}
+				if (comp != 0) {
+					doStart();
 				}
 			}
 		}
-
-		public final function complete():void {
-			if (_updateTask !== null) {
-				_updateTask.cancel();
-				_updateTask = null;
-				_currentValue = _targetValue;
-				_handler(_currentValue);
+		
+		public final function set(target:Object):void {
+			
+		}
+		
+		protected final function isIncrease():Boolean {
+			return _increase;
+		}
+		
+		protected function doStart():void {
+			_running = true;
+			_handler.handleNumerationStart(this);
+			_updater = _stepTime <= 0 ? _timeline.forEachFrame(doStep) : _timeline.scheduleRepeatable(_stepTime, doStep);
+		}
+		
+		protected function doStep(time:int):void {
+			++_step;
+			_stepValue = calculateStep(time);
+			_currentValue = sum(_currentValue, _stepValue);
+			_handler.handleNumerationStep(this);
+			if (compare(_currentValue, _targetValue) == 0) {
+				doEnd();
 			}
 		}
-
+		
+		protected function doEnd():void {
+			_updater.cancel();
+			_updater = null;
+			_step = 0;
+			_running = false;
+			_handler.handleNumerationEnd(this);
+			_sourceValue = _currentValue;
+		}
+		
 		[Abstract]
-		protected function compare(a:Object, b:Object):int {
+		protected function getZeroValue():Object {
 			throw new AbstractMethodException();
 		}
-
+		
 		[Abstract]
-		protected function add(a:Object, b:Object):Object {
+		protected function sum(a:Object, b:Object):Object {
 			throw new AbstractMethodException();
 		}
-
+		
 		[Abstract]
 		protected function subtract(a:Object, b:Object):Object {
 			throw new AbstractMethodException();
 		}
-
+		
 		[Abstract]
-		protected function defineStepSize(diff:Object, steps:int):Object {
+		protected function compare(a:Object, b:Object):int {
 			throw new AbstractMethodException();
 		}
-
-		private function update():void {
-			if (--_stepAmount == 0) {
-				complete();
-			}
-			else {
-				if (_increment) {
-					_currentValue = add(_currentValue, _stepValue);
-				}
-				else {
-					_currentValue = subtract(_currentValue, _stepValue);
-				}
-				_handler(_currentValue);
-			}
+		
+		[Abstract]
+		protected function calculateStep(time:int):Object {
+			throw new AbstractMethodException();
 		}
 	}
 }

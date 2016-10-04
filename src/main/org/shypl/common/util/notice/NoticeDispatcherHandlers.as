@@ -35,7 +35,7 @@ package org.shypl.common.util.notice {
 			while (_handlers.next()) {
 				var f:Function = _handlers.current;
 				if (f.length === 0) {
-					f.call();
+					f.apply();
 				}
 				else {
 					f.call(null, notice);

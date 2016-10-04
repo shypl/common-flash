@@ -17,7 +17,7 @@ package org.shypl.common.sound {
 			_increase = _target > _current;
 			_step = (_target - _current) / duration;
 			
-			_updateTask = GlobalTimeline.forEachFrame(update, true);
+			_updateTask = GlobalTimeline.forEachFrame(update);
 		}
 		
 		public function stop():void {
@@ -35,7 +35,7 @@ package org.shypl.common.sound {
 		}
 		
 		public function resume():void {
-			_updateTask = GlobalTimeline.forEachFrame(update, true);
+			_updateTask = GlobalTimeline.forEachFrame(update);
 		}
 		
 		private function update(time:int):void {

@@ -8,7 +8,7 @@ package org.shypl.common.util.notice {
 		public function dispatchNotice(notice:Object):void {
 		}
 		
-		public function addNoticeHandler(type:Object, handler:Function, obtainNotice:Boolean = true):void {
+		public function addNoticeHandler(type:Object, handler:Function):void {
 		}
 		
 		public function removeNoticeHandler(type:Object, handler:Function):void {

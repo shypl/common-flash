@@ -4,20 +4,20 @@ package org.shypl.common.timeline {
 	public final class GlobalTimeline {
 		public static const INSTANCE:Timeline = new GlobalTimelineImpl();
 		
-		public static function schedule(delay:int, closure:Function, obtainPassedTime:Boolean = false):Cancelable {
-			return INSTANCE.schedule(delay, closure, obtainPassedTime);
+		public static function schedule(delay:int, closure:Function):Cancelable {
+			return INSTANCE.schedule(delay, closure);
 		}
 		
-		public static function scheduleRepeatable(delay:int, closure:Function, obtainPassedTime:Boolean = false):Cancelable {
-			return INSTANCE.scheduleRepeatable(delay, closure, obtainPassedTime);
+		public static function scheduleRepeatable(delay:int, closure:Function):Cancelable {
+			return INSTANCE.scheduleRepeatable(delay, closure);
 		}
 		
-		public static function forNextFrame(task:Function, obtainTime:Boolean = false):Cancelable {
-			return INSTANCE.forNextFrame(task, obtainTime);
+		public static function forNextFrame(task:Function):Cancelable {
+			return INSTANCE.forNextFrame(task);
 		}
 		
-		public static function forEachFrame(task:Function, obtainTime:Boolean = false):Cancelable {
-			return INSTANCE.forEachFrame(task, obtainTime);
+		public static function forEachFrame(task:Function):Cancelable {
+			return INSTANCE.forEachFrame(task);
 		}
 		
 		public static function callDeferred(closure:Function):Cancelable {

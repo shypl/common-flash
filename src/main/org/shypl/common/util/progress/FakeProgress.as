@@ -19,7 +19,7 @@ package org.shypl.common.util.progress {
 			return _completed ? 1 : 0;
 		}
 		
-		public function addNoticeHandler(type:Object, handler:Function, obtainNotice:Boolean = true):void {
+		public function addNoticeHandler(type:Object, handler:Function):void {
 		}
 		
 		public function removeNoticeHandler(type:Object, handler:Function):void {

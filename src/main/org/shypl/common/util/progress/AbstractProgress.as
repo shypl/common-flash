@@ -18,11 +18,11 @@ package org.shypl.common.util.progress {
 			return _completed ? 1 : calculatePercent();
 		}
 
-		override final public function addNoticeHandler(type:Object, handler:Function, obtainNotice:Boolean = true):void {
+		override final public function addNoticeHandler(type:Object, handler:Function):void {
 			if (type === ProgressCompleteNotice && _completed) {
 				return;
 			}
-			super.addNoticeHandler(type, handler, obtainNotice);
+			super.addNoticeHandler(type, handler);
 		}
 
 		public final function handleComplete(handler:Function, delayed:Boolean = false):void {
@@ -35,7 +35,7 @@ package org.shypl.common.util.progress {
 				}
 			}
 			else {
-				super.addNoticeHandler(ProgressCompleteNotice, handler, false);
+				super.addNoticeHandler(ProgressCompleteNotice, handler);
 			}
 		}
 

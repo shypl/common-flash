@@ -25,7 +25,7 @@ package org.shypl.common.util.progress {
 						++completedCount;
 					}
 					else {
-						progress.addNoticeHandler(ProgressCompleteNotice, onChildComplete, false);
+						progress.addNoticeHandler(ProgressCompleteNotice, onChildComplete);
 					}
 				}
 				if (completedCount == _children.length) {
@@ -41,7 +41,7 @@ package org.shypl.common.util.progress {
 				onChildComplete();
 			}
 			else {
-				_children[index].addNoticeHandler(ProgressCompleteNotice, onChildComplete, false);
+				_children[index].addNoticeHandler(ProgressCompleteNotice, onChildComplete);
 			}
 		}
 		

@@ -3,10 +3,10 @@ package org.shypl.common.timeline {
 		private var _closure:Function;
 		private var _obtainPassedTime:Boolean;
 		
-		public function ClosureScheduledTask(time:int, repeatable:Boolean, closure:Function, obtainPassedTime:Boolean) {
+		public function ClosureScheduledTask(time:int, repeatable:Boolean, closure:Function) {
 			super(time, repeatable);
 			_closure = closure;
-			_obtainPassedTime = obtainPassedTime;
+			_obtainPassedTime = _closure.length == 1;
 		}
 		
 		override protected function execute(passedTime:int):void {
