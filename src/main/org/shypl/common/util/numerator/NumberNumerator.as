@@ -6,20 +6,24 @@ package org.shypl.common.util.numerator {
 			super(handler, sourceValue, timeline);
 		}
 		
-		public final function get sourceNumber():Number {
+		public final function get sourceValueNumber():Number {
 			return sourceValue as Number;
 		}
 		
-		public final function get currentNumber():Number {
+		public final function get currentValueNumber():Number {
 			return currentValue as Number;
 		}
 		
-		public final function get targetNumber():Number {
+		public final function get targetValueNumber():Number {
 			return targetValue as Number;
 		}
 		
-		public final function get stepNumber():Number {
+		public final function get stepValueNumber():Number {
 			return stepValue as Number;
+		}
+		
+		public final function get stepDiffValueNumber():Number {
+			return stepDiffValue as Number;
 		}
 		
 		override protected function getZeroValue():Object {
@@ -34,8 +38,8 @@ package org.shypl.common.util.numerator {
 			return a == b ? 0 : (a > b ? 1 : -1);
 		}
 		
-		override protected function calculateStep(time:int):Object {
-			var diff:int = isIncrease() ? (targetNumber - currentNumber) : (currentNumber - targetNumber);
+		override protected function calculateStepValue():Object {
+			var diff:int = stepDiffValueNumber;
 			var e:int = 0;
 			
 			while (diff > 10) {
@@ -49,7 +53,7 @@ package org.shypl.common.util.numerator {
 				--e;
 			}
 			
-			return isIncrease() ? s : -s;
+			return s;
 		}
 	}
 }

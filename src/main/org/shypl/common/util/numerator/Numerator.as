@@ -11,9 +11,10 @@ package org.shypl.common.util.numerator {
 		private var _stepTime:int;
 		
 		private var _sourceValue:Object;
+		private var _targetValue:Object;
 		private var _currentValue:Object;
 		private var _stepValue:Object;
-		private var _targetValue:Object;
+		private var _stepDiffValue:Object;
 		
 		private var _running:Boolean;
 		private var _increase:Boolean;
@@ -23,9 +24,10 @@ package org.shypl.common.util.numerator {
 		public function Numerator(handler:NumeratorHandler, sourceValue:Object, timeline:Timeline = null, stepTime:int = 0) {
 			_handler = handler;
 			_sourceValue = sourceValue;
-			_currentValue = sourceValue;
 			_targetValue = sourceValue;
+			_currentValue = sourceValue;
 			_stepValue = getZeroValue();
+			_stepDiffValue = getZeroValue();
 			
 			_timeline = timeline === null ? GlobalTimeline.INSTANCE : timeline;
 			_stepTime = stepTime;
@@ -43,12 +45,20 @@ package org.shypl.common.util.numerator {
 			return _targetValue;
 		}
 		
+		public final function get step():uint {
+			return _step;
+		}
+		
 		public final function get stepValue():Object {
 			return _stepValue;
 		}
 		
-		public final function get step():uint {
-			return _step;
+		public final function get stepDiffValue():Object {
+			return _stepDiffValue;
+		}
+		
+		public final function isIncrease():Boolean {
+			return _increase;
 		}
 		
 		public final function run(target:Object):void {
@@ -72,11 +82,18 @@ package org.shypl.common.util.numerator {
 		}
 		
 		public final function set(target:Object):void {
-			
+			if (_running) {
+				doEnd();
+			}
+			_sourceValue = target;
+			_targetValue = target;
+			_currentValue = target;
 		}
 		
-		protected final function isIncrease():Boolean {
-			return _increase;
+		public final function complete():void {
+			if (_running) {
+				doEnd();
+			}
 		}
 		
 		protected function doStart():void {
@@ -85,11 +102,18 @@ package org.shypl.common.util.numerator {
 			_updater = _stepTime <= 0 ? _timeline.forEachFrame(doStep) : _timeline.scheduleRepeatable(_stepTime, doStep);
 		}
 		
-		protected function doStep(time:int):void {
+		protected function doStep():void {
 			++_step;
-			_stepValue = calculateStep(time);
-			_currentValue = sum(_currentValue, _stepValue);
+			_stepDiffValue = isIncrease() ? subtract(_targetValue, _currentValue) : subtract(_currentValue, _targetValue);
+			_stepValue = calculateStepValue();
+			
+			if (compare(_stepValue, _stepDiffValue) == 1) {
+				_stepValue = _stepDiffValue;
+			}
+			
+			_currentValue = isIncrease() ? sum(_currentValue, _stepValue) : subtract(_currentValue, _stepValue);
 			_handler.handleNumerationStep(this);
+			
 			if (compare(_currentValue, _targetValue) == 0) {
 				doEnd();
 			}
@@ -100,6 +124,7 @@ package org.shypl.common.util.numerator {
 			_updater = null;
 			_step = 0;
 			_running = false;
+			_currentValue = _targetValue;
 			_handler.handleNumerationEnd(this);
 			_sourceValue = _currentValue;
 		}
@@ -125,7 +150,7 @@ package org.shypl.common.util.numerator {
 		}
 		
 		[Abstract]
-		protected function calculateStep(time:int):Object {
+		protected function calculateStepValue():Object {
 			throw new AbstractMethodException();
 		}
 	}
