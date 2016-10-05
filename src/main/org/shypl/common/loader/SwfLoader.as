@@ -87,20 +87,18 @@ package org.shypl.common.loader {
 		}
 		
 		override protected function produceResult():void {
-			if (_receiver) {
-				var swf:SwfFileImpl;
-				if (_cache != null) {
-					swf = _cache;
-					_cache = null;
-				}
-				else {
-					swf = new SwfFileImpl(_domain, url, _loader2);
-					CACHE.push(swf);
-					unloadAndStop();
-				}
-				
-				_receiver.receiveSwf(swf);
+			var swf:SwfFileImpl;
+			if (_cache != null) {
+				swf = _cache;
+				_cache = null;
 			}
+			else {
+				swf = new SwfFileImpl(_domain, url, _loader2);
+				CACHE.push(swf);
+				unloadAndStop();
+			}
+			
+			_receiver.receiveSwf(swf);
 		}
 		
 		override protected function freeLoading():void {
@@ -117,7 +115,10 @@ package org.shypl.common.loader {
 				unloadAndStop();
 				_loader2 = null;
 			}
-			
+		}
+		
+		override protected function free():void {
+			super.free();
 			_receiver = null;
 			_cache = null;
 			_emulateLoad = null;

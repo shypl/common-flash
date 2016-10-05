@@ -41,9 +41,7 @@ package org.shypl.common.loader {
 		}
 		
 		override protected function produceResult():void {
-			if (_receiver) {
-				_receiver.receiveImage(Bitmap(_loader2.content).bitmapData);
-			}
+			_receiver.receiveImage(Bitmap(_loader2.content).bitmapData);
 		}
 		
 		override protected function getLoadingPercent():Number {
@@ -84,7 +82,10 @@ package org.shypl.common.loader {
 				}
 				_loader2 = null;
 			}
-			
+		}
+		
+		override protected function free():void {
+			super.free();
 			_receiver = null;
 		}
 		

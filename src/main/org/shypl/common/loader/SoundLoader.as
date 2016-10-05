@@ -36,16 +36,18 @@ package org.shypl.common.loader {
 		}
 		
 		override protected function produceResult():void {
-			if (_receiver) {
-				_receiver.receiveSound(_sound);
-				_receiver = null;
-			}
+			_receiver.receiveSound(_sound);
 		}
 		
 		override protected function freeLoading():void {
 			_sound.removeEventListener(Event.COMPLETE, handleLoadingCompleteEvent);
 			_sound.removeEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
 			_sound = null;
+		}
+		
+		override protected function free():void {
+			super.free();
+			_receiver = null;
 		}
 	}
 }
