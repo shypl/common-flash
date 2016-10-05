@@ -2,6 +2,7 @@ package org.shypl.common.util {
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	
+	import org.shypl.common.lang.Exception;
 	import org.shypl.common.lang.NullPointerException;
 	
 	public final class StringUtils {
@@ -186,6 +187,10 @@ package org.shypl.common.util {
 			
 			if (object is ByteArray) {
 				return "[" + HexUtils.encodeBytes(object as ByteArray, ", ") + "]";
+			}
+			
+			if (object is Error) {
+				return Exception.getCorrectString(object as Error);
 			}
 			
 			return object.toString();
