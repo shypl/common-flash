@@ -9,6 +9,7 @@ package org.shypl.common.loader {
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
+	import flash.utils.ByteArray;
 	
 	import org.shypl.common.lang.UncaughtErrorDelegate;
 	import org.shypl.common.timeline.GlobalTimeline;
@@ -105,6 +106,7 @@ package org.shypl.common.loader {
 			if (_loader1) {
 				_loader1.removeEventListener(Event.COMPLETE, onComplete1);
 				_loader1.removeEventListener(IOErrorEvent.IO_ERROR, handleLoadingErrorEvent);
+				_loader1.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, handleLoadingErrorEvent);
 				_loader1 = null;
 			}
 			if (_loader2) {
@@ -139,6 +141,11 @@ package org.shypl.common.loader {
 		}
 		
 		private function onComplete1(event:Event):void {
+			var source:ByteArray = _loader1.data;
+			var target:ByteArray = new ByteArray();
+			target.writeBytes(source);
+			target.position = 0;
+			
 			_loader2 = new Loader();
 			
 			const info:LoaderInfo = _loader2.contentLoaderInfo;
@@ -147,7 +154,7 @@ package org.shypl.common.loader {
 			
 			UncaughtErrorDelegate.register(_loader2.uncaughtErrorEvents);
 			
-			_loader2.loadBytes(_loader1.data, new LoaderContext(false, _domain, null));
+			_loader2.loadBytes(target, new LoaderContext(false, _domain, null));
 		}
 	}
 }

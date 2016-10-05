@@ -42,7 +42,12 @@ package org.shypl.common.loader {
 		
 		override protected final function produceResult():void {
 			if (_asBytes) {
-				produceBytes(ByteArray(_loader.data));
+				var source:ByteArray = _loader.data;
+				var target:ByteArray = new ByteArray();
+				target.writeBytes(source);
+				target.position = 0;
+				
+				produceBytes(target);
 			}
 			else {
 				produceText(String(_loader.data));
