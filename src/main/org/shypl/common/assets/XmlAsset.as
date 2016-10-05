@@ -12,6 +12,7 @@ package org.shypl.common.assets {
 		}
 		
 		public function get xml():XML {
+			checkAvailable();
 			return _xml;
 		}
 		

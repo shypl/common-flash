@@ -12,6 +12,7 @@ package org.shypl.common.assets {
 		}
 		
 		public function get bytes():ByteArray {
+			checkAvailable();
 			var bytes:ByteArray = new ByteArray();
 			bytes.writeBytes(_bytes);
 			bytes.position = 0;

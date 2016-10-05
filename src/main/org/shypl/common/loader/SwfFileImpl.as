@@ -6,7 +6,7 @@ package org.shypl.common.loader {
 
 	import org.shypl.common.lang.IllegalArgumentException;
 
-	public class SwfFileImpl implements SwfFile {
+	internal class SwfFileImpl implements SwfFile {
 		private var _domain:ApplicationDomain;
 		private var _url:String;
 		private var _content:Sprite;

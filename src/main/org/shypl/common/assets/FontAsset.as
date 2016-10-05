@@ -15,10 +15,12 @@ package org.shypl.common.assets {
 		}
 		
 		public function get font():Font {
+			checkAvailable();
 			return _font;
 		}
 		
 		public function createTextFormat(size:uint = 12, color:uint = 0, align:String = TextFormatAlign.LEFT, leading:int = 0):TextFormat {
+			checkAvailable();
 			return new TextFormat(
 				_font.fontName,
 				size,

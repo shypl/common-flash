@@ -1,5 +1,6 @@
 package org.shypl.common.assets {
 	import org.shypl.common.lang.AbstractMethodException;
+	import org.shypl.common.lang.RuntimeException;
 	import org.shypl.common.util.CheckableDestroyable;
 	import org.shypl.common.util.FilePath;
 	import org.shypl.common.util.notice.NoticeDispatcher;
@@ -56,5 +57,15 @@ package org.shypl.common.assets {
 				removeNoticeHandlers(AssetLoadedNotice);
 			}
 		}
+		
+		protected final function checkAvailable():void {
+			if (destroyed) {
+				throw new RuntimeException("Asset is destroyed (" + _path + ")");
+			}
+			if (!loaded) {
+				throw new RuntimeException("Asset is not loaded yet (" + _path + ")");
+			}
+		}
+		
 	}
 }

@@ -18,18 +18,22 @@ package org.shypl.common.assets {
 		}
 		
 		public function get bitmapData():BitmapData {
+			checkAvailable();
 			return _bitmapData;
 		}
 		
 		public function getRectangle(rect:Rectangle):BitmapData {
+			checkAvailable();
 			return BitmapUtils.getRectangle(_bitmapData, rect);
 		}
 		
 		public function copyRectangle(rect:Rectangle, target:BitmapData, targetPoint:Point, mergeAlpha:Boolean = false):void {
+			checkAvailable();
 			target.copyPixels(_bitmapData, rect, targetPoint, null, null, mergeAlpha);
 		}
 		
 		public function createBitmap(rect:Rectangle = null):Bitmap {
+			checkAvailable();
 			var bitmapData:BitmapData;
 			if (rect === null) {
 				bitmapData = _bitmapData;
@@ -41,6 +45,7 @@ package org.shypl.common.assets {
 		}
 		
 		public function createDestroyableBitmap(rect:Rectangle = null):DestroyableBitmap {
+			checkAvailable();
 			var bitmapData:BitmapData;
 			if (rect === null) {
 				bitmapData = _bitmapData;

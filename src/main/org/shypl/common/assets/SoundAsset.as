@@ -15,6 +15,7 @@ package org.shypl.common.assets {
 		}
 		
 		public function get sound():Sound {
+			checkAvailable();
 			return _sound;
 		}
 		

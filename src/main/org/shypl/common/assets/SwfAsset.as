@@ -19,6 +19,7 @@ package org.shypl.common.assets {
 		}
 		
 		public function get swf():SwfFile {
+			checkAvailable();
 			return _swf;
 		}
 		
@@ -27,18 +28,22 @@ package org.shypl.common.assets {
 		}
 		
 		public function createSprite(className:String):Sprite {
+			checkAvailable();
 			return Sprite(_swf.create(className));
 		}
 		
 		public function createMovieClip(className:String):MovieClip {
+			checkAvailable();
 			return MovieClip(_swf.create(className));
 		}
 		
 		public function createBitmapData(className:String):BitmapData {
+			checkAvailable();
 			return BitmapData(_swf.create(className));
 		}
 		
 		public function createSound(className:String):Sound {
+			checkAvailable();
 			return Sound(_swf.create(className));
 		}
 		

@@ -10,6 +10,7 @@ package org.shypl.common.assets {
 		}
 		
 		public function get text():String {
+			checkAvailable();
 			return _text;
 		}
 		

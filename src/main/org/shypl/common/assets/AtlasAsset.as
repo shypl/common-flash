@@ -20,10 +20,12 @@ package org.shypl.common.assets {
 		}
 		
 		public function contains(name:String):Boolean {
+			checkAvailable();
 			return name in _areas;
 		}
 		
 		public function getBitmapData(name:String):BitmapData {
+			checkAvailable();
 			var bitmapData:BitmapData = _cache[name];
 			if (bitmapData === null) {
 				bitmapData = createBitmapData(getArea(name));
@@ -33,10 +35,12 @@ package org.shypl.common.assets {
 		}
 		
 		public function copyBitmapData(name:String, target:BitmapData, targetPoint:Point, mergeAlpha:Boolean = false):void {
+			checkAvailable();
 			target.copyPixels(_atlas, getArea(name), targetPoint, null, null, mergeAlpha);
 		}
 		
 		public function createBitmap(name:String):Bitmap {
+			checkAvailable();
 			return new Bitmap(getBitmapData(name), PixelSnapping.AUTO, true);
 		}
 		
