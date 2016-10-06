@@ -1,5 +1,6 @@
 package org.shypl.common.lang {
 	import flash.events.ErrorEvent;
+	import flash.events.Event;
 	import flash.events.UncaughtErrorEvent;
 	import flash.events.UncaughtErrorEvents;
 
@@ -28,10 +29,13 @@ package org.shypl.common.lang {
 					_handler.catchError(error as Error);
 				}
 				else if (error is ErrorEvent) {
-					_handler.catchEvent(error as ErrorEvent);
+					_handler.catchError(new ErrorEventException(error as ErrorEvent));
+				}
+				else if (error is Event) {
+					_handler.catchError(new EventException(error as Event));
 				}
 				else {
-					_handler.catchObject(error);
+					_handler.catchError(new ObjectException(error));
 				}
 			}
 		}

@@ -1,20 +1,13 @@
 package org.shypl.common.lang {
 	import flash.events.ErrorEvent;
-
-	public class ErrorEventException extends RuntimeException {
-		private var _event:ErrorEvent;
-
+	
+	public class ErrorEventException extends EventException {
 		public function ErrorEventException(event:ErrorEvent, message:String = null) {
-			super(message === null ? event.text : message + " (" + event.text + ")");
-			_event = event;
+			super(event, message);
 		}
-
-		public function get event():ErrorEvent {
-			return _event;
-		}
-
-		override public function getStackTrace():String {
-			return super.getStackTrace() + "\nEvent: " + _event.toString();
+		
+		public function get errorEvent():ErrorEvent {
+			return super.event as ErrorEvent;
 		}
 	}
 }

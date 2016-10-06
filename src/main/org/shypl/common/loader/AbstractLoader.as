@@ -53,8 +53,8 @@ package org.shypl.common.loader {
 		
 		override final protected function complete():void {
 			super.complete();
-			FileLoader.handleLoadingComplete();
 			free();
+			FileLoader.handleLoadingComplete();
 		}
 		
 		protected function free():void {

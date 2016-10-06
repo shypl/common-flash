@@ -11,6 +11,7 @@ package org.shypl.common.assets {
 	[Abstract]
 	public class Asset extends NoticeDispatcher implements NoticeObservable, CheckableDestroyable {
 		private var _path:FilePath;
+		private var _loaded:Boolean;
 		private var _loading:Progress = FakeProgress.NOT_COMPLETED;
 		
 		public function Asset(path:FilePath) {
@@ -22,7 +23,7 @@ package org.shypl.common.assets {
 		}
 		
 		public final function get loaded():Boolean {
-			return _loading.completed;
+			return _loaded;
 		}
 		
 		public final function get loading():Progress {
@@ -48,6 +49,7 @@ package org.shypl.common.assets {
 		}
 		
 		protected final function completeLoad():void {
+			_loaded = true;
 			if (destroyed) {
 				doDestroy();
 			}
@@ -62,7 +64,7 @@ package org.shypl.common.assets {
 			if (destroyed) {
 				throw new RuntimeException("Asset is destroyed (" + _path + ")");
 			}
-			if (!loaded) {
+			if (!_loaded) {
 				throw new RuntimeException("Asset is not loaded yet (" + _path + ")");
 			}
 		}
