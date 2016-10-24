@@ -29,7 +29,7 @@ package org.shypl.common.collection {
 			_current.value = value;
 		}
 		
-		public function get entity():MapEntry {
+		public function get entry():MapEntry {
 			checkCurrent();
 			return _current;
 		}

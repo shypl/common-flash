@@ -26,7 +26,7 @@ package org.shypl.common.collection {
 			_current._value = value;
 		}
 		
-		public function get entity():MapEntry {
+		public function get entry():MapEntry {
 			return _current;
 		}
 		

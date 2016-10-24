@@ -93,7 +93,7 @@ package org.shypl.common.collection {
 			var i:int = 0;
 			
 			while (it.next()) {
-				list[i++] = it.entity;
+				list[i++] = it.entry;
 			}
 			
 			return list;

@@ -78,6 +78,33 @@ package org.shypl.common.collection {
 			return new HashMap_Iterator(this);
 		}
 		
+		override public function getEntries():Vector.<MapEntry> {
+			var list:Vector.<MapEntry> = new Vector.<MapEntry>(size(), true);
+			var i:int = 0;
+			for each (var entry:MapEntry in _dic) {
+				list[i++] = entry;
+			}
+			return list;
+		}
+		
+		override public function getKeys():Array {
+			var list:Array = [size()];
+			var i:int = 0;
+			for each (var entry:MapEntry in _dic) {
+				list[i++] = entry.key;
+			}
+			return list;
+		}
+		
+		override public function getValues():Array {
+			var list:Array = [size()];
+			var i:int = 0;
+			for each (var entry:MapEntry in _dic) {
+				list[i++] = entry.value;
+			}
+			return list;
+		}
+		
 		override public function clear():void {
 			for each (var entry:MapEntryImpl in _dic) {
 				entry.destroy();

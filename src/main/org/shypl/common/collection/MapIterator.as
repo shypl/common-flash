@@ -6,7 +6,7 @@ package org.shypl.common.collection {
 		
 		function set value(value:*):void;
 		
-		function get entity():MapEntry;
+		function get entry():MapEntry;
 		
 		function next():Boolean;
 		

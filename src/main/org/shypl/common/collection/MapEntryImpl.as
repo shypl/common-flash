@@ -1,4 +1,6 @@
 package org.shypl.common.collection {
+	import org.shypl.common.util.StringUtils;
+	
 	internal class MapEntryImpl implements MapEntry {
 		internal var _key:Object;
 		internal var _value:Object;
@@ -23,6 +25,10 @@ package org.shypl.common.collection {
 		internal function destroy():void {
 			_key = null;
 			_value = null;
+		}
+		
+		public function toString():String {
+			return StringUtils.toString(_key) + ":" + StringUtils.toString(_value);
 		}
 	}
 }
