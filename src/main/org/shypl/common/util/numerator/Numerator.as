@@ -45,6 +45,14 @@ package org.shypl.common.util.numerator {
 			return _targetValue;
 		}
 		
+		public final function get running():Boolean {
+			return _running;
+		}
+		
+		public final function get increase():Boolean {
+			return _increase;
+		}
+		
 		public final function get step():uint {
 			return _step;
 		}
@@ -55,10 +63,6 @@ package org.shypl.common.util.numerator {
 		
 		public final function get stepDiffValue():Object {
 			return _stepDiffValue;
-		}
-		
-		public final function isIncrease():Boolean {
-			return _increase;
 		}
 		
 		public final function run(target:Object):void {
@@ -104,14 +108,14 @@ package org.shypl.common.util.numerator {
 		
 		protected function doStep():void {
 			++_step;
-			_stepDiffValue = isIncrease() ? subtract(_targetValue, _currentValue) : subtract(_currentValue, _targetValue);
+			_stepDiffValue = increase ? subtract(_targetValue, _currentValue) : subtract(_currentValue, _targetValue);
 			_stepValue = calculateStepValue();
 			
 			if (compare(_stepValue, _stepDiffValue) == 1) {
 				_stepValue = _stepDiffValue;
 			}
 			
-			_currentValue = isIncrease() ? sum(_currentValue, _stepValue) : subtract(_currentValue, _stepValue);
+			_currentValue = increase ? sum(_currentValue, _stepValue) : subtract(_currentValue, _stepValue);
 			_handler.handleNumerationStep(this);
 			
 			if (compare(_currentValue, _targetValue) == 0) {
