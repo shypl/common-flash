@@ -3,8 +3,8 @@ package org.shypl.common.util.numerator {
 	import org.shypl.common.timeline.Timeline;
 	
 	public class LongNumerator extends Numerator {
-		public function LongNumerator(handler:NumeratorHandler, sourceValue:Long, timeline:Timeline = null) {
-			super(handler, sourceValue, timeline);
+		public function LongNumerator(handler:NumeratorHandler, sourceValue:Long, timeline:Timeline = null, stepTime:int = 0) {
+			super(handler, sourceValue, timeline, stepTime);
 		}
 		
 		public final function get sourceValueLong():Long {
