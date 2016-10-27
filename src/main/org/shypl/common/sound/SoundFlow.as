@@ -6,6 +6,7 @@ package org.shypl.common.sound {
 
 	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.timeline.GlobalTimeline;
+	import org.shypl.common.timeline.Timeline;
 	import org.shypl.common.util.Cancelable;
 
 	internal class SoundFlow extends AbstractSoundStream {
@@ -47,7 +48,8 @@ package org.shypl.common.sound {
 			}
 
 			if (_channel === null) {
-				stop();
+				_loop = false;
+				GlobalTimeline.forNextFrame(handleEnd);
 			}
 			else {
 				if (_end != 0) {
@@ -57,10 +59,10 @@ package org.shypl.common.sound {
 					_endTask = GlobalTimeline.schedule(_end - start, handleEnd);
 				}
 				_channel.addEventListener(Event.SOUND_COMPLETE, handleSoundComplete);
-			}
-
-			if (system.paused) {
-				pause();
+				
+				if (system.paused) {
+					pause();
+				}
 			}
 		}
 
