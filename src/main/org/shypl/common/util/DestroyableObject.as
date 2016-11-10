@@ -5,7 +5,7 @@ package org.shypl.common.util {
 		
 		public function DestroyableObject() {
 		}
-
+		
 		public final function get destroyed():Boolean {
 			return _destroyed;
 		}

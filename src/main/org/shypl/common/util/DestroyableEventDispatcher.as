@@ -2,7 +2,7 @@ package org.shypl.common.util {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
-
+	
 	[Event(name="destroy", type="org.shypl.common.util.DestroyEvent")]
 	public class DestroyableEventDispatcher extends EventDispatcher implements CheckableDestroyable {
 		private var _destroyed:Boolean;
@@ -21,7 +21,7 @@ package org.shypl.common.util {
 		):void {
 			if (!_destroyed) {
 				super.addEventListener(type, listener, useCapture, priority, useWeakReference);
-
+				
 				var listeners:Dictionary = _eventListeners[type];
 				if (listeners === null) {
 					listeners = new Dictionary();
@@ -38,7 +38,7 @@ package org.shypl.common.util {
 		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void {
 			if (!_destroyed) {
 				super.removeEventListener(type, listener, useCapture);
-
+				
 				const listeners:Dictionary = _eventListeners[type];
 				if (listeners !== null) {
 					delete listeners[listener];
@@ -51,6 +51,7 @@ package org.shypl.common.util {
 				_destroying = true;
 				dispatchEvent(new DestroyEvent());
 				doDestroy();
+				destroy0();
 				_destroyed = true;
 			}
 		}
@@ -72,6 +73,9 @@ package org.shypl.common.util {
 		}
 		
 		protected function doDestroy():void {
+		}
+		
+		private function destroy0():void {
 			removeAllEventListeners();
 			_eventListeners = null;
 		}

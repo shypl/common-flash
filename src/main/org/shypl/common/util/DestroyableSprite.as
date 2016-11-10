@@ -52,6 +52,7 @@ package org.shypl.common.util {
 				_destroying = true;
 				dispatchEvent(new DestroyEvent());
 				doDestroy();
+				destroy0();
 				_destroyed = true;
 			}
 		}
@@ -73,6 +74,9 @@ package org.shypl.common.util {
 		}
 		
 		protected function doDestroy():void {
+		}
+		
+		private function destroy0():void {
 			if (super.parent !== null) {
 				super.parent.removeChild(this);
 			}

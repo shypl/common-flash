@@ -31,8 +31,8 @@
 
 	<repositories>
 		<repository>
-			<id>shypl-thirdparty</id>
-			<url>http://nexus.shypl.org/content/repositories/thirdparty/</url>
+			<id>shypl</id>
+			<url>http://nexus.shypl.org/content/repositories/public/</url>
 		</repository>
 		<repository>
 			<id>sonatype</id>
