@@ -28,8 +28,8 @@ package org.shypl.common.sound {
 			_end = end;
 			_restart = restart;
 			_endHandler = endHandler;
-
-			const transform:SoundTransform = new SoundTransform(realVolume);
+			
+			var transform:SoundTransform = new SoundTransform(realVolume);
 
 			try {
 				if (_loop) {
@@ -113,13 +113,18 @@ package org.shypl.common.sound {
 		override protected function doResume():void {
 			super.doResume();
 			if (_channel) {
-				const transform:SoundTransform = _channel.soundTransform;
-
-				_channel = _sound.play(_pausePosition, 1, transform);
-				_channel.addEventListener(Event.SOUND_COMPLETE, handleSoundComplete);
-
-				if (_end != 0) {
-					_endTask = GlobalTimeline.schedule(_end - _restart, handleEnd);
+				try {
+					var transform:SoundTransform = _channel.soundTransform;
+					
+					_channel = _sound.play(_pausePosition, 1, transform);
+					_channel.addEventListener(Event.SOUND_COMPLETE, handleSoundComplete);
+					
+					if (_end != 0) {
+						_endTask = GlobalTimeline.schedule(_end - _restart, handleEnd);
+					}
+				}
+				catch (e:Error) {
+					handleEnd();
 				}
 			}
 		}
@@ -135,7 +140,7 @@ package org.shypl.common.sound {
 
 		override protected function applyVolume():void {
 			if (_channel) {
-				const transform:SoundTransform = _channel.soundTransform;
+				var transform:SoundTransform = _channel.soundTransform;
 				transform.volume = realVolume;
 				_channel.soundTransform = transform;
 			}
@@ -146,7 +151,7 @@ package org.shypl.common.sound {
 
 		private function handleEnd():void {
 			if (_loop) {
-				const transform:SoundTransform = _channel.soundTransform;
+				var transform:SoundTransform = _channel.soundTransform;
 
 				_channel.removeEventListener(Event.SOUND_COMPLETE, handleSoundComplete);
 				_channel.stop();
