@@ -5,6 +5,8 @@ package org.shypl.common.sound {
 	import flash.media.SoundTransform;
 
 	import org.shypl.common.lang.IllegalArgumentException;
+	import org.shypl.common.lang.notNull;
+	import org.shypl.common.logging.LogManager;
 	import org.shypl.common.timeline.GlobalTimeline;
 	import org.shypl.common.timeline.Timeline;
 	import org.shypl.common.util.Cancelable;
@@ -78,10 +80,8 @@ package org.shypl.common.sound {
 					_channel.removeEventListener(Event.SOUND_COMPLETE, handleSoundComplete);
 					_channel.stop();
 				}
-
-				if (_endTask) {
-					_endTask.cancel();
-				}
+				
+				cancelEndTask();
 
 				free();
 			}
@@ -151,17 +151,23 @@ package org.shypl.common.sound {
 
 		private function handleEnd():void {
 			if (_loop) {
-				var transform:SoundTransform = _channel.soundTransform;
-
-				_channel.removeEventListener(Event.SOUND_COMPLETE, handleSoundComplete);
-				_channel.stop();
-
-				_channel = _sound.play(_restart, 1, transform);
-				_channel.addEventListener(Event.SOUND_COMPLETE, handleSoundComplete);
-
-				if (_end != 0) {
-					_endTask.cancel();
-					_endTask = GlobalTimeline.schedule(_end - _restart, handleEnd);
+				try {
+					var transform:SoundTransform = _channel.soundTransform;
+					
+					_channel.removeEventListener(Event.SOUND_COMPLETE, handleSoundComplete);
+					_channel.stop();
+					
+					_channel = _sound.play(_restart, 1, transform);
+					_channel.addEventListener(Event.SOUND_COMPLETE, handleSoundComplete);
+					
+					if (_end != 0) {
+						cancelEndTask();
+						_endTask = GlobalTimeline.schedule(_end - _restart, handleEnd);
+					}
+				}
+				catch (e:Error) {
+					LogManager.getLogger(SoundFlow).warn("Error in handleEnd", e);
+					_loop = false;
 				}
 			}
 
@@ -173,6 +179,13 @@ package org.shypl.common.sound {
 				stop();
 			}
 
+		}
+		
+		private function cancelEndTask():void {
+			if (notNull(_endTask)) {
+				_endTask.cancel();
+				_endTask = null;
+			}
 		}
 
 		private function handleSoundComplete(event:Event):void {
