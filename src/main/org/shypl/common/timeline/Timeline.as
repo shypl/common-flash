@@ -102,6 +102,7 @@ package org.shypl.common.timeline {
 		public function resume():void {
 			checkStopped();
 			if (!_running) {
+				_running = true;
 				_frameProcessor.resume();
 				_scheduledProcessor.resume();
 				_deferredProcessor.resume();
