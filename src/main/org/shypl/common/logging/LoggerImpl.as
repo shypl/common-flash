@@ -1,4 +1,6 @@
 package org.shypl.common.logging {
+	import flash.utils.getTimer;
+	
 	import org.shypl.common.lang.Exception;
 	import org.shypl.common.util.StringUtils;
 	
@@ -65,7 +67,7 @@ package org.shypl.common.logging {
 		
 		public function log(level:Level, message:String, args:Array):void {
 			if (_level.isAllow(level)) {
-				LogManager.log(level, _name, prepareMessage(message, args));
+				LogManager.getOutput().write(new Record(getTimer(), level, _name, prepareMessage(message, args)));
 			}
 		}
 		

@@ -1,5 +1,5 @@
 package org.shypl.common.logging {
 	public interface Output {
-		function write(level:Level, logger:String, message:String):void;
+		function write(record:Record):void;
 	}
 }
