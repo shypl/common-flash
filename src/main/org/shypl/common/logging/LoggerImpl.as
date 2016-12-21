@@ -13,10 +13,6 @@ package org.shypl.common.logging {
 			_level = level;
 		}
 		
-		public function isFatalEnabled():Boolean {
-			return _level.isAllow(Level.FATAL);
-		}
-		
 		public function isErrorEnabled():Boolean {
 			return _level.isAllow(Level.ERROR);
 		}
@@ -39,10 +35,6 @@ package org.shypl.common.logging {
 		
 		public function isEnabled(level:Level):Boolean {
 			return _level.isAllow(level);
-		}
-		
-		public function fatal(message:String, ...args):void {
-			log(Level.FATAL, message, args);
 		}
 		
 		public function error(message:String, ...args):void {
