@@ -2,6 +2,7 @@ package org.shypl.common.util.notice {
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
 	
+	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.util.CheckableDestroyable;
 	import org.shypl.common.util.DestroyableObject;
 	
@@ -17,9 +18,7 @@ package org.shypl.common.util.notice {
 				return;
 			}
 			
-			if (type is Class) {
-				type = getQualifiedClassName(type);
-			}
+			type = extractTypeNameFromType(type);
 			
 			var handlers:NoticeDispatcherHandlers = _handlersMap[type];
 			if (handlers === null) {
@@ -34,9 +33,7 @@ package org.shypl.common.util.notice {
 				return;
 			}
 			
-			if (type is Class) {
-				type = getQualifiedClassName(type);
-			}
+			type = extractTypeNameFromType(type);
 			
 			var handlers:NoticeDispatcherHandlers = _handlersMap[type];
 			if (handlers !== null) {
@@ -47,26 +44,13 @@ package org.shypl.common.util.notice {
 			}
 		}
 		
-		public function dispatchNotice(notice:Object):void {
-			if (destroyed) {
-				return;
-			}
-			
-			var type:String = (notice is String) ? (notice as String) : getQualifiedClassName(notice);
-			var handlers:NoticeDispatcherHandlers = _handlersMap[type];
-			if (handlers !== null) {
-				handlers.dispatch(notice);
-			}
-		}
-		
 		public function removeNoticeHandlers(type:Object):void {
 			if (destroyed) {
 				return;
 			}
 			
-			if (type is Class) {
-				type = getQualifiedClassName(type);
-			}
+			type = extractTypeNameFromType(type);
+			
 			var handlers:NoticeDispatcherHandlers = _handlersMap[type];
 			if (handlers !== null) {
 				handlers.clear();
@@ -79,9 +63,22 @@ package org.shypl.common.util.notice {
 				return;
 			}
 			
-			for (var type:Object in _handlersMap) {
+			for (var type:String in _handlersMap) {
 				NoticeDispatcherHandlers(_handlersMap[type]).clear();
 				delete _handlersMap[type];
+			}
+		}
+		
+		public function dispatchNotice(notice:Object):void {
+			if (destroyed) {
+				return;
+			}
+			
+			var type:String = extractTypeNameFromNotice(notice);
+			
+			var handlers:NoticeDispatcherHandlers = _handlersMap[type];
+			if (handlers !== null) {
+				handlers.dispatch(notice);
 			}
 		}
 		
@@ -89,6 +86,32 @@ package org.shypl.common.util.notice {
 			super.doDestroy();
 			removeAllNoticeHandlers();
 			_handlersMap = null;
+		}
+		
+		private function extractTypeNameFromType(type:Object):String {
+			if (type is String) {
+				return String(type);
+			}
+			if (type is NoticeType) {
+				return NoticeType(type).name;
+			}
+			if (type is Class) {
+				return getQualifiedClassName(type);
+			}
+			throw new IllegalArgumentException();
+		}
+		
+		private function extractTypeNameFromNotice(notice:Object):String {
+			if (notice is String) {
+				return String(notice);
+			}
+			if (notice is TypedNotice) {
+				return TypedNotice(notice).type.name;
+			}
+			if (notice is Notice) {
+				return getQualifiedClassName(notice);
+			}
+			throw new IllegalArgumentException();
 		}
 	}
 }
