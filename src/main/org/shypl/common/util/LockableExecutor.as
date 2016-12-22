@@ -1,34 +1,9 @@
 package org.shypl.common.util {
-	import org.shypl.common.lang.IllegalStateException;
-	
-	public class ChangeExecutor implements Lock {
+	public class LockableExecutor extends StrictLock {
 		private var _pendingTasks:Vector.<Executable> = new Vector.<Executable>();
-		private var _locked:Boolean;
-		
-		public function ChangeExecutor() {
-		}
-		
-		public function get locked():Boolean {
-			return _locked;
-		}
-		
-		public function lock():void {
-			if (_locked) {
-				throw new IllegalStateException("Executor is already locked");
-			}
-			_locked = true;
-		}
-		
-		public function unlock():void {
-			if (!_locked) {
-				throw new IllegalStateException("Executor is not locked");
-			}
-			_locked = false;
-			executePendingTasks();
-		}
 		
 		public function execute(task:Executable):void {
-			if (_locked) {
+			if (locked) {
 				_pendingTasks.push(task);
 			}
 			else {
@@ -37,12 +12,17 @@ package org.shypl.common.util {
 		}
 		
 		public function executeFunction(closure:Function, ...arguments):void {
-			if (_locked) {
+			if (locked) {
 				_pendingTasks.push(new ExecutableClosure(closure, arguments));
 			}
 			else {
 				closure.apply(null, arguments);
 			}
+		}
+		
+		override protected function doUnlock():void {
+			super.doUnlock();
+			executePendingTasks();
 		}
 		
 		private function executePendingTasks():void {

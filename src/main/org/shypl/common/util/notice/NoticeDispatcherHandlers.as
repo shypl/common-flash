@@ -1,28 +1,28 @@
 package org.shypl.common.util.notice {
 	import org.shypl.common.collection.LiteLinkedSet;
-	import org.shypl.common.util.ChangeExecutor;
+	import org.shypl.common.util.LockableExecutor;
 	
 	internal class NoticeDispatcherHandlers {
 		private var _handlers:LiteLinkedSet = new LiteLinkedSet();
-		private var _changer:ChangeExecutor = new ChangeExecutor();
+		private var _executor:LockableExecutor = new LockableExecutor();
 		
 		public function NoticeDispatcherHandlers() {
 		}
 		
 		public function add(handler:Function):void {
-			_changer.executeFunction(_handlers.add, handler);
+			_executor.executeFunction(_handlers.add, handler);
 		}
 		
 		public function remove(handler:Function):void {
-			_changer.executeFunction(_handlers.remove, handler);
+			_executor.executeFunction(_handlers.remove, handler);
 		}
 		
 		public function clear():void {
-			_changer.executeFunction(_handlers.clear);
+			_executor.executeFunction(_handlers.clear);
 		}
 		
 		public function dispatch(notice:Object):void {
-			_changer.executeFunction(doDispatch, notice);
+			_executor.executeFunction(doDispatch, notice);
 		}
 		
 		public function isEmpty():Boolean {
@@ -30,7 +30,7 @@ package org.shypl.common.util.notice {
 		}
 		
 		private function doDispatch(notice:Object):void {
-			_changer.lock();
+			_executor.lock();
 			
 			while (_handlers.next()) {
 				var f:Function = _handlers.current;
@@ -42,7 +42,7 @@ package org.shypl.common.util.notice {
 				}
 			}
 			
-			_changer.unlock();
+			_executor.unlock();
 		}
 	}
 }
