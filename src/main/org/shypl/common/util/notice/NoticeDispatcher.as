@@ -69,6 +69,12 @@ package org.shypl.common.util.notice {
 			}
 		}
 		
+		public function hasNoticeHandlers(type:Object):Boolean {
+			type = extractTypeNameFromType(type);
+			var handlers:NoticeDispatcherHandlers = _handlersMap[type];
+			return !(handlers === null || handlers.isEmpty());
+		}
+		
 		public function dispatchNotice(notice:Object):void {
 			if (destroyed) {
 				return;
