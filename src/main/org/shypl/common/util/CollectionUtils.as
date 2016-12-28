@@ -5,7 +5,8 @@ package org.shypl.common.util {
 
 	import org.shypl.common.lang.IllegalArgumentException;
 	import org.shypl.common.lang.NullPointerException;
-
+	import org.shypl.common.lang.isEquals;
+	
 	public final class CollectionUtils {
 
 		public static const VECTOR_CLASS_NAME:String = getQualifiedClassName(Vector);
@@ -56,7 +57,7 @@ package org.shypl.common.util {
 			}
 
 			for (var i:uint = 0; i < length; ++i) {
-				if (collectionA[i] !== collectionB[i]) {
+				if (!org.shypl.common.lang.isEquals(collectionA[i], collectionB[i])) {
 					return false;
 				}
 			}
@@ -80,7 +81,7 @@ package org.shypl.common.util {
 			for (var i:uint = 0; i < length; ++i) {
 				var a:Object = collectionA[i];
 				var b:Object = collectionB[i];
-				if (a !== b && isArrayOrVector(a) && isArrayOrVector(b) && !isEqualsDeep(a, b)) {
+				if (!org.shypl.common.lang.isEquals(a, b) && isArrayOrVector(a) && isArrayOrVector(b) && !isEqualsDeep(a, b)) {
 					return false;
 				}
 			}
