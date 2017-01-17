@@ -4,6 +4,9 @@ package org.shypl.common.util {
 	public class AccumulatedLock implements Lock {
 		private var _accumulator:int;
 		
+		public function AccumulatedLock() {
+		}
+		
 		public final function get locked():Boolean {
 			return _accumulator > 0;
 		}

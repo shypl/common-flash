@@ -4,6 +4,9 @@ package org.shypl.common.util {
 	public class StrictLock implements Lock {
 		private var _locked:Boolean;
 		
+		public function StrictLock() {
+		}
+		
 		public final function get locked():Boolean {
 			return _locked;
 		}

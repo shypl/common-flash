@@ -2,6 +2,9 @@ package org.shypl.common.util {
 	public class LockableExecutor extends StrictLock {
 		private var _pendingTasks:Vector.<Executable> = new Vector.<Executable>();
 		
+		public function LockableExecutor() {
+		}
+		
 		public function execute(task:Executable):void {
 			if (locked) {
 				_pendingTasks.push(task);

@@ -13,7 +13,7 @@ package org.shypl.common.loader {
 
 		function hasClass(className:String):Boolean;
 
-		function create(className:String):Object;
+		function create(className:String):*;
 
 		function cloneContent():Sprite;
 	}

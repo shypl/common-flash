@@ -42,7 +42,7 @@ package org.shypl.common.loader {
 			return _domain.hasDefinition(className);
 		}
 
-		public function create(className:String):Object {
+		public function create(className:String):* {
 			if (hasClass(className)) {
 				var Cls:Class = Class(_domain.getDefinition(className));
 				return new Cls();

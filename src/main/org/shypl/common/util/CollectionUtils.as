@@ -89,6 +89,10 @@ package org.shypl.common.util {
 		}
 		
 		public static function convert(collection:Object, mapper:Function):Array {
+			if (collection === null) {
+				return null;
+			}
+			
 			var result:Array = [];
 			
 			if (isArrayOrVector(collection)) {
@@ -107,7 +111,11 @@ package org.shypl.common.util {
 		}
 		
 		public static function convertToVector(collection:Object, elementClass:Class, mapper:Function):* {
-			const result:Object = createVector(elementClass);
+			if (collection === null) {
+				return null;
+			}
+			
+			var result:Object = createVector(elementClass);
 			
 			if (isArrayOrVector(collection)) {
 				for each (var element:Object in collection) {
@@ -123,7 +131,6 @@ package org.shypl.common.util {
 			
 			return result;
 		}
-		
 		
 		public static function contains(collection:Object, element:Object):Boolean {
 			if (!isArrayOrVector(collection)) {
