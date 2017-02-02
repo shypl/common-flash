@@ -88,7 +88,7 @@ package org.shypl.common.collection {
 		}
 		
 		override public function getKeys():Array {
-			var list:Array = [size()];
+			var list:Array = [];
 			var i:int = 0;
 			for each (var entry:MapEntry in _dic) {
 				list[i++] = entry.key;
@@ -97,7 +97,7 @@ package org.shypl.common.collection {
 		}
 		
 		override public function getValues():Array {
-			var list:Array = [size()];
+			var list:Array = [];
 			var i:int = 0;
 			for each (var entry:MapEntry in _dic) {
 				list[i++] = entry.value;

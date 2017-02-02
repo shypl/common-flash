@@ -132,6 +132,34 @@ package org.shypl.common.util {
 			return result;
 		}
 		
+		public static function find(collection:Object, checker:Function):* {
+			if (!isArrayOrVector(collection)) {
+				throw new IllegalArgumentException();
+			}
+			for each (var element:Object in collection) {
+				if (checker.call(null, element)) {
+					return element;
+				}
+			}
+			return null;
+		}
+		
+		public static function filter(collection:Object, checker:Function):* {
+			if (!isArrayOrVector(collection)) {
+				throw new IllegalArgumentException();
+			}
+			var result:* = collection.concat();
+			result.length = 0;
+			
+			for each (var element:Object in collection) {
+				if (checker.call(null, element)) {
+					result.push(element);
+				}
+			}
+			
+			return result;
+		}
+		
 		public static function contains(collection:Object, element:Object):Boolean {
 			if (!isArrayOrVector(collection)) {
 				throw new IllegalArgumentException();
