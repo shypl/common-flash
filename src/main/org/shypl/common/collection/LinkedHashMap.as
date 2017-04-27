@@ -57,5 +57,41 @@ package org.shypl.common.collection {
 		override public function iterator():MapIterator {
 			return new LinkedHashMap_Iterator(this, _first);
 		}
+		
+		override public function getEntries():Vector.<MapEntry> {
+			const list:Vector.<MapEntry> = new Vector.<MapEntry>(size(), true);
+			const it:MapIterator = iterator();
+			var i:int = 0;
+			
+			while (it.next()) {
+				list[i++] = it.entry;
+			}
+			
+			return list;
+		}
+		
+		override public function getKeys():Array {
+			const list:Array = [];
+			const it:MapIterator = iterator();
+			var i:int = 0;
+			
+			while (it.next()) {
+				list[i++] = it.key;
+			}
+			
+			return list;
+		}
+		
+		override public function getValues():Array {
+			const list:Array = [];
+			const it:MapIterator = iterator();
+			var i:int = 0;
+			
+			while (it.next()) {
+				list[i++] = it.value;
+			}
+			
+			return list;
+		}
 	}
 }
