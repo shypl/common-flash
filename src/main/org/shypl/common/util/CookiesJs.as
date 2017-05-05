@@ -36,11 +36,11 @@ package org.shypl.common.util {
 		}
 		
 		public function setBoolean(name:String, value:Boolean):void {
-			set(name, value);
+			set(name, value ? 1 : 0);
 		}
 		
 		public function getBoolean(name:String, defaultValue:Boolean = false):Boolean {
-			return get(name, defaultValue);
+			return get(name, defaultValue ? 1 : 0) == 1;
 		}
 		
 		public function setInt(name:String, value:int):void {
@@ -76,7 +76,7 @@ package org.shypl.common.util {
 		}
 		
 		private function callSet(name:String, value:Object):void {
-			ExternalInterface.call("Cookies.set", prepareKey(name), value, {expires: 120 * (60 * 60 * 24)});
+			ExternalInterface.call("Cookies.set", prepareKey(name), value, {expires: 120});
 		}
 		
 		private function callGet(name:String):* {
@@ -84,7 +84,7 @@ package org.shypl.common.util {
 		}
 		
 		private function callRemove(name:String):void {
-			ExternalInterface.call("Cookies.expire", prepareKey(name));
+			ExternalInterface.call("Cookies.remove", prepareKey(name));
 		}
 		
 		private function prepareKey(key:String):String {
