@@ -3,5 +3,9 @@ package org.shypl.common.util.progress {
 		override protected function calculatePercent():Number {
 			return 0;
 		}
+		
+		public final function makeComplete():void {
+			complete();
+		}
 	}
 }
