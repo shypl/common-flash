@@ -23,7 +23,7 @@ package org.shypl.common.loader.cache {
 				if (notNull(failHandler)) {
 					_failHandlers.push(failHandler);
 				}
-				GlobalTimeline.callDeferred(callReceivers);
+				GlobalTimeline.callDeferred(callFailHandlers);
 			}
 			else {
 				_receivers.push(receiver);

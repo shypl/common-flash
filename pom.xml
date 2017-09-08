@@ -13,29 +13,25 @@
 	<distributionManagement>
 		<repository>
 			<id>capjack-releases</id>
-			<url>http://nexus.capjack.ru/repository/public-releases</url>
+			<url>http://artifactory-guts.capjack.ru/public-releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>capjack-snapshots</id>
-			<url>http://nexus.capjack.ru/repository/public-snapshots</url>
+			<url>http://artifactory-guts.capjack.ru/public-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 	
 	<repositories>
 		<repository>
 			<id>capjack</id>
-			<url>http://nexus.capjack.ru/repository/public</url>
+			<url>http://artifactory-guts.capjack.ru/public</url>
 		</repository>
 	</repositories>
 	
 	<pluginRepositories>
 		<pluginRepository>
 			<id>capjack</id>
-			<url>http://nexus.capjack.ru/repository/public</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>mvnrepository</id>
-			<url>https://mvnrepository.com/artifact</url>
+			<url>http://artifactory-guts.capjack.ru/public</url>
 		</pluginRepository>
 	</pluginRepositories>
 	
