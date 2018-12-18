@@ -5,7 +5,7 @@
 	
 	<groupId>org.shypl.common</groupId>
 	<artifactId>common-flash</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.1.0</version>
 	<packaging>swc</packaging>
 	
 	<name>Flash common</name>
@@ -13,25 +13,25 @@
 	<distributionManagement>
 		<repository>
 			<id>capjack</id>
-			<url>http://artifactory-guts.capjack.ru/public-releases</url>
+			<url>http://artifactory.capjack.ru/public-releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>capjack</id>
-			<url>http://artifactory-guts.capjack.ru/public-snapshots</url>
+			<url>http://artifactory.capjack.ru/public-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 	
 	<repositories>
 		<repository>
 			<id>capjack</id>
-			<url>http://artifactory-guts.capjack.ru/public</url>
+			<url>http://artifactory.capjack.ru/public</url>
 		</repository>
 	</repositories>
 	
 	<pluginRepositories>
 		<pluginRepository>
 			<id>capjack</id>
-			<url>http://artifactory-guts.capjack.ru/public</url>
+			<url>http://artifactory.capjack.ru/public</url>
 		</pluginRepository>
 	</pluginRepositories>
 	
